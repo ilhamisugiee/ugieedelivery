@@ -841,20 +841,15 @@ const firebaseConfig = {
                     </div>
 
                     <!-- QRIS Official Card Panel -->
-<div id="pay-panel-qris" class="hidden p-3.5 rounded-2xl bg-white border-2 border-ugiee-teal/40 text-center space-y-2 mt-3">
-    <div class="text-xs font-extrabold text-ugiee-dark">Scan QRIS Resmi Merchant — UGIEE SIGNATURE</div>
-    <div class="text-[11px] text-gray-600">NMID: <span class="font-semibold">ID2025454113452</span></div>[cite: 1]
-    <div id="checkout-qris-wrapper" class="max-w-[230px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2">
-        <img
-            src="qris-ugiee-signature.jpg"
-            alt="QRIS UGIEE SIGNATURE"
-            class="w-full h-auto mx-auto rounded-xl object-contain"
-        >
-    </div>[cite: 1, 4]
-    <button type="button" onclick="openQrisZoomModal()" class="px-3 py-1.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder text-ugiee-tealDark font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
-        <i class="fa-solid fa-expand"></i> Perbesar / Simpan QRIS
-    </button>
-</div>
+                    <div id="pay-panel-qris" class="hidden p-3.5 rounded-2xl bg-white border-2 border-ugiee-teal/40 text-center space-y-2">
+                        <div class="text-xs font-extrabold text-ugiee-dark">Scan QRIS Resmi Merchant:</div>
+                        <div id="checkout-qris-wrapper" class="max-w-[230px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2">
+                            <!-- Official QRIS SVG rendered via JS -->
+                        </div>
+                        <button type="button" onclick="openQrisZoomModal()" class="px-3 py-1.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder text-ugiee-tealDark font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-expand"></i> Perbesar / Simpan QRIS
+                        </button>
+                    </div>
                     <!-- Bank Transfer Panel (BRI & Bank Jago) -->
                     <div id="pay-panel-transfer" class="hidden p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2.5">
                         <div class="text-xs font-extrabold text-blue-950">Transfer ke Rekening Resmi a.n. <span class="underline">ILHAM ISMAIL</span>:</div>
@@ -2445,7 +2440,7 @@ const firebaseConfig = {
 
             // Render official QRIS SVG
             const qrisWrap = document.getElementById('checkout-qris-wrapper');
-            if (qrisWrap) qrisWrap.innerHTML =;
+            if (qrisWrap) qrisWrap.innerHTML = generateOfficialQrisSvg();
 
             handlePaymentMethodChange();
             document.getElementById('checkout-modal').classList.remove('hidden');
