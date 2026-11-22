@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>UGIEE! Signature — Delivery</title>
 
-    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- FontAwesome 6 CDN -->
+    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,7 +36,7 @@
                         }
                     },
                     boxShadow: {
-                        soft: '0 8px 28px -6px rgba(21, 152, 126, 0.12)',
+                        soft: '0 8px 28px -6px rgba(21, 152, 126, 0.14)',
                         card: '0 4px 16px -2px rgba(22, 42, 36, 0.06)',
                     }
                 }
@@ -44,7 +44,7 @@
         }
     </script>
 
-    <!-- Firebase SDK v10 Compat (Non-blocking load) -->
+    <!-- Firebase SDK v10 Compat -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
@@ -55,11 +55,8 @@
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Hide scrollbars cleanly for horizontal pill sliders */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Smooth transitions & micro-interactions */
         .btn-press:active { transform: scale(0.97); }
         @keyframes floatSlow {
             0%, 100% { transform: translateY(0px); }
@@ -70,13 +67,12 @@
 </head>
 <body class="min-h-screen flex flex-col font-sans selection:bg-ugiee-teal selection:text-white">
 
-    <!-- ==================== STICKY TOP NAVBAR ==================== -->
+    <!-- ==================== STICKY TOP HEADER ==================== -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ugiee-sageBorder shadow-2xs">
         <div class="max-w-6xl mx-auto px-3.5 sm:px-6 h-16 flex items-center justify-between gap-2">
             <!-- Brand Identity -->
             <div class="flex items-center gap-2.5 min-w-0">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-ugiee-teal to-ugiee-tealDark flex items-center justify-center shadow-sm shrink-0 relative overflow-hidden">
-                    <!-- Inline SVG UGIEE! Signature Bee & Cup Emblem -->
                     <svg viewBox="0 0 48 48" class="w-7 h-7" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 17H34L31.5 38C31.2 40.2 29.3 42 27.1 42H20.9C18.7 42 16.8 40.2 16.5 38L14 17Z" fill="#FFFFFF"/>
                         <path d="M15.2 25H32.8L31.5 38C31.2 40.2 29.3 42 27.1 42H20.9C18.7 42 16.8 40.2 16.5 38L15.2 25Z" fill="#C7D8C7"/>
@@ -92,13 +88,13 @@
                 <div class="min-w-0">
                     <div class="flex items-center gap-1.5">
                         <span class="font-display font-extrabold text-base sm:text-lg tracking-tight text-ugiee-dark truncate">UGIEE! <span class="text-ugiee-teal">Signature</span></span>
-                        <span class="hidden xs:inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-ugiee-yellow/20 text-amber-800 border border-ugiee-yellow/40">UNIMERZ</span>
+                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-ugiee-yellow/25 text-amber-900 border border-ugiee-yellow/50 shrink-0">UNIMERZ</span>
                     </div>
-                    <p class="text-[11px] text-gray-500 font-medium truncate">Layanan Pesan Antar</p>
+                    <p class="text-[11px] text-gray-500 font-medium truncate">Delivery Gratis Ongkir Kampus Megarezky</p>
                 </div>
             </div>
 
-            <!-- Student Actions (Hidden automatically when Staff logs in) -->
+            <!-- Student Header Actions (Hidden 100% when Staff logs in) -->
             <div id="student-nav-actions" class="flex items-center gap-2 shrink-0">
                 <button type="button" onclick="openTrackModal()" class="btn-press relative px-3 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/60 text-ugiee-dark font-bold text-xs sm:text-sm flex items-center gap-1.5 border border-ugiee-sageBorder transition cursor-pointer">
                     <i class="fa-solid fa-motorcycle text-ugiee-teal"></i>
@@ -114,12 +110,12 @@
                 </button>
             </div>
 
-            <!-- Staff Session Pill (Visible only when Staff is logged in) -->
+            <!-- Staff Header Session Info (Visible only when Staff is logged in) -->
             <div id="staff-nav-actions" class="hidden items-center gap-2 shrink-0">
                 <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-ugiee-sage border border-ugiee-sageBorder">
                     <div id="staff-avatar-badge" class="w-7 h-7 rounded-lg bg-ugiee-teal text-white font-extrabold text-xs flex items-center justify-center">K</div>
                     <div class="text-left">
-                        <div id="staff-display-name" class="text-xs font-extrabold text-ugiee-dark leading-tight">Kasir Outlet</div>
+                        <div id="staff-display-name" class="text-xs font-extrabold text-ugiee-dark leading-tight">Staff Outlet</div>
                         <div class="flex items-center gap-1.5">
                             <span id="staff-display-role" class="text-[10px] font-bold text-ugiee-tealDark">Kasir</span>
                             <span id="staff-cloud-pill" class="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-gray-200 text-gray-600">Lokal</span>
@@ -128,13 +124,13 @@
                 </div>
                 <button type="button" onclick="logoutStaff()" class="btn-press px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="hidden sm:inline">Keluar Staff</span>
+                    <span class="hidden sm:inline">Keluar</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ==================== VIEW 1: STUDENT ORDERING PORTAL (DEFAULT) ==================== -->
+    <!-- ==================== VIEW 1: STUDENT ORDERING PORTAL ==================== -->
     <main id="student-portal-view" class="flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 pt-4 pb-28">
 
         <!-- Campus Free Delivery Hero Strip -->
@@ -146,50 +142,39 @@
                 <div>
                     <div class="flex flex-wrap items-center gap-1.5">
                         <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-ugiee-yellow text-ugiee-dark">FREE ONGKIR 100%</span>
-                        <span class="text-xs font-bold text-white/95">Area Kampus Universitas Megarezky</span>
+                        <span class="text-xs font-bold text-white/95">Area Kampus Universitas Megarezky (Unimerz)</span>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-white/85 mt-0.5">Pesan dari kelas, perpustakaan, atau gedung fakultas — kurir UGIEE! antar langsung ke titikmu.</p>
+                    <p class="text-[11px] sm:text-xs text-white/85 mt-0.5">Pesan dari ruang kuliah atau lab — tim outlet UGIEE! antar langsung ke gedung fakultasmu.</p>
                 </div>
             </div>
             <div class="flex items-center gap-2 text-[11px] font-bold bg-black/15 px-3 py-1.5 rounded-xl self-start sm:self-center shrink-0">
                 <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
-                <span>Outlet Unimerz Buka • 08.00 - 21.00</span>
+                <span>Buka • 08.00 - 21.00 WITA</span>
             </div>
         </div>
 
         <!-- Elongated Responsive Promo Banner Carousel -->
         <section aria-label="Promo Spesial UGIEE" class="mb-5 relative rounded-3xl overflow-hidden shadow-card border border-ugiee-sageBorder bg-white">
-            <div id="promo-banner-container" class="transition-all duration-500">
-                <!-- Populated dynamically via renderPromoBanner() -->
-            </div>
-            <!-- Carousel Controls -->
+            <div id="promo-banner-container" class="transition-all duration-500"></div>
             <button type="button" onclick="prevPromoSlide()" aria-label="Promo Sebelumnya" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-ugiee-dark shadow-md flex items-center justify-center text-xs transition cursor-pointer">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
             <button type="button" onclick="nextPromoSlide()" aria-label="Promo Berikutnya" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-ugiee-dark shadow-md flex items-center justify-center text-xs transition cursor-pointer">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
-            <div id="promo-banner-dots" class="flex items-center justify-center gap-1.5 py-2 bg-white border-t border-gray-100">
-                <!-- Dots populated via JS -->
-            </div>
+            <div id="promo-banner-dots" class="flex items-center justify-center gap-1.5 py-2 bg-white border-t border-gray-100"></div>
         </section>
 
-        <!-- Search Bar & Category Filter Pills -->
+        <!-- Search & Category Filter Pills -->
         <section class="mb-5 space-y-3">
-            <div class="flex flex-col sm:flex-row gap-2.5">
-                <div class="relative flex-1">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <input type="text" id="menu-search-input" oninput="filterMenu()" placeholder="Cari Matcha, Es Kopi Aren, Boba, Pink Lava, Es Teh..." class="w-full pl-10 pr-9 py-3 rounded-2xl bg-white border border-ugiee-sageBorder text-sm focus:outline-none focus:border-ugiee-teal shadow-2xs">
-                    <button type="button" id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-xs p-1 cursor-pointer">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
-                </div>
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="menu-search-input" oninput="filterMenu()" placeholder="Cari Matcha, Es Kopi Aren, Boba, Pink Lava, Es Teh..." class="w-full pl-10 pr-9 py-3 rounded-2xl bg-white border border-ugiee-sageBorder text-sm focus:outline-none focus:border-ugiee-teal shadow-2xs">
+                <button type="button" id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-xs p-1 cursor-pointer">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </button>
             </div>
-
-            <!-- Horizontal Category Tabs -->
-            <div id="category-pills-container" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                <!-- Populated via renderCategoryPills() -->
-            </div>
+            <div id="category-pills-container" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
         </section>
 
         <!-- Menu Grid Header -->
@@ -199,9 +184,7 @@
         </div>
 
         <!-- Menu Cards Grid -->
-        <div id="menu-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            <!-- Populated via filterMenu() -->
-        </div>
+        <div id="menu-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"></div>
 
         <!-- Empty Search State -->
         <div id="menu-empty-state" class="hidden py-14 px-4 text-center bg-white rounded-3xl border border-ugiee-sageBorder mt-4">
@@ -213,7 +196,7 @@
             <button type="button" onclick="clearSearch()" class="mt-3 px-4 py-2 rounded-xl bg-ugiee-teal text-white font-bold text-xs cursor-pointer">Reset Pencarian</button>
         </div>
 
-        <!-- Discreet Footer with Employee Portal Link -->
+        <!-- Footer with Discreet Employee Portal Link -->
         <footer class="mt-12 pt-5 border-t border-ugiee-sageBorder flex flex-col sm:flex-row items-center justify-between gap-2.5 text-[11px] sm:text-xs text-gray-500 text-center sm:text-left">
             <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <span>&copy; 2026 <strong>UGIEE! Signature</strong> (@ugieesignature.id) • Kampus Universitas Megarezky</span>
@@ -262,46 +245,50 @@
                 <p id="staff-portal-subtitle" class="text-xs text-gray-500 mt-0.5">Kelola verifikasi pembayaran, peracikan minuman, dan pengantaran gratis ongkir Unimerz.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <button type="button" onclick="renderStaffDashboard(); showToast('Data pesanan diperbarui!');" class="btn-press px-3.5 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/70 text-ugiee-dark font-bold text-xs flex items-center gap-1.5 border border-ugiee-sageBorder cursor-pointer">
-                    <i class="fa-solid fa-rotate"></i>
-                    <span>Refresh</span>
+                <button type="button" onclick="refreshAllStaffViews()" class="btn-press px-3.5 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/70 text-ugiee-dark font-bold text-xs flex items-center gap-1.5 border border-ugiee-sageBorder cursor-pointer">
+                    <i class="fa-solid fa-rotate text-ugiee-teal"></i>
+                    <span>Refresh Data</span>
                 </button>
             </div>
         </div>
 
-        <!-- Admin / Supervisor / Owner 5-Tab Navigation Bar -->
+        <!-- Admin / Supervisor / Owner 7-Tab Navigation Bar -->
         <div id="admin-nav-tabs" class="hidden bg-white p-2 rounded-2xl border border-ugiee-sageBorder shadow-2xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <button type="button" onclick="switchAdminSection('orders')" id="admin-tab-orders" class="flex-1 min-w-[140px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center justify-center gap-1.5">
+            <button type="button" onclick="switchAdminSection('orders')" id="admin-tab-orders" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center gap-1.5">
                 <i class="fa-solid fa-receipt"></i>
                 <span>Pesanan & Verifikasi</span>
             </button>
-            <button type="button" onclick="switchAdminSection('menu')" id="admin-tab-menu" class="flex-1 min-w-[145px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-mug-saucer"></i>
-                <span>Kelola Menu & Harga</span>
+            <button type="button" onclick="switchAdminSection('sales')" id="admin-tab-sales" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Data Penjualan</span>
             </button>
-            <button type="button" onclick="switchAdminSection('promo')" id="admin-tab-promo" class="flex-1 min-w-[140px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center justify-center gap-1.5">
+            <button type="button" onclick="switchAdminSection('menu')" id="admin-tab-menu" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
+                <i class="fa-solid fa-mug-saucer"></i>
+                <span>Kelola Menu & Foto</span>
+            </button>
+            <button type="button" onclick="switchAdminSection('promo')" id="admin-tab-promo" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
                 <i class="fa-solid fa-ticket"></i>
                 <span>Promo & Voucher</span>
             </button>
-            <button type="button" onclick="switchAdminSection('customers')" id="admin-tab-customers" class="flex-1 min-w-[165px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center justify-center gap-1.5">
+            <button type="button" onclick="switchAdminSection('customers')" id="admin-tab-customers" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
                 <i class="fa-solid fa-address-book"></i>
                 <span>Database Pelanggan</span>
                 <span id="admin-customer-count-badge" class="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark">0</span>
             </button>
-            <button type="button" onclick="switchAdminSection('cloud')" id="admin-tab-cloud" class="flex-1 min-w-[145px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center justify-center gap-1.5">
+            <button type="button" onclick="switchAdminSection('staff')" id="admin-tab-staff" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
+                <i class="fa-solid fa-users-gear"></i>
+                <span>Manajemen Karyawan</span>
+            </button>
+            <button type="button" onclick="switchAdminSection('cloud')" id="admin-tab-cloud" class="shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5">
                 <i class="fa-solid fa-cloud"></i>
                 <span>Cloud Firebase</span>
             </button>
         </div>
 
-        <!-- STAFF SECTION A: ORDERS QUEUE & STATS (KASIR, KURIR, ADMIN) -->
+        <!-- STAFF SECTION 1: ORDERS QUEUE & STATS (KASIR, KURIR, ADMIN) -->
         <div id="staff-section-orders" class="space-y-4">
-            <!-- KPI Stats Row -->
-            <div id="staff-stats-row" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <!-- Populated dynamically -->
-            </div>
+            <div id="staff-stats-row" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
 
-            <!-- Order Filter Pills for Staff -->
             <div class="flex items-center justify-between flex-wrap gap-2 bg-white p-3 rounded-2xl border border-ugiee-sageBorder">
                 <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" id="staff-order-filter-pills">
                     <button type="button" onclick="setStaffOrderFilter('all')" data-filter="all" class="staff-filter-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-ugiee-teal text-white cursor-pointer">Semua</button>
@@ -309,24 +296,137 @@
                     <button type="button" onclick="setStaffOrderFilter('delivering')" data-filter="delivering" class="staff-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-ugiee-sage cursor-pointer">Diantar Kurir</button>
                     <button type="button" onclick="setStaffOrderFilter('completed')" data-filter="completed" class="staff-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-ugiee-sage cursor-pointer">Selesai</button>
                 </div>
-                <button type="button" id="admin-reset-demo-btn" onclick="resetDemoOrders()" class="hidden text-[11px] font-bold text-gray-500 hover:text-ugiee-teal underline cursor-pointer">
-                    Muat Ulang Data Simulasi
-                </button>
             </div>
 
-            <!-- Orders List -->
-            <div id="staff-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Populated via renderStaffDashboard() -->
+            <div id="staff-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- STAFF SECTION 2 (ADMIN / OWNER): DATA PENJUALAN & FILTER TANGGAL/BULAN/TAHUN -->
+        <div id="staff-section-sales" class="hidden space-y-5">
+            <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 bg-ugiee-teal/10 text-ugiee-tealDark text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1">
+                            <i class="fa-solid fa-chart-pie"></i> Laporan & Rekap Penjualan Kampus Unimerz
+                        </div>
+                        <h3 class="font-display font-extrabold text-lg sm:text-xl text-ugiee-dark">Dashboard Data Penjualan UGIEE!</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Filter laporan omzet berdasarkan tanggal, bulan, dan tahun, serta hapus transaksi apabila terjadi kesalahan input.</p>
+                    </div>
+                    <button type="button" onclick="exportSalesToCSV()" class="btn-press px-4 py-2.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs shadow-sm flex items-center gap-1.5 self-start md:self-center cursor-pointer">
+                        <i class="fa-solid fa-file-csv"></i>
+                        <span>Export CSV Penjualan</span>
+                    </button>
+                </div>
+
+                <!-- Date / Month / Year Filter Bar -->
+                <div class="p-3.5 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder grid grid-cols-2 sm:grid-cols-6 gap-2.5 items-end">
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-600 mb-1">Tanggal</label>
+                        <select id="sales-filter-day" onchange="renderAdminSalesDashboard()" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-bold focus:outline-none focus:border-ugiee-teal">
+                            <option value="ALL">Semua Tanggal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-600 mb-1">Bulan</label>
+                        <select id="sales-filter-month" onchange="renderAdminSalesDashboard()" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-bold focus:outline-none focus:border-ugiee-teal">
+                            <option value="ALL">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-600 mb-1">Tahun</label>
+                        <select id="sales-filter-year" onchange="renderAdminSalesDashboard()" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-bold focus:outline-none focus:border-ugiee-teal">
+                            <option value="ALL">Semua Tahun</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-600 mb-1">Status Transaksi</label>
+                        <select id="sales-filter-status" onchange="renderAdminSalesDashboard()" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-bold focus:outline-none focus:border-ugiee-teal">
+                            <option value="ALL">Semua Transaksi</option>
+                            <option value="completed">Hanya Selesai</option>
+                            <option value="active">Sedang Berjalan</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="setSalesFilterToday()" class="btn-press py-2 px-3 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs cursor-pointer">
+                        <i class="fa-solid fa-calendar-day mr-1"></i> Hari Ini
+                    </button>
+                    <button type="button" onclick="resetSalesFilter()" class="btn-press py-2 px-3 rounded-xl bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold text-xs cursor-pointer">
+                        Semua / Reset
+                    </button>
+                </div>
+
+                <!-- 4 Sales KPI Cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div class="p-4 rounded-2xl bg-gradient-to-br from-ugiee-teal to-ugiee-tealDark text-white shadow-sm">
+                        <div class="text-[11px] font-bold text-white/85 uppercase">Total Omzet Bersih</div>
+                        <div id="sales-kpi-revenue" class="font-display font-extrabold text-lg sm:text-2xl mt-1">Rp 0</div>
+                        <div id="sales-period-label" class="text-[10px] text-emerald-200 mt-1">Semua Periode</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder">
+                        <div class="text-[11px] font-bold text-gray-500 uppercase">Total Pesanan</div>
+                        <div id="sales-kpi-orders" class="font-display font-extrabold text-lg sm:text-2xl text-ugiee-dark mt-1">0 Order</div>
+                        <div class="text-[10px] text-ugiee-tealDark font-bold mt-1">Transaksi tercatat</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200">
+                        <div class="text-[11px] font-bold text-amber-800 uppercase">Total Cup Terjual</div>
+                        <div id="sales-kpi-cups" class="font-display font-extrabold text-lg sm:text-2xl text-amber-950 mt-1">0 Cup</div>
+                        <div class="text-[10px] text-amber-700 font-bold mt-1">Semua varian minuman</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-blue-50/80 border border-blue-200">
+                        <div class="text-[11px] font-bold text-blue-800 uppercase">Rata-Rata Order</div>
+                        <div id="sales-kpi-avg" class="font-display font-extrabold text-lg sm:text-2xl text-blue-950 mt-1">Rp 0</div>
+                        <div class="text-[10px] text-blue-700 font-bold mt-1">Nilai per transaksi</div>
+                    </div>
+                </div>
+
+                <!-- Payment Method Breakdown Pills -->
+                <div id="sales-method-breakdown" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
+
+                <!-- Sales Transactions Table & Mobile Cards with Delete Button -->
+                <div id="sales-mobile-list" class="grid grid-cols-1 gap-3 md:hidden"></div>
+
+                <div class="hidden md:block overflow-x-auto rounded-2xl border border-gray-200">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-ugiee-sage/70 text-ugiee-dark font-extrabold border-b border-gray-200 uppercase text-[11px]">
+                                <th class="py-3 px-3.5">ID & Tanggal</th>
+                                <th class="py-3 px-3.5">Mahasiswa & Lokasi</th>
+                                <th class="py-3 px-3.5">Menu Dipesan</th>
+                                <th class="py-3 px-3.5">Metode Bayar</th>
+                                <th class="py-3 px-3.5 text-center">Status</th>
+                                <th class="py-3 px-3.5 text-right">Total Omzet</th>
+                                <th class="py-3 px-3.5 text-center">Hapus</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-table-body" class="divide-y divide-gray-100 bg-white"></tbody>
+                    </table>
+                </div>
+
+                <div id="sales-empty-state" class="hidden py-10 text-center text-gray-400">
+                    <i class="fa-solid fa-receipt text-3xl mb-2 text-gray-300"></i>
+                    <p class="text-sm font-bold text-gray-600">Tidak ada data penjualan pada filter tanggal ini</p>
+                </div>
             </div>
         </div>
 
-        <!-- STAFF SECTION B (ADMIN / OWNER): KELOLA MENU & FOTO PRODUK -->
+        <!-- STAFF SECTION 3 (ADMIN / OWNER): KELOLA MENU & FOTO PRODUK -->
         <div id="staff-section-menu" class="hidden space-y-4">
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
                     <div>
                         <h3 class="font-display font-extrabold text-lg text-ugiee-dark">Katalog Menu & Foto Asli Produk</h3>
-                        <p class="text-xs text-gray-500">Tambah menu baru, ganti foto produk asli, ubah harga, atau tandai stok habis. Perubahan langsung tampil di HP mahasiswa.</p>
+                        <p class="text-xs text-gray-500">Tambah menu baru, ganti foto produk asli, ubah harga, atau tandai stok habis. Perubahan otomatis tampil di halaman mahasiswa.</p>
                     </div>
                     <button type="button" onclick="openAdminMenuModal()" class="btn-press px-4 py-2.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-2 self-start sm:self-center cursor-pointer">
                         <i class="fa-solid fa-plus"></i>
@@ -345,21 +445,16 @@
                     </select>
                 </div>
 
-                <div id="admin-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                    <!-- Populated via renderAdminMenuTable() -->
-                </div>
+                <div id="admin-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
             </div>
         </div>
 
-        <!-- STAFF SECTION C (ADMIN / OWNER): PROMO BANNER & VOUCHER -->
+        <!-- STAFF SECTION 4 (ADMIN / OWNER): PROMO BANNER & VOUCHER -->
         <div id="staff-section-promo" class="hidden space-y-5">
-            <!-- Voucher Management -->
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
-                    <div>
-                        <h3 class="font-display font-extrabold text-lg text-ugiee-dark">Kode Voucher Diskon Mahasiswa</h3>
-                        <p class="text-xs text-gray-500">Kode voucher aktif dapat dimasukkan mahasiswa di keranjang belanja.</p>
-                    </div>
+                <div class="border-b border-gray-100 pb-3">
+                    <h3 class="font-display font-extrabold text-lg text-ugiee-dark">Kode Voucher Diskon Mahasiswa</h3>
+                    <p class="text-xs text-gray-500">Kode voucher aktif dapat dimasukkan mahasiswa di keranjang belanja.</p>
                 </div>
                 <form onsubmit="handleAddVoucher(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 bg-ugiee-sage/50 p-3.5 rounded-2xl border border-ugiee-sageBorder">
                     <input type="text" id="new-voucher-code" required placeholder="Kode (cth: UNIMERZ10K)" class="px-3 py-2.5 rounded-xl border border-gray-300 bg-white text-xs font-extrabold uppercase focus:outline-none focus:border-ugiee-teal">
@@ -369,12 +464,9 @@
                         <i class="fa-solid fa-plus mr-1"></i> Buat Voucher
                     </button>
                 </form>
-                <div id="admin-voucher-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    <!-- Populated via JS -->
-                </div>
+                <div id="admin-voucher-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
             </div>
 
-            <!-- Promo Banner Management -->
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
                 <div class="border-b border-gray-100 pb-3">
                     <h3 class="font-display font-extrabold text-lg text-ugiee-dark">Banner Promo Halaman Mahasiswa</h3>
@@ -391,13 +483,11 @@
                         </button>
                     </div>
                 </form>
-                <div id="admin-banner-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- Populated via JS -->
-                </div>
+                <div id="admin-banner-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
         </div>
 
-        <!-- STAFF SECTION D (ADMIN / OWNER): DATABASE PELANGGAN -->
+        <!-- STAFF SECTION 5 (ADMIN / OWNER): DATABASE PELANGGAN -->
         <div id="staff-section-customers" class="hidden space-y-5">
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-100 pb-4">
@@ -420,7 +510,6 @@
                     </div>
                 </div>
 
-                <!-- Summary KPI Strip -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="p-3.5 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-ugiee-teal text-white flex items-center justify-center text-base shrink-0">
@@ -451,7 +540,6 @@
                     </div>
                 </div>
 
-                <!-- Search & Sort Controls -->
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-1">
                     <div class="relative flex-1">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
@@ -465,10 +553,8 @@
                     </select>
                 </div>
 
-                <!-- Mobile Card List -->
                 <div id="admin-customers-mobile-list" class="grid grid-cols-1 gap-3 md:hidden"></div>
 
-                <!-- Desktop Table -->
                 <div class="hidden md:block overflow-x-auto rounded-2xl border border-gray-200">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
@@ -487,16 +573,35 @@
                     </table>
                 </div>
 
-                <!-- Empty State -->
                 <div id="admin-customers-empty" class="hidden py-10 text-center text-gray-400">
                     <i class="fa-solid fa-address-book text-3xl mb-2 text-gray-300"></i>
                     <p class="text-sm font-bold text-gray-600">Belum ada data pelanggan yang cocok</p>
-                    <p class="text-xs mt-0.5">Data pelanggan otomatis tersimpan saat mahasiswa melakukan pemesanan.</p>
                 </div>
             </div>
         </div>
 
-        <!-- STAFF SECTION E (ADMIN / OWNER): PENGATURAN CLOUD FIREBASE -->
+        <!-- STAFF SECTION 6 (ADMIN / OWNER): MANAJEMEN KARYAWAN (KASIR & KURIR) -->
+        <div id="staff-section-staff" class="hidden space-y-5">
+            <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 bg-ugiee-teal/10 text-ugiee-tealDark text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1">
+                            <i class="fa-solid fa-id-badge"></i> Kontrol Akses Outlet & Kurir Kampus
+                        </div>
+                        <h3 class="font-display font-extrabold text-lg sm:text-xl text-ugiee-dark">Manajemen Akun Karyawan (Kasir & Kurir)</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Tambah, edit, nonaktifkan sementara, atau hapus akun Kasir dan Kurir yang bertugas.</p>
+                    </div>
+                    <button type="button" onclick="openAdminStaffModal()" class="btn-press px-4 py-2.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-2 self-start sm:self-center cursor-pointer">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Tambah Akun Karyawan</span>
+                    </button>
+                </div>
+
+                <div id="admin-staff-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+            </div>
+        </div>
+
+        <!-- STAFF SECTION 7 (ADMIN / OWNER): CLOUD FIREBASE SYNC -->
         <div id="staff-section-cloud" class="hidden space-y-5">
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-5">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
@@ -505,7 +610,7 @@
                             <i class="fa-solid fa-database"></i> Firebase Realtime Database Sync
                         </div>
                         <h3 class="font-display font-extrabold text-lg sm:text-xl text-ugiee-dark">Sinkronisasi Cloud Terpusat Antar Perangkat</h3>
-                        <p class="text-xs text-gray-500 mt-0.5">Hubungkan ke Firebase agar pesanan mahasiswa dari HP langsung masuk real-time ke Kasir, Kurir, dan Admin.</p>
+                        <p class="text-xs text-gray-500 mt-0.5">Hubungkan ke Firebase agar pesanan mahasiswa, menu, karyawan, dan laporan penjualan tersinkron real-time.</p>
                     </div>
                     <div id="admin-cloud-badge" class="self-start sm:self-center px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-2 shrink-0">
                         <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
@@ -513,7 +618,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Paste firebaseConfig Snippet -->
                 <div class="p-4 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder space-y-2.5">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <label class="text-xs font-extrabold text-ugiee-dark">
@@ -602,7 +706,7 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Ice Level (Hidden for Hot drinks) -->
+                <!-- Ice Level (Hidden for Hot Kopi) -->
                 <div id="modal-ice-group">
                     <label class="block text-xs font-extrabold text-ugiee-dark mb-1.5">Takaran Es Batu</label>
                     <div class="grid grid-cols-3 gap-2">
@@ -640,7 +744,7 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Optional Add-on for Matcha Series -->
+                <!-- Matcha Extra Powder Add-on (+3K) -->
                 <div id="modal-matcha-addon" class="hidden p-3 rounded-2xl bg-emerald-50 border border-emerald-200">
                     <label class="flex items-center justify-between gap-2 cursor-pointer">
                         <div class="flex items-center gap-2.5">
@@ -654,14 +758,13 @@ const firebaseConfig = {
                     </label>
                 </div>
 
-                <!-- Optional Note -->
+                <!-- Note -->
                 <div>
                     <label class="block text-xs font-extrabold text-ugiee-dark mb-1">Catatan Tambahan (Opsional)</label>
                     <input type="text" id="modal-item-note" placeholder="Contoh: Sedotan 2, es dipisah, dll..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-ugiee-teal">
                 </div>
             </div>
 
-            <!-- Modal Footer: Qty & Confirm -->
             <div class="p-4 border-t border-gray-100 bg-ugiee-sage/40 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2 bg-white px-2.5 py-1.5 rounded-xl border border-ugiee-sageBorder">
                     <button type="button" onclick="changeModalQty(-1)" class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 font-extrabold text-sm cursor-pointer">-</button>
@@ -676,7 +779,7 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- ==================== MODAL 2: CART DRAWER (KERANJANG & VOUCHER) ==================== -->
+    <!-- ==================== MODAL 2: CART DRAWER & VOUCHER ==================== -->
     <div id="cart-drawer" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex justify-end">
         <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-ugiee-sage/50">
@@ -689,14 +792,9 @@ const firebaseConfig = {
                 </button>
             </div>
 
-            <!-- Cart Items List -->
-            <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-3">
-                <!-- Populated via renderCartDrawer() -->
-            </div>
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
 
-            <!-- Voucher & Totals Footer -->
             <div id="cart-footer-summary" class="p-4 border-t border-gray-200 bg-ugiee-sage/40 space-y-3">
-                <!-- Voucher Input Box -->
                 <div class="bg-white p-3 rounded-2xl border border-ugiee-sageBorder space-y-2">
                     <div class="flex items-center justify-between">
                         <label class="text-[11px] font-extrabold text-ugiee-dark flex items-center gap-1.5">
@@ -714,7 +812,6 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Price Breakdown -->
                 <div class="space-y-1 text-xs">
                     <div class="flex justify-between text-gray-600">
                         <span>Subtotal Minuman</span>
@@ -756,7 +853,6 @@ const firebaseConfig = {
             </div>
 
             <form onsubmit="submitCustomerOrder(event)" class="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs sm:text-sm">
-                <!-- Student Info -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap Mahasiswa *</label>
@@ -768,13 +864,11 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Outlet & Campus Delivery Point -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Outlet UGIEE Terdekat *</label>
                     <select id="cust-outlet" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm bg-white focus:outline-none focus:border-ugiee-teal font-medium">
-                        <option value="UGIEE! Foodcourt Unimerz">🏪 Foodcourt Universitas Megarezky (Dalam Kampus)</option>
                         <option value="UGIEE! - Antang Raya">🏪 UGIEE! - Antang Raya</option>
-                        <option value="UGIEE! Boba & Kopi - Paleo Raya">🏪 UGIEE! Boba & Kopi - Paleo Raya</option>
+                        <option value="UGIEE Boba & Kopi - Paleo Raya">🏪 UGIEE Boba & Kopi - Paleo Raya</option>
                     </select>
                 </div>
 
@@ -795,7 +889,7 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Payment Method Selector -->
+                <!-- Payment Methods -->
                 <div class="space-y-2.5 pt-1">
                     <label class="block text-xs font-extrabold text-ugiee-dark">Metode Pembayaran *</label>
                     <div class="grid grid-cols-2 gap-2">
@@ -807,7 +901,7 @@ const firebaseConfig = {
                             </div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="radio" name="payment_method" value="" onchange="handlePaymentMethodChange()" class="peer hidden">
+                            <input type="radio" name="payment_method" value="QRIS" onchange="handlePaymentMethodChange()" class="peer hidden">
                             <div class="p-2.5 rounded-xl border border-gray-200 peer-checked:border-ugiee-teal peer-checked:bg-ugiee-teal/10 flex items-center gap-2">
                                 <i class="fa-solid fa-qrcode text-ugiee-teal"></i>
                                 <span class="text-xs font-extrabold">QRIS Instan</span>
@@ -829,7 +923,7 @@ const firebaseConfig = {
                         </label>
                     </div>
 
-                    <!-- COD Cash Denomination Option -->
+                    <!-- COD Option -->
                     <div id="pay-panel-cod" class="p-3 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder space-y-2">
                         <label class="block text-xs font-bold text-gray-700">Uang Tunai yang Disiapkan (Untuk Kembalian Kurir):</label>
                         <select id="cod-cash-amount" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-bold">
@@ -840,18 +934,16 @@ const firebaseConfig = {
                         </select>
                     </div>
 
-                    <!-- QRIS Official Card Panel -->
+                    <!-- QRIS Panel -->
                     <div id="pay-panel-qris" class="hidden p-3.5 rounded-2xl bg-white border-2 border-ugiee-teal/40 text-center space-y-2">
                         <div class="text-xs font-extrabold text-ugiee-dark">Scan QRIS Resmi Merchant:</div>
-                        <div id="checkout-qris-wrapper" class="max-w-[230px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2">
-                            <!-- Official QRIS SVG rendered via JS -->
-                        </div>
+                        <div id="checkout-qris-wrapper" class="max-w-[230px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2"></div>
                         <button type="button" onclick="openQrisZoomModal()" class="px-3 py-1.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder text-ugiee-tealDark font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
-                            <i class="fa-solid fa-expand"></i> Perbesar / Simpan QRIS
+                            <i class="fa-solid fa-expand"></i> Perbesar QRIS
                         </button>
                     </div>
 
-                    <!-- Bank Transfer Panel (BRI & Bank Jago) -->
+                    <!-- Bank Transfer Panel -->
                     <div id="pay-panel-transfer" class="hidden p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2.5">
                         <div class="text-xs font-extrabold text-blue-950">Transfer ke Rekening Resmi a.n. <span class="underline">ILHAM ISMAIL</span>:</div>
                         <div class="p-2.5 rounded-xl bg-white border border-blue-200 flex items-center justify-between gap-2">
@@ -860,7 +952,7 @@ const firebaseConfig = {
                                 <div class="font-mono font-extrabold text-sm text-gray-900">0219 0104 2766 508</div>
                                 <div class="text-[10px] text-gray-500">a.n. ILHAM ISMAIL</div>
                             </div>
-                            <button type="button" onclick="copyTextToClipboard('021901042766508', 'No. Rekening BRI disalin!')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold text-xs cursor-pointer">Salin</button>
+                            <button type="button" onclick="copyTextToClipboard('021901042766508', 'No. Rekening BRI disalin!')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold text-xs cursor-pointer">Salin Rekening</button>
                         </div>
                         <div class="p-2.5 rounded-xl bg-white border border-amber-300 flex items-center justify-between gap-2">
                             <div>
@@ -868,7 +960,7 @@ const firebaseConfig = {
                                 <div class="font-mono font-extrabold text-sm text-gray-900">1097 2987 6683</div>
                                 <div class="text-[10px] text-gray-500">a.n. ILHAM ISMAIL</div>
                             </div>
-                            <button type="button" onclick="copyTextToClipboard('109729876683', 'No. Rekening Bank Jago disalin!')" class="px-3 py-1.5 rounded-lg bg-ugiee-yellow text-ugiee-dark font-extrabold text-xs cursor-pointer">Salin</button>
+                            <button type="button" onclick="copyTextToClipboard('109729876683', 'No. Rekening Bank Jago disalin!')" class="px-3 py-1.5 rounded-lg bg-ugiee-yellow text-ugiee-dark font-extrabold text-xs cursor-pointer">Salin Rekening</button>
                         </div>
                     </div>
 
@@ -880,11 +972,11 @@ const firebaseConfig = {
                                 <div class="font-mono font-extrabold text-sm text-gray-900">0813 3355 5114</div>
                                 <div class="text-[10px] text-gray-500">a.n. ILHAM ISMAIL</div>
                             </div>
-                            <button type="button" onclick="copyTextToClipboard('081333555114', 'Nomor E-Wallet disalin!')" class="px-3 py-1.5 rounded-lg bg-purple-600 text-white font-bold text-xs cursor-pointer">Salin</button>
+                            <button type="button" onclick="copyTextToClipboard('081333555114', 'Nomor E-Wallet disalin!')" class="px-3 py-1.5 rounded-lg bg-purple-600 text-white font-bold text-xs cursor-pointer">Salin Nomor</button>
                         </div>
                     </div>
 
-                    <!-- Mandatory Payment Proof Upload for Non-Cash -->
+                    <!-- Mandatory Payment Proof Upload -->
                     <div id="pay-proof-upload-box" class="hidden p-3.5 rounded-2xl bg-amber-50 border border-amber-300 space-y-2">
                         <label class="block text-xs font-extrabold text-amber-950">
                             <i class="fa-solid fa-camera mr-1"></i> Upload Bukti Transfer / Pembayaran (Wajib) *
@@ -897,7 +989,7 @@ const firebaseConfig = {
                     </div>
                 </div>
 
-                <!-- Checkout Summary Box -->
+                <!-- Summary Box -->
                 <div class="p-3.5 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder space-y-1 text-xs">
                     <div class="flex justify-between"><span>Subtotal</span><span id="co-subtotal" class="font-bold">Rp 0</span></div>
                     <div id="co-discount-row" class="hidden justify-between text-emerald-700 font-bold"><span>Diskon Voucher</span><span id="co-discount">-Rp 0</span></div>
@@ -916,7 +1008,7 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- ==================== MODAL 4: QRIS ZOOM / DOWNLOAD MODAL ==================== -->
+    <!-- ==================== MODAL 4: QRIS ZOOM MODAL ==================== -->
     <div id="qris-zoom-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 text-center space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
@@ -924,7 +1016,7 @@ const firebaseConfig = {
                 <button type="button" onclick="closeQrisZoomModal()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div id="zoomed-qris-container" class="border border-gray-200 rounded-2xl p-2 bg-white"></div>
-            <p class="text-[11px] text-gray-500">Screenshot atau simpan layar ini untuk scan dari galeri DANA, GoPay, OVO, ShopeePay, BCA, BRI, atau Bank Jago.</p>
+            <p class="text-[11px] text-gray-500">Screenshot layar ini untuk scan dari galeri DANA, GoPay, OVO, ShopeePay, BCA, BRI, atau Bank Jago.</p>
             <button type="button" onclick="closeQrisZoomModal()" class="w-full py-2.5 rounded-xl bg-ugiee-teal text-white font-bold text-xs cursor-pointer">Selesai</button>
         </div>
     </div>
@@ -939,25 +1031,27 @@ const firebaseConfig = {
                 </div>
                 <button type="button" onclick="closeTrackModal()" class="w-8 h-8 rounded-full bg-white text-gray-600 flex items-center justify-center border border-gray-200 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="track-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-4">
-                <!-- Populated dynamically via openTrackModal() -->
-            </div>
+            <div id="track-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-4"></div>
         </div>
     </div>
 
-    <!-- ==================== MODAL 6: STAFF LOGIN MODAL ==================== -->
+    <!-- ==================== MODAL 6: STAFF LOGIN MODAL (STRICT - NO DEMO BUTTONS) ==================== -->
     <div id="staff-login-modal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
             <div class="p-5 bg-gradient-to-r from-ugiee-dark to-ugiee-tealDark text-white flex items-center justify-between">
                 <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-ugiee-yellow text-ugiee-dark">KHUSUS KARYAWAN</span>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-ugiee-yellow text-ugiee-dark">AREA TERBATAS KARYAWAN</span>
                     <h3 class="font-display font-extrabold text-lg mt-1">Login Portal Staff UGIEE!</h3>
                 </div>
                 <button type="button" onclick="closeStaffLoginModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <form onsubmit="handleStaffLogin(event)" class="p-5 space-y-3.5 text-xs sm:text-sm">
+            <form onsubmit="handleStaffLogin(event)" class="p-5 space-y-4 text-xs sm:text-sm">
+                <div class="p-3 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder text-[11px] text-gray-600 flex items-start gap-2">
+                    <i class="fa-solid fa-shield-halved text-ugiee-teal mt-0.5"></i>
+                    <span>Khusus karyawan bertugas (Kasir Outlet, Kurir Kampus, dan Admin/Owner). Masukkan kredensial akun yang terdaftar.</span>
+                </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Pilih Role Tugas</label>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Role Tugas *</label>
                     <select id="login-role" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-white font-bold text-ugiee-dark focus:outline-none focus:border-ugiee-teal">
                         <option value="kasir">Kasir / Barista Outlet</option>
                         <option value="kurir">Kurir Pengantar Kampus</option>
@@ -965,25 +1059,15 @@ const firebaseConfig = {
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Username Karyawan</label>
-                    <input type="text" id="login-username" required placeholder="Masukkan username..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Username Karyawan *</label>
+                    <input type="text" id="login-username" required autocomplete="off" placeholder="Masukkan username karyawan..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">PIN / Password</label>
-                    <input type="password" id="login-pin" required placeholder="Masukkan PIN..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">PIN / Password *</label>
+                    <input type="password" id="login-pin" required autocomplete="off" placeholder="Masukkan PIN akses..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
                 </div>
 
-                <!-- Quick Demo Account Autofill Pills -->
-                <div class="p-3 rounded-2xl bg-ugiee-sage border border-ugiee-sageBorder space-y-1.5">
-                    <div class="text-[10px] font-extrabold text-gray-500 uppercase">Isi Cepat Akun Demo:</div>
-                    <div class="flex flex-wrap gap-1.5">
-                        <button type="button" onclick="fillDemoLogin('kasir', 'kasir1', '1234')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-teal hover:text-white border border-ugiee-sageBorder text-[11px] font-bold transition cursor-pointer">Kasir (kasir1)</button>
-                        <button type="button" onclick="fillDemoLogin('kurir', 'kurir1', '1234')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-teal hover:text-white border border-ugiee-sageBorder text-[11px] font-bold transition cursor-pointer">Kurir (kurir1)</button>
-                        <button type="button" onclick="fillDemoLogin('admin', 'admin', 'ugiee2026')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-teal hover:text-white border border-ugiee-sageBorder text-[11px] font-bold transition cursor-pointer">Admin/Owner (admin)</button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-press w-full py-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-sm cursor-pointer">
+                <button type="submit" class="btn-press w-full py-3.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-sm cursor-pointer">
                     Masuk ke Dashboard Staff
                 </button>
             </form>
@@ -1006,7 +1090,7 @@ const firebaseConfig = {
                     <div class="font-extrabold text-ugiee-dark mt-0.5" id="handover-customer-info">Nama Mahasiswa • Lokasi</div>
                 </div>
                 <p class="text-xs text-gray-600 leading-relaxed">
-                    <strong>Wajib Foto:</strong> Ambil foto pesanan saat diserahkan kepada mahasiswa di lokasi kampus sebelum menyelesaikan pengiriman.
+                    <strong>Wajib Foto:</strong> Ambil foto pesanan saat diberikan kepada mahasiswa di lokasi kampus sebelum tombol penyelesaian dibuka.
                 </p>
                 <input type="file" id="handover-photo-input" accept="image/*" capture="environment" onchange="handleHandoverPhotoSelected(event)" class="w-full text-xs file:mr-3 file:py-2.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-ugiee-yellow file:text-ugiee-dark cursor-pointer">
                 <div id="handover-preview-box" class="hidden">
@@ -1033,7 +1117,6 @@ const firebaseConfig = {
             <form onsubmit="saveAdminMenuItem(event)" class="p-4 sm:p-5 overflow-y-auto space-y-3.5 text-xs sm:text-sm">
                 <input type="hidden" id="edit-menu-id">
 
-                <!-- Real Product Photo Upload -->
                 <div class="p-3 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder flex items-center gap-3.5">
                     <img id="admin-menu-photo-preview" src="" alt="Preview Foto Menu" class="w-20 h-20 rounded-2xl object-cover border border-ugiee-sageBorder bg-white shrink-0">
                     <div class="space-y-1.5 flex-1">
@@ -1091,11 +1174,67 @@ const firebaseConfig = {
 
                 <label class="flex items-center gap-2 cursor-pointer pt-1">
                     <input type="checkbox" id="edit-menu-available" checked class="w-4 h-4 accent-ugiee-teal">
-                    <span class="text-xs font-bold text-gray-700">Stok Tersedia (Tampilkan dapat dipesan mahasiswa)</span>
+                    <span class="text-xs font-bold text-gray-700">Stok Tersedia (Dapat dipesan mahasiswa)</span>
                 </label>
 
                 <button type="submit" class="btn-press w-full py-3.5 rounded-2xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-sm cursor-pointer">
                     Simpan Perubahan Menu
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 9: ADMIN ADD / EDIT STAFF ACCOUNT (KASIR & KURIR) ==================== -->
+    <div id="admin-staff-modal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-ugiee-sage/50">
+                <h3 id="admin-staff-modal-title" class="font-display font-extrabold text-base text-ugiee-dark">Tambah Akun Karyawan</h3>
+                <button type="button" onclick="closeAdminStaffModal()" class="w-8 h-8 rounded-full bg-white text-gray-600 flex items-center justify-center border border-gray-200 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="saveAdminStaffAccount(event)" class="p-5 space-y-3.5 text-xs sm:text-sm">
+                <input type="hidden" id="edit-staff-id">
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap Karyawan *</label>
+                    <input type="text" id="edit-staff-name" required placeholder="Contoh: Rina (Kasir Shift Pagi)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Role Tugas *</label>
+                        <select id="edit-staff-role" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white font-bold">
+                            <option value="kasir">Kasir / Barista Outlet</option>
+                            <option value="kurir">Kurir Pengantar Kampus</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Penugasan Outlet *</label>
+                        <select id="edit-staff-outlet" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white font-bold">
+                            <option value="UGIEE! - Antang Raya">UGIEE! - Antang Raya</option>
+                            <option value="UGIEE Boba & Kopi - Paleo Raya">UGIEE Boba & Kopi - Paleo Raya</option>
+                            <option value="Semua Outlet Kampus">Semua Outlet Kampus</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Username Login *</label>
+                        <input type="text" id="edit-staff-username" required placeholder="Contoh: kasir2" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 lowercase focus:outline-none focus:border-ugiee-teal">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">PIN / Password Login *</label>
+                        <input type="text" id="edit-staff-pin" required placeholder="Contoh: 1234" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-ugiee-teal">
+                    </div>
+                </div>
+
+                <label class="flex items-center gap-2 cursor-pointer pt-1">
+                    <input type="checkbox" id="edit-staff-active" checked class="w-4 h-4 accent-ugiee-teal">
+                    <span class="text-xs font-bold text-gray-700">Akun Aktif (Dapat login ke Portal Karyawan)</span>
+                </label>
+
+                <button type="submit" class="btn-press w-full py-3.5 rounded-2xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-sm cursor-pointer">
+                    Simpan Akun Karyawan
                 </button>
             </form>
         </div>
@@ -1109,9 +1248,9 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
+    <!-- ==================== APPLICATION JAVASCRIPT ==================== -->
     <script>
-        // ==================== 0. DEFENSIVE UTILITIES & SVG ILLUSTRATION GENERATOR ====================
+        // ==================== 0. UTILITIES & SVG GENERATORS ====================
         function escapeHtml(str) {
             return String(str ?? '')
                 .replace(/&/g, '&amp;')
@@ -1169,7 +1308,6 @@ const firebaseConfig = {
             }
         }
 
-        // Compress uploaded images safely so localStorage & Firebase stay fast
         function compressImageFile(file, maxDim = 560, quality = 0.72, callback) {
             if (!file) return;
             const reader = new FileReader();
@@ -1192,8 +1330,7 @@ const firebaseConfig = {
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, w, h);
-                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
-                    callback(dataUrl);
+                    callback(canvas.toDataURL('image/jpeg', quality));
                 };
                 img.onerror = function() {
                     showToast('Format gambar tidak valid.');
@@ -1203,7 +1340,6 @@ const firebaseConfig = {
             reader.readAsDataURL(file);
         }
 
-        // Generate crisp, zero-broken-link Data-URI SVG drink illustrations per drink style
         function generateDrinkDataUri(bgTop, bgBottom, liquidTop, liquidBottom, toppingType = 'boba', isHot = false) {
             let extraSvg = '';
             if (toppingType === 'boba') {
@@ -1260,7 +1396,6 @@ const firebaseConfig = {
         }
 
         function generateOfficialQrisSvg() {
-            // Deterministic crisp QR pattern matrix for UGIEE SIGNATURE OFFICIAL (NMID: ID1025455596565)
             let modules = '';
             for (let r = 0; r < 21; r++) {
                 for (let c = 0; c < 21; c++) {
@@ -1284,7 +1419,6 @@ const firebaseConfig = {
                 <text x="110" y="52" font-family="sans-serif" font-size="11.5" font-weight="900" fill="#111827" text-anchor="middle">UGIEE SIGNATURE OFFICIAL</text>
                 <text x="110" y="67" font-family="sans-serif" font-size="9" font-weight="700" fill="#4B5563" text-anchor="middle">NMID : ID1025455596565</text>
                 <text x="110" y="80" font-family="sans-serif" font-size="9" font-weight="800" fill="#111827" text-anchor="middle">A01</text>
-                <!-- Finder Patterns -->
                 <rect x="46" y="96" width="35" height="35" fill="none" stroke="#111827" stroke-width="5"/>
                 <rect x="56" y="106" width="15" height="15" fill="#111827"/>
                 <rect x="131" y="96" width="35" height="35" fill="none" stroke="#111827" stroke-width="5"/>
@@ -1297,9 +1431,9 @@ const firebaseConfig = {
             </svg>`;
         }
 
-        // ==================== 1. DEFAULT 40 MENU ITEMS (4 BROSUR UGIEE!) ====================
+        // ==================== 1. DEFAULT 40 MENU ITEMS ====================
         const DEFAULT_MENUS = [
-            // --- SERIES 1: MATCHA LATTE (6 ITEMS) ---
+            // --- MATCHA LATTE (6 MENU) ---
             { id: 'm1', name: 'Matcha Milk', category: 'Matcha Latte', price: 13000, size: 'S', badge: '', desc: 'Perpaduan bubuk matcha premium dengan susu segar creamy.', available: true, img: generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#4D7C0F', '#DCFCE7', 'none') },
             { id: 'm2', name: 'Matcha Boba', category: 'Matcha Latte', price: 15000, size: 'S', badge: 'BEST SELLER', desc: 'Matcha latte segar dengan topping boba kenyal gula aren.', available: true, img: generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#3F6212', '#ECFCCB', 'boba') },
             { id: 'm3', name: 'Matcha Cheese', category: 'Matcha Latte', price: 15000, size: 'S', badge: '', desc: 'Matcha premium dengan lapisan cream cheese gurih lembut di atasnya.', available: true, img: generateDrinkDataUri('#ECFDF5', '#FEF9C3', '#4D7C0F', '#D9F99D', 'cheese') },
@@ -1307,7 +1441,7 @@ const firebaseConfig = {
             { id: 'm5', name: 'Matcha Coklat', category: 'Matcha Latte', price: 15000, size: 'S', badge: '', desc: 'Perpaduan nikmat matcha premium dengan saus coklat pekat.', available: true, img: generateDrinkDataUri('#ECFDF5', '#FEF3C7', '#4D7C0F', '#78350F', 'none') },
             { id: 'm6', name: 'Matcha Kopi', category: 'Matcha Latte', price: 15000, size: 'S', badge: '', desc: 'Dirty matcha latte dengan shot espresso kopi pilihan.', available: true, img: generateDrinkDataUri('#ECFDF5', '#F3E8FF', '#365314', '#713F12', 'none') },
 
-            // --- SERIES 2: ES & HOT KOPI (9 ITEMS) ---
+            // --- ES KOPI & HOT KOPI (9 MENU) ---
             { id: 'k1', name: 'Es Kopi Krimi', category: 'Es & Hot Kopi', price: 13000, size: 'S', badge: '', desc: 'Es kopi susu dengan racikan krimer lembut penyemangat kuliah.', available: true, img: generateDrinkDataUri('#FEF3C7', '#FDE68A', '#78350F', '#D97706', 'none') },
             { id: 'k2', name: 'Es Kopi Aren', category: 'Es & Hot Kopi', price: 13000, size: 'S', badge: 'BEST SELLER', desc: 'Kopi susu gula aren asli khas UGIEE! favorit mahasiswa.', available: true, img: generateDrinkDataUri('#FEF3C7', '#FDE68A', '#451A03', '#B45309', 'none') },
             { id: 'k3', name: 'Es Kopi Coconut', category: 'Es & Hot Kopi', price: 15000, size: 'S', badge: 'NEW', desc: 'Espresso berpadu dengan kesegaran santan kelapa gurih manis.', available: true, img: generateDrinkDataUri('#ECFEFF', '#FEF3C7', '#78350F', '#F3F4F6', 'none') },
@@ -1318,7 +1452,7 @@ const firebaseConfig = {
             { id: 'k8', name: 'Hot Kopi Krimi', category: 'Es & Hot Kopi', price: 13000, size: 'S', badge: 'BEST SELLER', desc: 'Kopi susu panas creamy hangat untuk menemani diskusi kampus.', available: true, isHot: true, img: generateDrinkDataUri('#FEF3C7', '#FDE68A', '#78350F', '#D97706', 'none', true) },
             { id: 'k9', name: 'Hot Kopi Aren', category: 'Es & Hot Kopi', price: 13000, size: 'S', badge: '', desc: 'Kopi susu gula aren hangat dengan manis alami yang menenangkan.', available: true, isHot: true, img: generateDrinkDataUri('#FEF3C7', '#FFEDD5', '#78350F', '#B45309', 'none', true) },
 
-            // --- SERIES 3: BOBA AREN (16 ITEMS - FREE TOPPING BOBA) ---
+            // --- BOBA AREN (16 MENU - FREE TOPPING BOBA) ---
             { id: 'b1', name: 'Brown Sugar', category: 'Boba Aren', price: 15000, size: 'S', badge: 'FREE BOBA', desc: 'Susu segar dengan sirup gula aren karamel & boba kenyal.', available: true, img: generateDrinkDataUri('#FEF3C7', '#FDE68A', '#92400E', '#FEF3C7', 'boba') },
             { id: 'b2', name: 'King Regal', category: 'Boba Aren', price: 15000, size: 'S', badge: 'FREE BOBA', desc: 'Susu boba aren dengan taburan biskuit Marie Regal renyah.', available: true, img: generateDrinkDataUri('#FEF3C7', '#FFEDD5', '#B45309', '#FEF3C7', 'boba') },
             { id: 'b3', name: 'Green Tea', category: 'Boba Aren', price: 13000, size: 'S', badge: 'FREE BOBA', desc: 'Teh hijau susu segar dengan gula aren dan topping boba.', available: true, img: generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15803D', '#DCFCE7', 'boba') },
@@ -1336,7 +1470,7 @@ const firebaseConfig = {
             { id: 'b15', name: 'Cappucino', category: 'Boba Aren', price: 13000, size: 'S', badge: 'FREE BOBA', desc: 'Klasik cappucino dingin berpadu gula aren dan boba.', available: true, img: generateDrinkDataUri('#FEF3C7', '#FDE68A', '#92400E', '#D97706', 'boba') },
             { id: 'b16', name: 'Moccacino', category: 'Boba Aren', price: 13000, size: 'S', badge: 'FREE BOBA', desc: 'Perpaduan kopi dan coklat moka lengkap dengan boba.', available: true, img: generateDrinkDataUri('#FEF3C7', '#E5E7EB', '#78350F', '#B45309', 'boba') },
 
-            // --- SERIES 4: MINUMAN RAKYAT #Harga_Merakyat (9 ITEMS) ---
+            // --- MINUMAN RAKYAT #Harga_Merakyat (9 MENU) ---
             { id: 'r1', name: 'Extrajoss Susu Energi', category: 'Minuman Rakyat', price: 8000, size: 'S', badge: 'HARGA MERAKYAT', desc: 'Minuman susu energi Extrajoss dingin penambah stamina kuliah.', available: true, img: generateDrinkDataUri('#FEF9C3', '#FEF08A', '#EAB308', '#FDE047', 'none') },
             { id: 'r2', name: 'Kukubima Susu Energi', category: 'Minuman Rakyat', price: 8000, size: 'S', badge: 'HARGA MERAKYAT', desc: 'Minuman susu energi Kukubima anggur segar harga merakyat.', available: true, img: generateDrinkDataUri('#F3E8FF', '#E9D5FF', '#9333EA', '#C084FC', 'none') },
             { id: 'r3', name: 'Pink Lava', category: 'Minuman Rakyat', price: 10000, size: 'S', badge: 'BEST SELLER', desc: 'Minuman susu cocopandan merah muda segar favorit kampus.', available: true, img: generateDrinkDataUri('#FCE7F3', '#FBCFE8', '#DB2777', '#F472B6', 'none') },
@@ -1359,7 +1493,7 @@ const firebaseConfig = {
             },
             {
                 id: 'bn2',
-                badge: 'MINUMAN RAKYAT #HematKuliah',
+                badge: 'MINUMAN RAKYAT #Harga_Merakyat',
                 title: 'Es Teh Original Cuma Rp 5.000!',
                 desc: 'Tersedia juga Extrajoss & Kukubima Susu 8K serta Squeeze Series ukuran Large (L) 10K.',
                 code: 'UGIEEMHS10',
@@ -1381,19 +1515,25 @@ const firebaseConfig = {
             { code: 'FREETOPPING', discount: 3000, minSpend: 15000, active: true }
         ];
 
+        const DEFAULT_STAFF_ACCOUNTS = [
+            { id: 'st_kasir1', role: 'kasir', username: 'kasir1', pin: '1234', name: 'Rina (Kasir Antang Raya)', outlet: 'UGIEE! - Antang Raya', active: true },
+            { id: 'st_kurir1', role: 'kurir', username: 'kurir1', pin: '1234', name: 'Fajar (Kurir Kampus Unimerz)', outlet: 'Semua Outlet Kampus', active: true },
+            { id: 'st_admin', role: 'admin', username: 'admin', pin: 'ugiee2026', name: 'Ilham Ismail (Owner/Admin)', outlet: 'Semua Outlet Kampus', active: true }
+        ];
+
         const DEFAULT_ORDERS = [
             {
                 id: 'UG-8041',
-                timestamp: Date.now() - 1000 * 60 * 14,
-                createdAt: 'Hari ini, 13:15',
+                timestamp: Date.now() - 1000 * 60 * 25,
+                createdAt: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ', 13:15',
                 customerName: 'Aulia Putri (Farmasi)',
                 customerWa: '081241009988',
-                outlet: 'UGIEE! Foodcourt Unimerz',
+                outlet: 'UGIEE! - Antang Raya',
                 location: 'Gedung Farmasi & FIKES',
                 room: 'Lantai 2 Depan Lab Kimia',
                 items: [
-                    { name: 'Matcha Boba', qty: 2, unitPrice: 15000, ice: 'Normal Ice', sugar: 'Less Sugar', extraMatcha: false, note: '' },
-                    { name: 'Pink Lava', qty: 1, unitPrice: 10000, ice: 'Normal Ice', sugar: 'Normal Sugar', extraMatcha: false, note: '' }
+                    { name: 'Matcha Boba', size: 'S', qty: 2, unitPrice: 15000, ice: 'Normal Ice', sugar: 'Less Sugar', extraMatcha: false, note: '' },
+                    { name: 'Pink Lava', size: 'S', qty: 1, unitPrice: 10000, ice: 'Normal Ice', sugar: 'Normal Sugar', extraMatcha: false, note: '' }
                 ],
                 subtotal: 40000,
                 discount: 5000,
@@ -1429,7 +1569,7 @@ const firebaseConfig = {
 
         function getMenuData() {
             try {
-                const raw = localStorage.getItem('ugiee_menu_data_v3');
+                const raw = localStorage.getItem('ugiee_menu_data_v4');
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -1439,8 +1579,8 @@ const firebaseConfig = {
         }
 
         function saveMenuData(data) {
-            if (safeSetLocalStorage('ugiee_menu_data_v3', data)) {
-                syncMenusToCloud(data);
+            if (safeSetLocalStorage('ugiee_menu_data_v4', data)) {
+                syncMenuToCloud(data);
                 renderCategoryPills();
                 filterMenu();
                 return true;
@@ -1450,7 +1590,7 @@ const firebaseConfig = {
 
         function getBannersData() {
             try {
-                const raw = localStorage.getItem('ugiee_banners_data_v3');
+                const raw = localStorage.getItem('ugiee_banners_data_v4');
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -1460,8 +1600,8 @@ const firebaseConfig = {
         }
 
         function saveBannersData(data) {
-            if (safeSetLocalStorage('ugiee_banners_data_v3', data)) {
-                syncBannersToCloud(data);
+            if (safeSetLocalStorage('ugiee_banners_data_v4', data)) {
+                syncPromosToCloud(data);
                 currentPromoSlide = 0;
                 renderPromoBanner();
                 return true;
@@ -1471,7 +1611,7 @@ const firebaseConfig = {
 
         function getVouchersData() {
             try {
-                const raw = localStorage.getItem('ugiee_vouchers_data_v3');
+                const raw = localStorage.getItem('ugiee_vouchers_data_v4');
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed)) return parsed;
@@ -1481,7 +1621,7 @@ const firebaseConfig = {
         }
 
         function saveVouchersData(data) {
-            if (safeSetLocalStorage('ugiee_vouchers_data_v3', data)) {
+            if (safeSetLocalStorage('ugiee_vouchers_data_v4', data)) {
                 syncVouchersToCloud(data);
                 updateVoucherHintText();
                 return true;
@@ -1489,9 +1629,28 @@ const firebaseConfig = {
             return false;
         }
 
+        function getStaffAccountsData() {
+            try {
+                const raw = localStorage.getItem('ugiee_staff_accounts_v4');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {}
+            return DEFAULT_STAFF_ACCOUNTS;
+        }
+
+        function saveStaffAccountsData(data) {
+            if (safeSetLocalStorage('ugiee_staff_accounts_v4', data)) {
+                syncStaffToCloud(data);
+                return true;
+            }
+            return false;
+        }
+
         function getOrders() {
             try {
-                const raw = localStorage.getItem('ugiee_unimerz_orders_v7');
+                const raw = localStorage.getItem('ugiee_unimerz_orders_v8');
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed)) return parsed;
@@ -1501,7 +1660,7 @@ const firebaseConfig = {
         }
 
         function saveOrders(orders) {
-            if (safeSetLocalStorage('ugiee_unimerz_orders_v7', orders)) {
+            if (safeSetLocalStorage('ugiee_unimerz_orders_v8', orders)) {
                 syncOrdersToCloud(orders);
                 updateBadges();
                 return true;
@@ -1509,7 +1668,7 @@ const firebaseConfig = {
             return false;
         }
 
-        // ==================== 3. CENTRALIZED FIREBASE REALTIME DATABASE ENGINE ====================
+        // ==================== 3. FIREBASE REALTIME DATABASE ENGINE ====================
         const MANUAL_FIREBASE_CONFIG = {
             apiKey: "",
             authDomain: "",
@@ -1602,9 +1761,10 @@ const firebaseConfig = {
                 fbDb.ref('.info/connected').off();
                 fbDb.ref(`${FIREBASE_ROOT_PATH}/orders`).off();
                 fbDb.ref(`${FIREBASE_ROOT_PATH}/customers`).off();
-                fbDb.ref(`${FIREBASE_ROOT_PATH}/menus`).off();
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/menu`).off();
                 fbDb.ref(`${FIREBASE_ROOT_PATH}/vouchers`).off();
-                fbDb.ref(`${FIREBASE_ROOT_PATH}/banners`).off();
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/promos`).off();
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/staff`).off();
             } catch (e) {}
             firebaseListenersAttached = false;
         }
@@ -1626,7 +1786,6 @@ const firebaseConfig = {
                     const app = firebase.initializeApp(cfg);
                     fbDb = app.database();
                 }
-
                 firebaseListenersAttached = true;
 
                 fbDb.ref('.info/connected').on('value', (snap) => {
@@ -1654,13 +1813,16 @@ const firebaseConfig = {
                         knownOrderIds = new Set(cloudOrders.map(o => o.id));
                         initialOrdersLoaded = true;
 
-                        safeSetLocalStorage('ugiee_unimerz_orders_v7', cloudOrders);
+                        safeSetLocalStorage('ugiee_unimerz_orders_v8', cloudOrders);
                         syncCustomersFromOrderHistory(false);
                         updateBadges();
 
                         if (currentStaff) {
                             renderStaffDashboard();
-                            if (currentStaff.role === 'admin') renderAdminCustomersTable();
+                            if (currentStaff.role === 'admin') {
+                                renderAdminSalesDashboard();
+                                renderAdminCustomersTable();
+                            }
                         }
                         const trackModal = document.getElementById('track-modal');
                         if (trackModal && !trackModal.classList.contains('hidden')) {
@@ -1686,18 +1848,18 @@ const firebaseConfig = {
                     }
                 });
 
-                fbDb.ref(`${FIREBASE_ROOT_PATH}/menus`).on('value', (snapshot) => {
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/menu`).on('value', (snapshot) => {
                     const val = snapshot.val();
                     if (val) {
                         const cloudMenus = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
                         if (cloudMenus.length > 0) {
-                            safeSetLocalStorage('ugiee_menu_data_v3', cloudMenus);
+                            safeSetLocalStorage('ugiee_menu_data_v4', cloudMenus);
                             renderCategoryPills();
                             filterMenu();
                             if (currentStaff && currentStaff.role === 'admin') renderAdminMenuTable();
                         }
                     } else {
-                        syncMenusToCloud(getMenuData());
+                        syncMenuToCloud(getMenuData());
                     }
                 });
 
@@ -1705,7 +1867,7 @@ const firebaseConfig = {
                     const val = snapshot.val();
                     if (val) {
                         const cloudVouchers = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-                        safeSetLocalStorage('ugiee_vouchers_data_v3', cloudVouchers);
+                        safeSetLocalStorage('ugiee_vouchers_data_v4', cloudVouchers);
                         updateVoucherHintText();
                         if (currentStaff && currentStaff.role === 'admin') renderAdminPromoAndVouchers();
                     } else {
@@ -1713,21 +1875,34 @@ const firebaseConfig = {
                     }
                 });
 
-                fbDb.ref(`${FIREBASE_ROOT_PATH}/banners`).on('value', (snapshot) => {
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/promos`).on('value', (snapshot) => {
                     const val = snapshot.val();
                     if (val) {
                         const cloudBanners = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
                         if (cloudBanners.length > 0) {
-                            safeSetLocalStorage('ugiee_banners_data_v3', cloudBanners);
+                            safeSetLocalStorage('ugiee_banners_data_v4', cloudBanners);
                             renderPromoBanner();
                             if (currentStaff && currentStaff.role === 'admin') renderAdminPromoAndVouchers();
                         }
                     } else {
-                        syncBannersToCloud(getBannersData());
+                        syncPromosToCloud(getBannersData());
+                    }
+                });
+
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/staff`).on('value', (snapshot) => {
+                    const val = snapshot.val();
+                    if (val) {
+                        const cloudStaff = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
+                        if (cloudStaff.length > 0) {
+                            safeSetLocalStorage('ugiee_staff_accounts_v4', cloudStaff);
+                            if (currentStaff && currentStaff.role === 'admin') renderAdminStaffTable();
+                        }
+                    } else {
+                        syncStaffToCloud(getStaffAccountsData());
                     }
                 });
             } catch (err) {
-                console.warn('Firebase initialization skipped:', err);
+                console.warn('Firebase init warning:', err);
                 updateCloudStatusIndicators(false, 'Konfigurasi Cloud Error');
             }
         }
@@ -1744,9 +1919,9 @@ const firebaseConfig = {
             fbDb.ref(`${FIREBASE_ROOT_PATH}/orders/${orderObj.id}`).set(orderObj).catch(() => {});
         }
 
-        function syncMenusToCloud(menusArray) {
+        function syncMenuToCloud(menusArray) {
             if (!fbDb) return;
-            fbDb.ref(`${FIREBASE_ROOT_PATH}/menus`).set(menusArray).catch(() => {});
+            fbDb.ref(`${FIREBASE_ROOT_PATH}/menu`).set(menusArray).catch(() => {});
         }
 
         function syncVouchersToCloud(vouchersArray) {
@@ -1754,9 +1929,14 @@ const firebaseConfig = {
             fbDb.ref(`${FIREBASE_ROOT_PATH}/vouchers`).set(vouchersArray).catch(() => {});
         }
 
-        function syncBannersToCloud(bannersArray) {
+        function syncPromosToCloud(bannersArray) {
             if (!fbDb) return;
-            fbDb.ref(`${FIREBASE_ROOT_PATH}/banners`).set(bannersArray).catch(() => {});
+            fbDb.ref(`${FIREBASE_ROOT_PATH}/promos`).set(bannersArray).catch(() => {});
+        }
+
+        function syncStaffToCloud(staffArray) {
+            if (!fbDb) return;
+            fbDb.ref(`${FIREBASE_ROOT_PATH}/staff`).set(staffArray).catch(() => {});
         }
 
         function syncCustomersToCloud(customersArray) {
@@ -1777,9 +1957,10 @@ const firebaseConfig = {
                 return;
             }
             syncOrdersToCloud(getOrders());
-            syncMenusToCloud(getMenuData());
+            syncMenuToCloud(getMenuData());
             syncVouchersToCloud(getVouchersData());
-            syncBannersToCloud(getBannersData());
+            syncPromosToCloud(getBannersData());
+            syncStaffToCloud(getStaffAccountsData());
             syncCustomersToCloud(getCustomersData());
             if (showAlertToast) {
                 showToast('☁️ Seluruh data berhasil diunggah ke Cloud Firebase!');
@@ -2182,7 +2363,6 @@ const firebaseConfig = {
             document.getElementById('modal-qty-val').textContent = '1';
             document.getElementById('modal-item-note').value = '';
 
-            // Hide ice level for Hot drinks
             const isHot = item.isHot || item.name.toLowerCase().startsWith('hot ');
             const iceGroup = document.getElementById('modal-ice-group');
             if (iceGroup) {
@@ -2190,7 +2370,6 @@ const firebaseConfig = {
                 else iceGroup.classList.remove('hidden');
             }
 
-            // Show Extra Bubuk Matcha (+3K) only for Matcha Latte series
             const matchaBox = document.getElementById('modal-matcha-addon');
             const matchaCheck = document.getElementById('extra-matcha-check');
             if (matchaCheck) matchaCheck.checked = false;
@@ -2439,7 +2618,6 @@ const firebaseConfig = {
                 coDiscRow.classList.remove('flex');
             }
 
-            // Render official QRIS SVG
             const qrisWrap = document.getElementById('checkout-qris-wrapper');
             if (qrisWrap) qrisWrap.innerHTML = generateOfficialQrisSvg();
 
@@ -2453,8 +2631,7 @@ const firebaseConfig = {
 
         function handlePaymentMethodChange() {
             const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'COD';
-            const panels = ['cod', 'qris', 'transfer', 'ewallet'];
-            panels.forEach(p => {
+            ['cod', 'qris', 'transfer', 'ewallet'].forEach(p => {
                 const el = document.getElementById(`pay-panel-${p}`);
                 if (el) {
                     if (p === method.toLowerCase()) el.classList.remove('hidden');
@@ -2511,13 +2688,14 @@ const firebaseConfig = {
 
             const { subtotal, discount, total } = getCartTotals();
             const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
             const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const orderId = 'UG-' + Math.floor(1000 + Math.random() * 9000);
 
             const newOrder = {
                 id: orderId,
-                timestamp: Date.now(),
-                createdAt: `Hari ini, ${timeStr}`,
+                timestamp: now.getTime(),
+                createdAt: `${dateStr}, ${timeStr}`,
                 customerName: name,
                 customerWa: wa,
                 outlet: outlet,
@@ -2554,7 +2732,6 @@ const firebaseConfig = {
             syncSingleOrderToCloud(newOrder);
             upsertCustomerFromOrder(newOrder);
 
-            // Reset student cart & upload state
             cart = [];
             appliedVoucher = null;
             uploadedPaymentProofBase64 = '';
@@ -2573,7 +2750,7 @@ const firebaseConfig = {
             showToast(`🎉 Pesanan #${orderId} berhasil dikirim ke outlet!`);
         }
 
-        // ==================== 8. STUDENT ORDER TRACKING & DIGITAL RECEIPT ====================
+        // ==================== 8. STUDENT ORDER TRACKING & RECEIPT ====================
         function openTrackModal(specificId) {
             const orders = getOrders();
             const targetId = specificId || activeOrderId || (orders[0] && orders[0].id);
@@ -2622,7 +2799,6 @@ const firebaseConfig = {
                     <div class="font-display font-extrabold text-sm sm:text-base">${st.label}</div>
                 </div>
 
-                <!-- Step Progress Bar -->
                 <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold">
                     <div class="p-2 rounded-xl ${st.step >= 1 ? 'bg-ugiee-teal text-white' : 'bg-gray-100 text-gray-400'}">1. Diterima</div>
                     <div class="p-2 rounded-xl ${st.step >= 2 ? 'bg-ugiee-teal text-white' : 'bg-gray-100 text-gray-400'}">2. Diracik</div>
@@ -2638,7 +2814,6 @@ const firebaseConfig = {
                     </div>
                 ` : ''}
 
-                <!-- Delivery & Receipt Details -->
                 <div class="p-3.5 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder space-y-2 text-xs">
                     <div class="flex justify-between"><span class="text-gray-500">Pemesan:</span><span class="font-bold text-ugiee-dark">${escapeHtml(order.customerName)} (${escapeHtml(order.customerWa)})</span></div>
                     <div class="flex justify-between"><span class="text-gray-500">Outlet:</span><span class="font-bold text-ugiee-dark">${escapeHtml(order.outlet)}</span></div>
@@ -2646,7 +2821,6 @@ const firebaseConfig = {
                     <div class="flex justify-between"><span class="text-gray-500">Pembayaran:</span><span class="font-extrabold ${order.paymentVerified ? 'text-emerald-700' : 'text-amber-700'}">${escapeHtml(order.paymentMethod)} (${order.paymentVerified ? 'TERVERIFIKASI / SIAP' : 'MENUNGGU VERIFIKASI'})</span></div>
                 </div>
 
-                <!-- Ordered Items -->
                 <div class="space-y-1.5 text-xs">
                     <div class="font-extrabold text-ugiee-dark">Rincian Minuman:</div>
                     ${order.items.map(it => `
@@ -2713,24 +2887,14 @@ const firebaseConfig = {
         }
 
         // ==================== 9. STAFF AUTHENTICATION & STRICT ROLE SEPARATION ====================
-        const STAFF_ACCOUNTS = [
-            { role: 'kasir', username: 'kasir1', pin: '1234', name: 'Rina (Kasir Outlet)' },
-            { role: 'kurir', username: 'kurir1', pin: '1234', name: 'Fajar (Kurir Kampus)' },
-            { role: 'admin', username: 'admin', pin: 'ugiee2026', name: 'Ilham Ismail (Owner/Admin)' }
-        ];
-
         function openStaffLoginModal() {
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-pin').value = '';
             document.getElementById('staff-login-modal').classList.remove('hidden');
         }
 
         function closeStaffLoginModal() {
             document.getElementById('staff-login-modal').classList.add('hidden');
-        }
-
-        function fillDemoLogin(role, user, pin) {
-            document.getElementById('login-role').value = role;
-            document.getElementById('login-username').value = user;
-            document.getElementById('login-pin').value = pin;
         }
 
         function handleStaffLogin(e) {
@@ -2739,9 +2903,14 @@ const firebaseConfig = {
             const username = document.getElementById('login-username').value.trim().toLowerCase();
             const pin = document.getElementById('login-pin').value.trim();
 
-            const match = STAFF_ACCOUNTS.find(acc => acc.role === role && acc.username === username && acc.pin === pin);
+            const accounts = getStaffAccountsData();
+            const match = accounts.find(acc => acc.role === role && acc.username.toLowerCase() === username && acc.pin === pin);
             if (!match) {
                 showToast('❌ Username, PIN, atau Role tidak sesuai!');
+                return;
+            }
+            if (match.active === false) {
+                showToast('⚠️ Akun karyawan ini sedang dinonaktifkan oleh Admin.');
                 return;
             }
 
@@ -2755,12 +2924,10 @@ const firebaseConfig = {
         function activateStaffView() {
             if (!currentStaff) return;
 
-            // Hide student view & student cart buttons completely
             document.getElementById('student-portal-view').classList.add('hidden');
             document.getElementById('student-nav-actions').classList.add('hidden');
             document.getElementById('floating-cart-bar').classList.add('hidden');
 
-            // Show staff navbar & staff view
             const staffNav = document.getElementById('staff-nav-actions');
             staffNav.classList.remove('hidden');
             staffNav.classList.add('flex');
@@ -2772,7 +2939,7 @@ const firebaseConfig = {
             const roleLabels = {
                 kasir: { tag: 'KASIR / BARISTA OUTLET', title: 'Antrean Verifikasi & Peracikan Minuman', sub: 'Verifikasi bukti transfer non-tunai sebelum memproses minuman mahasiswa.' },
                 kurir: { tag: 'KURIR PENGANTAR KAMPUS', title: 'Pengantaran Gratis Ongkir Unimerz', sub: 'Antar minuman ke gedung fakultas dan wajib upload foto serah terima mahasiswa.' },
-                admin: { tag: 'ADMIN / SUPERVISOR / OWNER', title: 'Pusat Kendali UGIEE! Signature Unimerz', sub: 'Kelola pesanan, katalog menu & foto produk, promo voucher, database pelanggan, dan Cloud Firebase.' }
+                admin: { tag: 'ADMIN / SUPERVISOR / OWNER', title: 'Pusat Kendali UGIEE! Signature Unimerz', sub: 'Kelola pesanan, data penjualan, katalog menu & foto, promo, database pelanggan, karyawan, dan Cloud Firebase.' }
             };
 
             const info = roleLabels[currentStaff.role] || roleLabels.kasir;
@@ -2782,15 +2949,12 @@ const firebaseConfig = {
             document.getElementById('staff-portal-subtitle').textContent = info.sub;
 
             const adminTabs = document.getElementById('admin-nav-tabs');
-            const resetBtn = document.getElementById('admin-reset-demo-btn');
             if (currentStaff.role === 'admin') {
                 adminTabs.classList.remove('hidden');
-                resetBtn.classList.remove('hidden');
                 switchAdminSection('orders');
             } else {
                 adminTabs.classList.add('hidden');
-                resetBtn.classList.add('hidden');
-                ['menu', 'promo', 'customers', 'cloud'].forEach(s => {
+                ['sales', 'menu', 'promo', 'customers', 'staff', 'cloud'].forEach(s => {
                     document.getElementById(`staff-section-${s}`)?.classList.add('hidden');
                 });
                 document.getElementById('staff-section-orders')?.classList.remove('hidden');
@@ -2814,7 +2978,19 @@ const firebaseConfig = {
             showToast('Anda telah keluar dari Portal Karyawan.');
         }
 
-        // ==================== 10. STAFF ORDERS DASHBOARD (KASIR, KURIR, ADMIN) ====================
+        function refreshAllStaffViews() {
+            renderStaffDashboard();
+            if (currentStaff && currentStaff.role === 'admin') {
+                renderAdminSalesDashboard();
+                renderAdminMenuTable();
+                renderAdminPromoAndVouchers();
+                renderAdminCustomersTable();
+                renderAdminStaffTable();
+            }
+            showToast('Data diperbarui!');
+        }
+
+        // ==================== 10. STAFF ORDERS DASHBOARD ====================
         function setStaffOrderFilter(filterKey) {
             staffOrderFilter = filterKey;
             document.querySelectorAll('.staff-filter-btn').forEach(btn => {
@@ -2853,7 +3029,7 @@ const firebaseConfig = {
                     <div class="font-display font-extrabold text-xl text-purple-950 mt-0.5">${delivCount}</div>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200">
-                    <div class="text-[11px] font-bold text-emerald-800">Selesai Hari Ini</div>
+                    <div class="text-[11px] font-bold text-emerald-800">Selesai</div>
                     <div class="font-display font-extrabold text-xl text-emerald-950 mt-0.5">${doneCount}</div>
                 </div>
             `;
@@ -2888,7 +3064,6 @@ const firebaseConfig = {
                 const waPhone = normalizeCustomerPhone(order.customerWa);
                 const waMsg = encodeURIComponent(`Halo Kak ${order.customerName}, kami dari tim *UGIEE! Signature* menginfokan pesanan *#${order.id}* tujuan *${order.location} (${order.room})*.`);
 
-                // Role-specific action controls
                 let actionButtons = '';
                 if (isNonCash && !order.paymentVerified && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
                     actionButtons += `
@@ -3007,7 +3182,7 @@ const firebaseConfig = {
                 saveOrders(orders);
                 syncSingleOrderToCloud(orders[idx]);
                 renderStaffDashboard();
-                showToast(`⚠️ Bukti bayar #${orderId} ditolak. Mahasiswa diminta upload ulang.`);
+                showToast(`⚠️ Bukti bayar #${orderId} ditolak.`);
             }
         }
 
@@ -3023,14 +3198,7 @@ const firebaseConfig = {
             }
         }
 
-        function resetDemoOrders() {
-            safeSetLocalStorage('ugiee_unimerz_orders_v7', DEFAULT_ORDERS);
-            syncOrdersToCloud(DEFAULT_ORDERS);
-            renderStaffDashboard();
-            showToast('Data simulasi pesanan berhasil dimuat ulang.');
-        }
-
-        // ==================== 11. COURIER MANDATORY HANDOVER PHOTO MODAL ====================
+        // ==================== 11. COURIER HANDOVER PHOTO ====================
         function openCourierHandoverModal(orderId) {
             const order = getOrders().find(o => o.id === orderId);
             if (!order) return;
@@ -3095,9 +3263,9 @@ const firebaseConfig = {
             }
         }
 
-        // ==================== 12. ADMIN / OWNER TABS & CRUD (MENU, PROMO, CUSTOMERS) ====================
+        // ==================== 12. ADMIN SECTION SWITCHER & DATA PENJUALAN ====================
         function switchAdminSection(sec) {
-            const sections = ['orders', 'menu', 'promo', 'customers', 'cloud'];
+            const sections = ['orders', 'sales', 'menu', 'promo', 'customers', 'staff', 'cloud'];
             sections.forEach(s => {
                 const secEl = document.getElementById(`staff-section-${s}`);
                 const tabEl = document.getElementById(`admin-tab-${s}`);
@@ -3107,22 +3275,248 @@ const firebaseConfig = {
                 }
                 if (tabEl) {
                     if (s === sec) {
-                        tabEl.className = 'flex-1 min-w-[140px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center justify-center gap-1.5';
+                        tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center gap-1.5';
                     } else {
-                        tabEl.className = 'flex-1 min-w-[140px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center justify-center gap-1.5';
+                        tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5';
                     }
                 }
             });
+            if (sec === 'sales') {
+                initSalesFilterDropdowns();
+                renderAdminSalesDashboard();
+            }
             if (sec === 'menu') renderAdminMenuTable();
             if (sec === 'promo') renderAdminPromoAndVouchers();
             if (sec === 'customers') {
                 syncCustomersFromOrderHistory(false);
                 renderAdminCustomersTable();
             }
+            if (sec === 'staff') renderAdminStaffTable();
             if (sec === 'cloud') populateFirebaseSettingsForm(getStoredFirebaseConfig());
         }
 
-        // --- Admin Menu CRUD with Real Photo Upload ---
+        function initSalesFilterDropdowns() {
+            const daySel = document.getElementById('sales-filter-day');
+            const yearSel = document.getElementById('sales-filter-year');
+            if (daySel && daySel.options.length <= 1) {
+                for (let d = 1; d <= 31; d++) {
+                    const opt = document.createElement('option');
+                    opt.value = String(d);
+                    opt.textContent = `Tanggal ${d}`;
+                    daySel.appendChild(opt);
+                }
+            }
+            if (yearSel && yearSel.options.length <= 1) {
+                const currentYear = new Date().getFullYear();
+                const years = [currentYear - 1, currentYear, currentYear + 1];
+                years.forEach(y => {
+                    const opt = document.createElement('option');
+                    opt.value = String(y);
+                    opt.textContent = `Tahun ${y}`;
+                    yearSel.appendChild(opt);
+                });
+            }
+        }
+
+        function setSalesFilterToday() {
+            initSalesFilterDropdowns();
+            const now = new Date();
+            document.getElementById('sales-filter-day').value = String(now.getDate());
+            document.getElementById('sales-filter-month').value = String(now.getMonth() + 1);
+            document.getElementById('sales-filter-year').value = String(now.getFullYear());
+            renderAdminSalesDashboard();
+            showToast('Menampilkan data penjualan hari ini.');
+        }
+
+        function resetSalesFilter() {
+            document.getElementById('sales-filter-day').value = 'ALL';
+            document.getElementById('sales-filter-month').value = 'ALL';
+            document.getElementById('sales-filter-year').value = 'ALL';
+            document.getElementById('sales-filter-status').value = 'ALL';
+            renderAdminSalesDashboard();
+        }
+
+        function getFilteredSalesOrders() {
+            const orders = getOrders();
+            const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
+            const monthVal = document.getElementById('sales-filter-month')?.value || 'ALL';
+            const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
+            const statusVal = document.getElementById('sales-filter-status')?.value || 'ALL';
+
+            return orders.filter(ord => {
+                const d = new Date(ord.timestamp || Date.now());
+                const matchDay = dayVal === 'ALL' || d.getDate() === Number(dayVal);
+                const matchMonth = monthVal === 'ALL' || (d.getMonth() + 1) === Number(monthVal);
+                const matchYear = yearVal === 'ALL' || d.getFullYear() === Number(yearVal);
+                const matchStatus = statusVal === 'ALL'
+                    ? true
+                    : statusVal === 'completed'
+                        ? ord.status === 'completed'
+                        : ord.status !== 'completed';
+                return matchDay && matchMonth && matchYear && matchStatus;
+            });
+        }
+
+        function renderAdminSalesDashboard() {
+            if (!currentStaff || currentStaff.role !== 'admin') return;
+            const filtered = getFilteredSalesOrders();
+
+            const totalRevenue = filtered.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+            const totalOrders = filtered.length;
+            const totalCups = filtered.reduce((sum, o) => {
+                const cups = Array.isArray(o.items) ? o.items.reduce((s, it) => s + (Number(it.qty) || 1), 0) : 0;
+                return sum + cups;
+            }, 0);
+            const avgOrder = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
+
+            document.getElementById('sales-kpi-revenue').textContent = formatRp(totalRevenue);
+            document.getElementById('sales-kpi-orders').textContent = `${totalOrders} Order`;
+            document.getElementById('sales-kpi-cups').textContent = `${totalCups} Cup`;
+            document.getElementById('sales-kpi-avg').textContent = formatRp(avgOrder);
+
+            const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
+            const monthSel = document.getElementById('sales-filter-month');
+            const monthVal = monthSel?.value || 'ALL';
+            const monthName = monthVal !== 'ALL' ? monthSel.options[monthSel.selectedIndex].text : '';
+            const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
+            const parts = [];
+            if (dayVal !== 'ALL') parts.push(`Tgl ${dayVal}`);
+            if (monthVal !== 'ALL') parts.push(monthName);
+            if (yearVal !== 'ALL') parts.push(yearVal);
+            document.getElementById('sales-period-label').textContent = parts.length > 0 ? parts.join(' • ') : 'Semua Periode';
+
+            // Payment method summary
+            const methods = ['COD', 'QRIS', 'TRANSFER', 'EWALLET'];
+            const methodLabels = { COD: 'Tunai / COD', QRIS: 'QRIS Resmi', TRANSFER: 'Transfer Bank', EWALLET: 'E-Wallet' };
+            const breakdownEl = document.getElementById('sales-method-breakdown');
+            if (breakdownEl) {
+                breakdownEl.innerHTML = methods.map(m => {
+                    const mOrders = filtered.filter(o => o.paymentMethod === m);
+                    const mSum = mOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+                    return `
+                        <div class="p-2.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between text-xs">
+                            <span class="font-bold text-gray-600">${methodLabels[m]} (${mOrders.length})</span>
+                            <span class="font-extrabold text-ugiee-dark">${formatRp(mSum)}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const tbody = document.getElementById('sales-table-body');
+            const mobileList = document.getElementById('sales-mobile-list');
+            const emptyState = document.getElementById('sales-empty-state');
+            if (!tbody || !mobileList || !emptyState) return;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                mobileList.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            tbody.innerHTML = filtered.map(ord => {
+                const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+                return `
+                    <tr class="hover:bg-ugiee-sage/30 transition">
+                        <td class="py-3 px-3.5">
+                            <div class="font-extrabold text-ugiee-dark">#${escapeHtml(ord.id)}</div>
+                            <div class="text-[10px] text-gray-400">${escapeHtml(ord.createdAt)}</div>
+                        </td>
+                        <td class="py-3 px-3.5">
+                            <div class="font-bold text-ugiee-dark">${escapeHtml(ord.customerName)}</div>
+                            <div class="text-[10px] text-gray-500">${escapeHtml(ord.location)} • ${escapeHtml(ord.outlet)}</div>
+                        </td>
+                        <td class="py-3 px-3.5 text-gray-600 max-w-[210px] truncate" title="${escapeHtml(itemsText)}">${escapeHtml(itemsText)}</td>
+                        <td class="py-3 px-3.5 font-bold text-ugiee-tealDark">${escapeHtml(ord.paymentMethod)}</td>
+                        <td class="py-3 px-3.5 text-center">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${ord.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                ${ord.status === 'completed' ? 'Selesai' : 'Berjalan'}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(ord.total)}</td>
+                        <td class="py-3 px-3.5 text-center">
+                            <button type="button" onclick="deleteSalesTransaction('${ord.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold text-[11px] cursor-pointer" title="Hapus Transaksi Salah">
+                                <i class="fa-solid fa-trash-can"></i> Hapus
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            mobileList.innerHTML = filtered.map(ord => {
+                const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+                return `
+                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="font-extrabold text-xs text-ugiee-dark">#${escapeHtml(ord.id)}</span>
+                                <span class="text-[10px] text-gray-400 ml-1">${escapeHtml(ord.createdAt)}</span>
+                            </div>
+                            <span class="font-extrabold text-xs text-ugiee-tealDark">${formatRp(ord.total)}</span>
+                        </div>
+                        <div class="text-xs font-bold text-ugiee-dark">${escapeHtml(ord.customerName)} <span class="font-normal text-gray-500">(${escapeHtml(ord.paymentMethod)})</span></div>
+                        <div class="text-[11px] text-gray-600">${escapeHtml(itemsText)}</div>
+                        <div class="flex items-center justify-between pt-1 border-t border-gray-100">
+                            <span class="text-[10px] font-extrabold ${ord.status === 'completed' ? 'text-emerald-700' : 'text-amber-700'}">${ord.status === 'completed' ? '● Selesai' : '● Berjalan'}</span>
+                            <button type="button" onclick="deleteSalesTransaction('${ord.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 text-[11px] font-bold cursor-pointer">
+                                <i class="fa-solid fa-trash-can mr-1"></i> Hapus Data
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteSalesTransaction(orderId) {
+            const orders = getOrders();
+            const target = orders.find(o => o.id === orderId);
+            if (!target) return;
+            const updated = orders.filter(o => o.id !== orderId);
+            saveOrders(updated);
+            if (fbDb) fbDb.ref(`${FIREBASE_ROOT_PATH}/orders/${orderId}`).remove().catch(() => {});
+            renderAdminSalesDashboard();
+            renderStaffDashboard();
+            showToast(`🗑️ Transaksi #${orderId} berhasil dihapus dari data penjualan.`);
+        }
+
+        function exportSalesToCSV() {
+            const filtered = getFilteredSalesOrders();
+            if (filtered.length === 0) {
+                showToast('Tidak ada data penjualan untuk diexport.');
+                return;
+            }
+            const headers = ['No', 'Order ID', 'Waktu', 'Nama Mahasiswa', 'No WA', 'Outlet', 'Gedung Kampus', 'Rincian Menu', 'Metode Bayar', 'Status', 'Total Omzet (Rp)'];
+            const rows = filtered.map((o, idx) => {
+                const itemsStr = (o.items || []).map(i => `${i.qty}x ${i.name}`).join('; ');
+                return [
+                    idx + 1,
+                    `"${o.id}"`,
+                    `"${o.createdAt}"`,
+                    `"${String(o.customerName || '').replace(/"/g, '""')}"`,
+                    `"${String(o.customerWa || '').replace(/"/g, '""')}"`,
+                    `"${String(o.outlet || '').replace(/"/g, '""')}"`,
+                    `"${String(o.location || '').replace(/"/g, '""')}"`,
+                    `"${itemsStr.replace(/"/g, '""')}"`,
+                    `"${o.paymentMethod}"`,
+                    `"${o.status}"`,
+                    Number(o.total) || 0
+                ];
+            });
+            const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Laporan_Penjualan_UGIEE_Unimerz.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showToast('📊 Laporan Penjualan CSV berhasil diunduh!');
+        }
+
+        // ==================== 13. ADMIN MENU CRUD ====================
         function renderAdminMenuTable() {
             const menus = getMenuData();
             const query = (document.getElementById('admin-menu-search')?.value || '').toLowerCase().trim();
@@ -3152,7 +3546,7 @@ const firebaseConfig = {
                             }">
                                 ${item.available !== false ? 'Tersedia' : 'Habis'}
                             </button>
-                            <button type="button" onclick="deleteAdminMenuItem('${item.id}')" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-[11px] cursor-pointer" title="Hapus Menu">
+                            <button type="button" onclick="deleteAdminMenuItem('${item.id}')" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-[11px] cursor-pointer">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -3230,7 +3624,7 @@ const firebaseConfig = {
             if (saveMenuData(menus)) {
                 renderAdminMenuTable();
                 closeAdminMenuModal();
-                showToast(`✅ Menu "${name}" berhasil disimpan & diperbarui!`);
+                showToast(`✅ Menu "${name}" berhasil disimpan!`);
             }
         }
 
@@ -3249,13 +3643,12 @@ const firebaseConfig = {
             const menus = getMenuData();
             const target = menus.find(m => m.id === menuId);
             if (!target) return;
-            const updated = menus.filter(m => m.id !== menuId);
-            saveMenuData(updated);
+            saveMenuData(menus.filter(m => m.id !== menuId));
             renderAdminMenuTable();
             showToast(`Menu "${target.name}" dihapus.`);
         }
 
-        // --- Admin Promo & Voucher CRUD ---
+        // ==================== 14. ADMIN PROMO & VOUCHER CRUD ====================
         function renderAdminPromoAndVouchers() {
             const vouchers = getVouchersData();
             const banners = getBannersData();
@@ -3356,7 +3749,7 @@ const firebaseConfig = {
             showToast('Banner promo dihapus.');
         }
 
-        // --- Admin Customer Database Rendering & CSV Export ---
+        // ==================== 15. ADMIN CUSTOMER DATABASE ====================
         function renderAdminCustomersTable() {
             if (!currentStaff || currentStaff.role !== 'admin') return;
             const customers = getCustomersData();
@@ -3376,9 +3769,7 @@ const firebaseConfig = {
 
             if (kpiTotalEl) kpiTotalEl.textContent = `${customers.length} Mahasiswa`;
             if (kpiOrdersEl) kpiOrdersEl.textContent = `${totalOrdersAll} Order`;
-            if (kpiTopEl) {
-                kpiTopEl.textContent = topCustomer ? `${topCustomer.name} (${topCustomer.totalOrders}x)` : '-';
-            }
+            if (kpiTopEl) kpiTopEl.textContent = topCustomer ? `${topCustomer.name} (${topCustomer.totalOrders}x)` : '-';
 
             const query = (document.getElementById('admin-customer-search')?.value || '').toLowerCase().trim();
             const sortBy = document.getElementById('admin-customer-sort')?.value || 'recent';
@@ -3388,7 +3779,7 @@ const firebaseConfig = {
                 return (
                     (c.name || '').toLowerCase().includes(query) ||
                     (c.phone || '').toLowerCase().includes(query) ||
-                    (c.id || '').includes(query) ||
+                    (c.id || '').toLowerCase().includes(query) ||
                     (c.lastLocation || '').toLowerCase().includes(query)
                 );
             });
@@ -3414,70 +3805,59 @@ const firebaseConfig = {
             emptyState.classList.add('hidden');
 
             tbody.innerHTML = filtered.map((c, idx) => {
-                const waNumber = normalizeCustomerPhone(c.id || c.phone);
-                const promoGreeting = encodeURIComponent(`Halo Kak ${c.name}! 👋 Terima kasih sudah pesan UGIEE! Signature di Kampus Unimerz. Yuk cek promo spesial hari ini!`);
+                const waNumber = normalizeCustomerPhone(c.phone || c.id);
+                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah jajan di *UGIEE! Signature*. Spesial hari ini ada promo *UNIMERZ5K* + Gratis Ongkir ke Kampus Unimerz!`);
                 return `
                     <tr class="hover:bg-ugiee-sage/30 transition">
                         <td class="py-3 px-3.5 text-center font-bold text-gray-500">${idx + 1}</td>
-                        <td class="py-3 px-3.5">
-                            <div class="font-extrabold text-ugiee-dark">${escapeHtml(c.name)}</div>
-                            <div class="text-[10px] text-gray-400">Pertama order: ${escapeHtml(c.firstOrderAt || '-')}</div>
-                        </td>
-                        <td class="py-3 px-3.5 font-mono font-bold text-ugiee-tealDark">
-                            <div class="flex items-center gap-1.5">
-                                <span>${escapeHtml(c.phone)}</span>
-                                <button type="button" onclick="copyTextToClipboard('${escapeHtml(c.phone)}', 'Nomor WA disalin!')" class="text-gray-400 hover:text-ugiee-teal p-1 cursor-pointer"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                        </td>
-                        <td class="py-3 px-3.5 text-gray-600 max-w-[190px] truncate">${escapeHtml(c.lastLocation || '-')}</td>
+                        <td class="py-3 px-3.5 font-extrabold text-ugiee-dark">${escapeHtml(c.name)}</td>
+                        <td class="py-3 px-3.5 font-mono font-bold text-ugiee-tealDark">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</td>
+                        <td class="py-3 px-3.5 text-gray-600">${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</td>
                         <td class="py-3 px-3.5 text-center">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-ugiee-teal/10 text-ugiee-tealDark font-extrabold">${c.totalOrders || 1}x (${c.totalCup || 0} cup)</span>
+                            <span class="px-2 py-0.5 rounded-full bg-ugiee-teal/10 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
+                            <span class="text-[11px] text-gray-500 ml-1">(${Number(c.totalCup) || 0} Cup)</span>
                         </td>
-                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(c.totalSpent || 0)}</td>
-                        <td class="py-3 px-3.5 text-gray-500 text-[11px]">${escapeHtml(c.lastOrderAt || '-')}</td>
+                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(c.totalSpent)}</td>
+                        <td class="py-3 px-3.5 text-[11px] text-gray-500">${escapeHtml(c.lastOrderAt || '-')}</td>
                         <td class="py-3 px-3.5 text-center">
-                            <div class="flex items-center justify-center gap-1.5">
+                            <div class="inline-flex items-center gap-1.5">
                                 <a href="https://wa.me/${waNumber}?text=${promoGreeting}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1">
-                                    <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                    <i class="fa-brands fa-whatsapp"></i> Chat
                                 </a>
-                                <button type="button" onclick="deleteCustomerRecord('${c.id}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                <button type="button" onclick="deleteCustomerRecord('${escapeHtml(c.id)}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-[11px] cursor-pointer" title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
                 `;
             }).join('');
 
-            mobileList.innerHTML = filtered.map((c, idx) => {
-                const waNumber = normalizeCustomerPhone(c.id || c.phone);
-                const promoGreeting = encodeURIComponent(`Halo Kak ${c.name}! 👋 Terima kasih sudah pesan UGIEE! Signature di Kampus Unimerz. Yuk cek promo spesial hari ini!`);
+            mobileList.innerHTML = filtered.map(c => {
+                const waNumber = normalizeCustomerPhone(c.phone || c.id);
+                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah memesan di *UGIEE! Signature*.`);
                 return `
                     <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2">
                         <div class="flex items-start justify-between gap-2">
                             <div>
-                                <div class="flex items-center gap-1.5">
-                                    <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-ugiee-dark text-white">#${idx + 1}</span>
-                                    <h4 class="font-extrabold text-sm text-ugiee-dark">${escapeHtml(c.name)}</h4>
-                                </div>
-                                <div class="flex items-center gap-1.5 mt-1 font-mono text-xs font-bold text-ugiee-tealDark">
-                                    <i class="fa-brands fa-whatsapp text-emerald-600"></i>
-                                    <span>${escapeHtml(c.phone)}</span>
-                                    <button type="button" onclick="copyTextToClipboard('${escapeHtml(c.phone)}', 'Nomor WA disalin!')" class="text-gray-400 hover:text-ugiee-teal px-1 cursor-pointer"><i class="fa-regular fa-copy"></i></button>
-                                </div>
+                                <div class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(c.name)}</div>
+                                <div class="font-mono text-xs font-bold text-ugiee-tealDark mt-0.5">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</div>
                             </div>
-                            <span class="px-2.5 py-1 rounded-xl bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold text-[11px]">${c.totalOrders || 1}x Order</span>
+                            <span class="px-2.5 py-1 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
                         </div>
-                        <div class="text-[11px] text-gray-600 bg-white p-2.5 rounded-xl border border-gray-100 space-y-1">
-                            <div><i class="fa-solid fa-location-dot text-ugiee-teal mr-1"></i><strong>Titik Antar:</strong> ${escapeHtml(c.lastLocation || '-')}</div>
-                            <div class="flex justify-between pt-1 border-t border-gray-100">
-                                <span>Total Cup: <strong>${c.totalCup || 0} cup</strong></span>
-                                <span>Belanja: <strong>${formatRp(c.totalSpent || 0)}</strong></span>
-                            </div>
+                        <div class="text-[11px] text-gray-600 flex flex-wrap items-center justify-between gap-1 pt-1 border-t border-gray-100">
+                            <span>${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</span>
+                            <span class="font-extrabold text-ugiee-dark">${formatRp(c.totalSpent)}</span>
                         </div>
-                        <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center justify-between gap-2 pt-1">
                             <span class="text-[10px] text-gray-400">Terakhir: ${escapeHtml(c.lastOrderAt || '-')}</span>
                             <div class="flex items-center gap-1.5">
-                                <a href="https://wa.me/${waNumber}?text=${promoGreeting}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs inline-flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> Chat WA</a>
-                                <button type="button" onclick="deleteCustomerRecord('${c.id}')" class="px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                <a href="https://wa.me/${waNumber}?text=${promoGreeting}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs inline-flex items-center gap-1">
+                                    <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                </a>
+                                <button type="button" onclick="deleteCustomerRecord('${escapeHtml(c.id)}')" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs cursor-pointer">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -3486,13 +3866,11 @@ const firebaseConfig = {
         }
 
         function deleteCustomerRecord(customerId) {
-            const customers = getCustomersData();
-            const target = customers.find(c => c.id === customerId);
-            if (!target) return;
-            saveCustomersData(customers.filter(c => c.id !== customerId));
+            const updated = getCustomersData().filter(c => c.id !== customerId);
+            saveCustomersData(updated);
             if (fbDb) fbDb.ref(`${FIREBASE_ROOT_PATH}/customers/${customerId}`).remove().catch(() => {});
             renderAdminCustomersTable();
-            showToast(`Data pelanggan "${target.name}" dihapus.`);
+            showToast('Data pelanggan dihapus.');
         }
 
         function exportCustomersToCSV() {
@@ -3501,11 +3879,11 @@ const firebaseConfig = {
                 showToast('Belum ada data pelanggan untuk diexport.');
                 return;
             }
-            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WhatsApp', 'Titik Antar Terakhir', 'Jumlah Pesanan', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Order'];
-            const rows = customers.map((c, index) => [
-                index + 1,
+            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WA', 'Titik Antar Terakhir', 'Total Order', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Memesan'];
+            const rows = customers.map((c, idx) => [
+                idx + 1,
                 `"${String(c.name || '').replace(/"/g, '""')}"`,
-                `"${String(c.phone || '').replace(/"/g, '""')}"`,
+                `"${String(c.phone || formatDisplayPhone(c.id)).replace(/"/g, '""')}"`,
                 `"${String(c.lastLocation || '').replace(/"/g, '""')}"`,
                 Number(c.totalOrders) || 1,
                 Number(c.totalCup) || 0,
@@ -3525,41 +3903,177 @@ const firebaseConfig = {
             showToast('📊 File CSV Database Pelanggan berhasil diunduh!');
         }
 
-        // ==================== 13. INITIALIZE APPLICATION SAFELY ====================
-        function bootstrapApp() {
-            try {
-                renderPromoBanner();
-                startPromoAutoSlide();
-                renderCategoryPills();
-                filterMenu();
-                updateBadges();
-                syncCustomersFromOrderHistory(false);
-                initFirebaseCloudSync();
+        // ==================== 16. ADMIN STAFF MANAGEMENT (KASIR & KURIR) ====================
+        function renderAdminStaffTable() {
+            if (!currentStaff || currentStaff.role !== 'admin') return;
+            const listEl = document.getElementById('admin-staff-list');
+            if (!listEl) return;
 
-                const savedSession = sessionStorage.getItem('ugiee_staff_session');
-                if (savedSession) {
-                    const parsed = JSON.parse(savedSession);
-                    if (parsed && parsed.role) {
-                        currentStaff = parsed;
-                        activateStaffView();
-                        return;
-                    }
-                }
+            const accounts = getStaffAccountsData();
+            listEl.innerHTML = accounts.map(acc => {
+                const isOwner = acc.role === 'admin';
+                const roleBadge = acc.role === 'admin'
+                    ? 'bg-purple-100 text-purple-800 border-purple-200'
+                    : acc.role === 'kasir'
+                        ? 'bg-ugiee-teal/15 text-ugiee-tealDark border-ugiee-teal/30'
+                        : 'bg-amber-100 text-amber-900 border-amber-200';
+                const roleName = acc.role === 'admin' ? 'ADMIN / OWNER' : acc.role === 'kasir' ? 'KASIR OUTLET' : 'KURIR KAMPUS';
+                const isActive = acc.active !== false;
 
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('portal') === 'staff') {
-                    openStaffLoginModal();
+                return `
+                    <div class="p-4 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/25 flex flex-col justify-between space-y-3 ${!isActive ? 'opacity-65' : ''}">
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${roleBadge}">${roleName}</span>
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                    ${isActive ? '● Aktif' : '● Nonaktif'}
+                                </span>
+                            </div>
+                            <h4 class="font-display font-extrabold text-sm sm:text-base text-ugiee-dark">${escapeHtml(acc.name)}</h4>
+                            <div class="text-[11px] text-gray-500"><i class="fa-solid fa-store mr-1"></i>${escapeHtml(acc.outlet || 'Semua Outlet Kampus')}</div>
+                            <div class="p-2 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs font-mono mt-1">
+                                <span>User: <strong>${escapeHtml(acc.username)}</strong></span>
+                                <span>PIN: <strong>${escapeHtml(acc.pin)}</strong></span>
+                            </div>
+                        </div>
+
+                        ${!isOwner ? `
+                            <div class="flex items-center gap-1.5 pt-1">
+                                <button type="button" onclick="openAdminStaffModal('${acc.id}')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white hover:bg-ugiee-teal hover:text-white border border-gray-300 text-xs font-bold transition cursor-pointer">
+                                    <i class="fa-solid fa-pen mr-1"></i> Edit
+                                </button>
+                                <button type="button" onclick="toggleStaffAccountActive('${acc.id}')" class="py-1.5 px-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                                    isActive ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                                }">
+                                    ${isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                                </button>
+                                <button type="button" onclick="deleteStaffAccount('${acc.id}')" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer" title="Hapus Akun">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="text-[11px] text-gray-400 italic pt-1">Akun Utama Supervisor / Owner</div>
+                        `}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openAdminStaffModal(editId = '') {
+            const accounts = getStaffAccountsData();
+            const existing = editId ? accounts.find(a => a.id === editId) : null;
+
+            document.getElementById('admin-staff-modal-title').textContent = existing ? `Edit Akun: ${existing.name}` : 'Tambah Akun Karyawan';
+            document.getElementById('edit-staff-id').value = existing ? existing.id : '';
+            document.getElementById('edit-staff-name').value = existing ? existing.name : '';
+            document.getElementById('edit-staff-role').value = existing ? existing.role : 'kasir';
+            document.getElementById('edit-staff-outlet').value = existing ? (existing.outlet || 'UGIEE! - Antang Raya') : 'UGIEE! - Antang Raya';
+            document.getElementById('edit-staff-username').value = existing ? existing.username : '';
+            document.getElementById('edit-staff-pin').value = existing ? existing.pin : '';
+            document.getElementById('edit-staff-active').checked = existing ? (existing.active !== false) : true;
+
+            document.getElementById('admin-staff-modal').classList.remove('hidden');
+        }
+
+        function closeAdminStaffModal() {
+            document.getElementById('admin-staff-modal').classList.add('hidden');
+        }
+
+        function saveAdminStaffAccount(e) {
+            e.preventDefault();
+            const accounts = getStaffAccountsData();
+            const editId = document.getElementById('edit-staff-id').value;
+            const name = document.getElementById('edit-staff-name').value.trim();
+            const role = document.getElementById('edit-staff-role').value;
+            const outlet = document.getElementById('edit-staff-outlet').value;
+            const username = document.getElementById('edit-staff-username').value.trim().toLowerCase();
+            const pin = document.getElementById('edit-staff-pin').value.trim();
+            const active = document.getElementById('edit-staff-active').checked;
+
+            const duplicateUser = accounts.find(a => a.username.toLowerCase() === username && a.id !== editId);
+            if (duplicateUser) {
+                showToast('⚠️ Username sudah digunakan karyawan lain. Gunakan username berbeda.');
+                return;
+            }
+
+            if (editId) {
+                const idx = accounts.findIndex(a => a.id === editId);
+                if (idx !== -1) {
+                    accounts[idx] = { ...accounts[idx], name, role, outlet, username, pin, active };
                 }
-            } catch (err) {
-                console.error('Bootstrap error:', err);
+            } else {
+                accounts.push({
+                    id: 'st_' + Date.now(),
+                    name, role, outlet, username, pin, active
+                });
+            }
+
+            if (saveStaffAccountsData(accounts)) {
+                renderAdminStaffTable();
+                closeAdminStaffModal();
+                showToast(`✅ Akun karyawan "${name}" berhasil disimpan!`);
             }
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bootstrapApp);
-        } else {
-            bootstrapApp();
+        function toggleStaffAccountActive(staffId) {
+            const accounts = getStaffAccountsData();
+            const idx = accounts.findIndex(a => a.id === staffId);
+            if (idx !== -1 && accounts[idx].role !== 'admin') {
+                accounts[idx].active = accounts[idx].active === false ? true : false;
+                saveStaffAccountsData(accounts);
+                renderAdminStaffTable();
+                showToast(`Status akun "${accounts[idx].name}" diperbarui.`);
+            }
         }
+
+        function deleteStaffAccount(staffId) {
+            const accounts = getStaffAccountsData();
+            const target = accounts.find(a => a.id === staffId);
+            if (!target || target.role === 'admin') return;
+            saveStaffAccountsData(accounts.filter(a => a.id !== staffId));
+            renderAdminStaffTable();
+            showToast(`Akun karyawan "${target.name}" dihapus.`);
+        }
+
+        // ==================== 17. INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('ugiee_menu_data_v4')) {
+                safeSetLocalStorage('ugiee_menu_data_v4', DEFAULT_MENUS);
+            }
+            if (!localStorage.getItem('ugiee_banners_data_v4')) {
+                safeSetLocalStorage('ugiee_banners_data_v4', DEFAULT_BANNERS);
+            }
+            if (!localStorage.getItem('ugiee_vouchers_data_v4')) {
+                safeSetLocalStorage('ugiee_vouchers_data_v4', DEFAULT_VOUCHERS);
+            }
+            if (!localStorage.getItem('ugiee_staff_accounts_v4')) {
+                safeSetLocalStorage('ugiee_staff_accounts_v4', DEFAULT_STAFF_ACCOUNTS);
+            }
+            if (!localStorage.getItem('ugiee_unimerz_orders_v8')) {
+                safeSetLocalStorage('ugiee_unimerz_orders_v8', DEFAULT_ORDERS);
+            }
+
+            renderPromoBanner();
+            startPromoAutoSlide();
+            renderCategoryPills();
+            filterMenu();
+            updateCartUI();
+            updateBadges();
+            syncCustomersFromOrderHistory(false);
+            initFirebaseCloudSync();
+
+            const savedStaff = sessionStorage.getItem('ugiee_staff_session');
+            if (savedStaff) {
+                try {
+                    const parsed = JSON.parse(savedStaff);
+                    const latestAccount = getStaffAccountsData().find(a => a.id === parsed.id && a.active !== false);
+                    if (latestAccount) {
+                        currentStaff = latestAccount;
+                        activateStaffView();
+                    }
+                } catch (e) {}
+            }
+        });
     </script>
 </body>
 </html>
