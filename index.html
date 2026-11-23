@@ -95,15 +95,22 @@
             </div>
 
             <!-- Student Header Actions (Hidden 100% when Staff logs in) -->
-            <div id="student-nav-actions" class="flex items-center gap-2 shrink-0">
-                <button type="button" onclick="openTrackModal()" class="btn-press relative px-3 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/60 text-ugiee-dark font-bold text-xs sm:text-sm flex items-center gap-1.5 border border-ugiee-sageBorder transition cursor-pointer">
+            <div id="student-nav-actions" class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <button type="button" onclick="openLoyaltyModal()" class="btn-press relative px-2.5 sm:px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 font-extrabold text-xs sm:text-sm flex items-center gap-1.5 border border-ugiee-yellow/70 transition cursor-pointer">
+                    <i class="fa-solid fa-crown text-ugiee-yellow"></i>
+                    <span class="hidden md:inline">Kartu Member</span>
+                    <span class="md:hidden">Member</span>
+                    <span id="header-loyalty-badge" class="hidden px-1.5 py-0.5 text-[10px] font-extrabold rounded-full bg-ugiee-teal text-white leading-none">0</span>
+                </button>
+
+                <button type="button" onclick="openTrackModal()" class="btn-press relative px-2.5 sm:px-3 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/60 text-ugiee-dark font-bold text-xs sm:text-sm flex items-center gap-1.5 border border-ugiee-sageBorder transition cursor-pointer">
                     <i class="fa-solid fa-motorcycle text-ugiee-teal"></i>
                     <span class="hidden sm:inline">Lacak Pesanan</span>
                     <span class="sm:hidden">Lacak</span>
                     <span id="track-badge-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 rounded-full bg-rose-500 border-2 border-white animate-pulse"></span>
                 </button>
 
-                <button type="button" onclick="openCartDrawer()" id="header-cart-btn" class="btn-press relative px-3.5 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-sm transition cursor-pointer">
+                <button type="button" onclick="openCartDrawer()" id="header-cart-btn" class="btn-press relative px-3 sm:px-3.5 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 shadow-sm transition cursor-pointer">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span class="hidden sm:inline">Keranjang</span>
                     <span id="header-cart-count" class="px-1.5 py-0.5 text-[11px] font-extrabold rounded-full bg-ugiee-yellow text-ugiee-dark leading-none">0</span>
@@ -233,6 +240,9 @@
 
     <!-- ==================== VIEW 2: STAFF DASHBOARD (KASIR, KURIR, ADMIN/OWNER) ==================== -->
     <main id="staff-portal-view" class="hidden flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 pt-4 pb-16 space-y-5">
+
+        <!-- Repeating Bell Alarm & Browser Push Notification Alert Banner (Kasir & Admin/Owner) -->
+        <div id="staff-alarm-banner" class="hidden p-4 rounded-3xl border-2 shadow-soft transition-all"></div>
 
         <!-- Staff Role Header Banner -->
         <div class="p-4 sm:p-5 rounded-3xl bg-white border border-ugiee-sageBorder shadow-soft flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -487,7 +497,7 @@
             </div>
         </div>
 
-        <!-- STAFF SECTION 5 (ADMIN / OWNER): DATABASE PELANGGAN -->
+        <!-- STAFF SECTION 5 (ADMIN / OWNER): DATABASE PELANGGAN & POIN LOYALTY -->
         <div id="staff-section-customers" class="hidden space-y-5">
             <div class="bg-white p-4 sm:p-6 rounded-3xl border border-ugiee-sageBorder shadow-soft space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-100 pb-4">
@@ -495,8 +505,8 @@
                         <div class="inline-flex items-center gap-1.5 bg-ugiee-teal/10 text-ugiee-tealDark text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1">
                             <i class="fa-solid fa-users-viewfinder"></i> CRM Mahasiswa Universitas Megarezky
                         </div>
-                        <h3 class="font-display font-extrabold text-lg sm:text-xl text-ugiee-dark">Database Pelanggan UGIEE! Signature</h3>
-                        <p class="text-xs text-gray-500 mt-0.5">Otomatis merekam setiap nama & nomor WhatsApp mahasiswa yang memesan minuman melalui aplikasi ini.</p>
+                        <h3 class="font-display font-extrabold text-lg sm:text-xl text-ugiee-dark">Database Pelanggan & Stempel Loyalty UGIEE!</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Otomatis merekam setiap nama, nomor WhatsApp, dan saldo stempel loyalty mahasiswa yang memesan minuman.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 shrink-0">
                         <button type="button" onclick="syncCustomersFromOrderHistory(true)" class="px-3.5 py-2.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/70 text-ugiee-dark font-bold text-xs flex items-center gap-1.5 transition cursor-pointer">
@@ -549,6 +559,7 @@
                         <option value="recent">Urutkan: Terbaru Memesan</option>
                         <option value="orders">Urutkan: Terbanyak Order</option>
                         <option value="spent">Urutkan: Total Belanja Tertinggi</option>
+                        <option value="stamps">Urutkan: Stempel Loyalty Terbanyak</option>
                         <option value="name">Urutkan: Nama (A - Z)</option>
                     </select>
                 </div>
@@ -563,6 +574,7 @@
                                 <th class="py-3 px-3.5">Nama Pelanggan</th>
                                 <th class="py-3 px-3.5">Nomor Telepon / WA</th>
                                 <th class="py-3 px-3.5">Titik Antar Terakhir</th>
+                                <th class="py-3 px-3.5 text-center">Stempel Loyalty</th>
                                 <th class="py-3 px-3.5 text-center">Order & Cup</th>
                                 <th class="py-3 px-3.5 text-right">Total Belanja</th>
                                 <th class="py-3 px-3.5">Terakhir Order</th>
@@ -624,14 +636,14 @@
                             ⚡ Tempel Langsung Kode <code class="bg-white px-1.5 py-0.5 rounded text-ugiee-teal">firebaseConfig</code> dari Firebase Console:
                         </label>
                         <button type="button" onclick="fillDefaultUgieeFirebase()" class="text-[11px] font-bold text-ugiee-teal hover:underline cursor-pointer">
-                            Isi URL UGIEE Supply Chain
+                            Isi URL UGIEE Delivery
                         </button>
                     </div>
                     <textarea id="firebase-raw-paste" rows="4" placeholder='Tempel snippet firebaseConfig di sini, contoh:
 const firebaseConfig = {
   apiKey: "AIzaSy...",
-  databaseURL: "https://ugiee-supply-chain-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "ugiee-supply-chain"
+  databaseURL: "https://ugieedelivery-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "ugieedelivery"
 };' class="w-full p-3 rounded-xl border border-gray-300 bg-white font-mono text-[11px] focus:outline-none focus:border-ugiee-teal"></textarea>
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <span class="text-[11px] text-gray-500">Otomatis mengekstrak seluruh parameter config dari teks tempelan.</span>
@@ -645,7 +657,7 @@ const firebaseConfig = {
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="sm:col-span-2">
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">Database URL (Wajib untuk Realtime Database) *</label>
-                            <input type="url" id="fb-databaseURL" required placeholder="https://ugiee-supply-chain-default-rtdb.asia-southeast1.firebasedatabase.app" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
+                            <input type="url" id="fb-databaseURL" required placeholder="https://ugieedelivery-default-rtdb.asia-southeast1.firebasedatabase.app" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">API Key *</label>
@@ -653,15 +665,15 @@ const firebaseConfig = {
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">Project ID *</label>
-                            <input type="text" id="fb-projectId" required placeholder="ugiee-supply-chain" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
+                            <input type="text" id="fb-projectId" required placeholder="ugieedelivery" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">Auth Domain</label>
-                            <input type="text" id="fb-authDomain" placeholder="ugiee-supply-chain.firebaseapp.com" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
+                            <input type="text" id="fb-authDomain" placeholder="ugieedelivery.firebaseapp.com" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">App ID</label>
-                            <input type="text" id="fb-appId" placeholder="1:123456789:web:abcdef" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
+                            <input type="text" id="fb-appId" placeholder="1:692721755802:web:..." class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-xs focus:outline-none focus:border-ugiee-teal">
                         </div>
                     </div>
 
@@ -812,6 +824,15 @@ const firebaseConfig = {
                     </div>
                 </div>
 
+                <!-- Quick Loyalty Card Link inside Cart Drawer -->
+                <div id="cart-loyalty-promo-strip" class="p-2.5 rounded-2xl bg-amber-50 border border-ugiee-yellow/60 flex items-center justify-between gap-2 text-xs">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <i class="fa-solid fa-crown text-ugiee-yellow shrink-0"></i>
+                        <span id="cart-loyalty-strip-text" class="text-[11px] font-bold text-amber-950 truncate">Punya Stempel Madu? Tukar gratis topping/cup saat checkout!</span>
+                    </div>
+                    <button type="button" onclick="closeCartDrawer(); openLoyaltyModal();" class="text-[11px] font-extrabold text-ugiee-tealDark hover:underline shrink-0 cursor-pointer">Cek Poin</button>
+                </div>
+
                 <div class="space-y-1 text-xs">
                     <div class="flex justify-between text-gray-600">
                         <span>Subtotal Minuman</span>
@@ -820,6 +841,10 @@ const firebaseConfig = {
                     <div id="cart-discount-row" class="hidden justify-between text-emerald-600 font-bold">
                         <span>Diskon Voucher</span>
                         <span id="cart-discount-val">-Rp 0</span>
+                    </div>
+                    <div id="cart-loyalty-row" class="hidden justify-between text-amber-800 font-bold">
+                        <span>Hadiah Poin Loyalty</span>
+                        <span id="cart-loyalty-val">-Rp 0</span>
                     </div>
                     <div class="flex justify-between text-ugiee-tealDark font-bold">
                         <span>Ongkir Kampus Unimerz</span>
@@ -860,8 +885,25 @@ const firebaseConfig = {
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">Nomor WhatsApp Aktif *</label>
-                        <input type="tel" id="cust-wa" required placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-ugiee-teal">
+                        <input type="tel" id="cust-wa" required oninput="handleCheckoutPhoneInput()" placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-ugiee-teal">
                     </div>
+                </div>
+
+                <!-- Digital Loyalty Member Auto-Detect & Reward Redemption Box -->
+                <div id="checkout-loyalty-box" class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 via-yellow-50/80 to-emerald-50/60 border border-ugiee-yellow/70 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-xl bg-ugiee-yellow text-ugiee-dark flex items-center justify-center text-xs font-extrabold shrink-0">
+                                <i class="fa-solid fa-crown"></i>
+                            </span>
+                            <div>
+                                <div class="text-xs font-extrabold text-ugiee-dark">Member Loyalty UGIEE! Signature</div>
+                                <div id="co-loyalty-status-text" class="text-[11px] text-gray-600">Masukkan No. WhatsApp untuk cek stempel madu (1 Cup = 1 Stempel)!</div>
+                            </div>
+                        </div>
+                        <span id="co-loyalty-stamp-pill" class="px-2.5 py-1 rounded-full bg-white border border-ugiee-yellow text-amber-900 font-extrabold text-[11px] shrink-0">0 / 10 Stempel</span>
+                    </div>
+                    <div id="co-loyalty-redeem-actions" class="hidden grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
                 </div>
 
                 <div>
@@ -996,6 +1038,7 @@ const firebaseConfig = {
                 <div class="p-3.5 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder space-y-1 text-xs">
                     <div class="flex justify-between"><span>Subtotal</span><span id="co-subtotal" class="font-bold">Rp 0</span></div>
                     <div id="co-discount-row" class="hidden justify-between text-emerald-700 font-bold"><span>Diskon Voucher</span><span id="co-discount">-Rp 0</span></div>
+                    <div id="co-loyalty-discount-row" class="hidden justify-between text-amber-800 font-extrabold"><span>Hadiah Poin Loyalty</span><span id="co-loyalty-discount">-Rp 0</span></div>
                     <div class="flex justify-between text-ugiee-tealDark font-bold"><span>Ongkir Kampus Unimerz</span><span>GRATIS</span></div>
                     <div class="flex justify-between text-sm font-display font-extrabold text-ugiee-dark pt-1 border-t border-ugiee-sageBorder">
                         <span>Total Pembayaran</span>
@@ -1214,7 +1257,7 @@ const firebaseConfig = {
                         <label class="block text-xs font-bold text-gray-700 mb-1">Penugasan Outlet *</label>
                         <select id="edit-staff-outlet" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white font-bold">
                             <option value="UGIEE! - Antang Raya">UGIEE! - Antang Raya</option>
-                            <option value="UGIEE Boba & Kopi - Paleo Raya">UGIEE Boba & Kopi - Paleo Raya</option>
+                            <option value="UGIEE! - Foodcourt UNIMERZ">UGIEE! - Foodcourt UNIMERZ</option>
                             <option value="Semua Outlet Kampus">Semua Outlet Kampus</option>
                         </select>
                     </div>
@@ -1240,6 +1283,101 @@ const firebaseConfig = {
                     Simpan Akun Karyawan
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 10: DIGITAL LOYALTY CARD (10 STEMPEL MADU) ==================== -->
+    <div id="loyalty-modal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[93vh] flex flex-col">
+            <div class="p-4 bg-gradient-to-r from-ugiee-tealDark via-ugiee-teal to-emerald-600 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-ugiee-yellow text-ugiee-dark flex items-center justify-center text-base font-extrabold shadow-xs">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-extrabold text-base leading-tight">UGIEE! Honey Loyalty Card</h3>
+                        <p class="text-[11px] text-white/85">1 Cup Terverifikasi = +1 Stempel Madu • Gratis Topping & Minuman</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeLoyaltyModal()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs sm:text-sm">
+                <!-- Lookup Member by WhatsApp -->
+                <form onsubmit="lookupLoyaltyMember(event)" class="p-3.5 rounded-2xl bg-ugiee-sage/70 border border-ugiee-sageBorder space-y-2">
+                    <label class="block text-xs font-extrabold text-ugiee-dark">Cek Kartu Member dengan Nomor WhatsApp:</label>
+                    <div class="flex gap-2">
+                        <input type="tel" id="loyalty-phone-input" required placeholder="Contoh: 081234567890" class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 bg-white font-mono text-xs sm:text-sm focus:outline-none focus:border-ugiee-teal">
+                        <button type="submit" class="btn-press px-4 py-2.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs cursor-pointer shrink-0">
+                            Cek Poin
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Visual Honeycomb Loyalty Card -->
+                <div id="loyalty-card-display" class="rounded-3xl p-4 sm:p-5 bg-gradient-to-br from-ugiee-dark via-emerald-950 to-ugiee-tealDark text-white shadow-xl border border-ugiee-yellow/50 relative overflow-hidden space-y-4">
+                    <div class="flex items-start justify-between gap-2 relative z-10">
+                        <div>
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ugiee-yellow text-ugiee-dark text-[10px] font-extrabold uppercase tracking-wider">
+                                <span>🐝 BEE MEMBER UNIMERZ</span>
+                            </div>
+                            <h4 id="loyalty-member-name" class="font-display font-extrabold text-base sm:text-lg mt-1.5">Mahasiswa UGIEE!</h4>
+                            <p id="loyalty-member-phone" class="font-mono text-xs text-emerald-200">Masukkan No. WA di atas</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-[10px] uppercase tracking-wider text-white/70 font-bold">Saldo Stempel</div>
+                            <div id="loyalty-stamp-counter" class="font-display font-extrabold text-2xl text-ugiee-yellowLight">0 / 10</div>
+                        </div>
+                    </div>
+
+                    <!-- 10 Honeycomb Stamp Slots -->
+                    <div id="loyalty-honeycomb-grid" class="grid grid-cols-5 gap-2.5 relative z-10"></div>
+
+                    <div class="text-[11px] text-white/80 flex items-center justify-between pt-2 border-t border-white/15 relative z-10">
+                        <span>1 Cup Terverifikasi = +1 Stempel Madu</span>
+                        <span class="font-bold text-ugiee-yellowLight">Kampus Megarezky</span>
+                    </div>
+                </div>
+
+                <!-- Reward Redemption Tiers -->
+                <div class="space-y-2.5">
+                    <div class="font-display font-extrabold text-xs sm:text-sm text-ugiee-dark">Hadiah Penukaran Stempel Madu:</div>
+
+                    <div class="p-3.5 rounded-2xl border border-amber-300 bg-amber-50/70 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-2xl bg-ugiee-yellow text-ugiee-dark font-display font-extrabold text-xs flex flex-col items-center justify-center shrink-0">
+                                <span>5</span>
+                                <span class="text-[9px] leading-none">POIN</span>
+                            </div>
+                            <div>
+                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis Topping Pilihan</div>
+                                <div class="text-[11px] text-gray-600">Boba Aren / Extra Bubuk Matcha (Potongan Rp 3.000)</div>
+                            </div>
+                        </div>
+                        <button type="button" id="btn-redeem-tier5" onclick="selectLoyaltyRewardFromModal('TOPPING_5')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer">
+                            Tukar 5 Poin
+                        </button>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl border border-ugiee-teal/40 bg-emerald-50/70 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-2xl bg-ugiee-teal text-white font-display font-extrabold text-xs flex flex-col items-center justify-center shrink-0">
+                                <span>10</span>
+                                <span class="text-[9px] leading-none">POIN</span>
+                            </div>
+                            <div>
+                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis 1 Cup Minuman Favorit</div>
+                                <div class="text-[11px] text-gray-600">Potongan langsung hingga Rp 15.000 untuk semua varian menu!</div>
+                            </div>
+                        </div>
+                        <button type="button" id="btn-redeem-tier10" onclick="selectLoyaltyRewardFromModal('DRINK_10')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer">
+                            Tukar 10 Poin
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1281,17 +1419,19 @@ const firebaseConfig = {
 
         let toastTimer = null;
         function showToast(msg) {
-            const toast = document.getElementById('toast-notification');
-            const textEl = document.getElementById('toast-message');
-            if (!toast || !textEl) return;
-            textEl.textContent = msg;
-            toast.classList.remove('opacity-0', '-translate-y-2');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                toast.classList.remove('opacity-100', 'translate-y-0');
-            }, 3000);
+            try {
+                const toast = document.getElementById('toast-notification');
+                const textEl = document.getElementById('toast-message');
+                if (!toast || !textEl) return;
+                textEl.textContent = msg;
+                toast.classList.remove('opacity-0', '-translate-y-2');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toast.classList.add('opacity-0', '-translate-y-2');
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                }, 3000);
+            } catch (e) {}
         }
 
         function copyTextToClipboard(text, successMsg = 'Berhasil disalin!') {
@@ -1313,34 +1453,38 @@ const firebaseConfig = {
 
         function compressImageFile(file, maxDim = 560, quality = 0.72, callback) {
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    let w = img.width;
-                    let h = img.height;
-                    if (w > maxDim || h > maxDim) {
-                        if (w > h) {
-                            h = Math.round((h * maxDim) / w);
-                            w = maxDim;
-                        } else {
-                            w = Math.round((w * maxDim) / h);
-                            h = maxDim;
+            try {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxDim || h > maxDim) {
+                            if (w > h) {
+                                h = Math.round((h * maxDim) / w);
+                                w = maxDim;
+                            } else {
+                                w = Math.round((w * maxDim) / h);
+                                h = maxDim;
+                            }
                         }
-                    }
-                    canvas.width = w;
-                    canvas.height = h;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, w, h);
-                    callback(canvas.toDataURL('image/jpeg', quality));
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        callback(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = function() {
+                        showToast('Format gambar tidak valid.');
+                    };
+                    img.src = evt.target.result;
                 };
-                img.onerror = function() {
-                    showToast('Format gambar tidak valid.');
-                };
-                img.src = evt.target.result;
-            };
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            } catch (e) {
+                showToast('Gagal memproses file gambar.');
+            }
         }
 
         function generateDrinkDataUri(bgTop, bgBottom, liquidTop, liquidBottom, toppingType = 'boba', isHot = false) {
@@ -1532,7 +1676,7 @@ const firebaseConfig = {
                 customerName: 'Aulia Putri (Farmasi)',
                 customerWa: '081241009988',
                 outlet: 'UGIEE! - Antang Raya',
-                location: 'Gedung Farmasi & FIKES',
+                location: 'Gedung D FKIP & Farmasi',
                 room: 'Lantai 2 Depan Lab Kimia',
                 items: [
                     { name: 'Matcha Boba', size: 'S', qty: 2, unitPrice: 15000, ice: 'Normal Ice', sugar: 'Less Sugar', extraMatcha: false, note: '' },
@@ -1541,6 +1685,8 @@ const firebaseConfig = {
                 subtotal: 40000,
                 discount: 5000,
                 voucherCode: 'UNIMERZ5K',
+                loyaltyRewardUsed: '',
+                loyaltyDiscount: 0,
                 total: 35000,
                 paymentMethod: 'COD',
                 codAmount: 'Rp 50.000',
@@ -1561,7 +1707,10 @@ const firebaseConfig = {
         let cart = [];
         let appliedVoucher = null;
         let uploadedPaymentProofBase64 = '';
-        let activeOrderId = localStorage.getItem('ugiee_active_order_id') || '';
+        let activeOrderId = '';
+        try {
+            activeOrderId = localStorage.getItem('ugiee_active_order_id') || '';
+        } catch (e) {}
         let currentStaff = null;
         let staffOrderFilter = 'all';
         let activeHandoverOrderId = '';
@@ -1569,6 +1718,17 @@ const firebaseConfig = {
         let adminUploadedMenuPhotoBase64 = '';
         let currentPromoSlide = 0;
         let promoSlideInterval = null;
+
+        // Loyalty & Repeating Bell Alarm State
+        let selectedLoyaltyReward = null; // null | 'TOPPING_5' | 'DRINK_10'
+        let savedMemberPhone = '';
+        try {
+            savedMemberPhone = localStorage.getItem('ugiee_member_phone') || '';
+        } catch (e) {}
+        let staffAlarmInterval = null;
+        let staffAlarmMuted = false;
+        let sharedAudioCtx = null;
+        let notifiedBrowserOrderIds = new Set();
 
         function getMenuData() {
             try {
@@ -1671,17 +1831,240 @@ const firebaseConfig = {
             return false;
         }
 
-        // ==================== 3. FIREBASE REALTIME DATABASE ENGINE ====================
+        // ==================== 3. REPEATING BELL ALARM & MOBILE BROWSER NOTIFICATIONS ====================
+        function ensureStaffAudioContext() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return null;
+                if (!sharedAudioCtx) {
+                    sharedAudioCtx = new AudioCtx();
+                }
+                if (sharedAudioCtx.state === 'suspended') {
+                    sharedAudioCtx.resume().catch(() => {});
+                }
+                return sharedAudioCtx;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function playStaffNotificationChime() {
+            try {
+                const ctx = ensureStaffAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                // Double-ring cashier service bell (E5 -> B5 -> E6, repeated cleanly)
+                const notes = [
+                    { freq: 659.25, start: 0.00, dur: 0.30, gain: 0.24 },
+                    { freq: 987.77, start: 0.11, dur: 0.38, gain: 0.28 },
+                    { freq: 1318.51, start: 0.22, dur: 0.50, gain: 0.22 },
+                    { freq: 987.77, start: 0.62, dur: 0.36, gain: 0.24 },
+                    { freq: 1318.51, start: 0.74, dur: 0.60, gain: 0.26 }
+                ];
+
+                notes.forEach(n => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(n.freq, now + n.start);
+                    gain.gain.setValueAtTime(0.001, now + n.start);
+                    gain.gain.linearRampToValueAtTime(n.gain, now + n.start + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.0008, now + n.start + n.dur);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + n.start);
+                    osc.stop(now + n.start + n.dur + 0.03);
+                });
+            } catch (e) {}
+        }
+
+        function requestBrowserNotificationPermission(showFeedback = true) {
+            try {
+                ensureStaffAudioContext();
+                playStaffNotificationChime();
+                if (typeof Notification === 'undefined') {
+                    if (showFeedback) showToast('🔔 Suara alarm lonceng diaktifkan!');
+                    updateStaffAlarmBanner();
+                    return;
+                }
+                Notification.requestPermission().then(perm => {
+                    updateStaffAlarmBanner();
+                    if (showFeedback) {
+                        if (perm === 'granted') {
+                            showToast('🔔 Suara Lonceng & Notifikasi Browser HP Aktif!');
+                            try {
+                                new Notification('UGIEE! Signature — Alarm Kasir Aktif', {
+                                    body: 'Notifikasi pesanan masuk dan verifikasi pembayaran sudah aktif di perangkat ini.'
+                                });
+                            } catch (e) {}
+                        } else {
+                            showToast('🔔 Suara lonceng aktif! Izinkan notifikasi di browser jika ingin popup HP.');
+                        }
+                    }
+                }).catch(() => {});
+            } catch (e) {}
+        }
+
+        function triggerMobileBrowserPushNotification(orderObj) {
+            try {
+                if (!orderObj || !currentStaff) return;
+                if (currentStaff.role !== 'kasir' && currentStaff.role !== 'admin') return;
+                if (notifiedBrowserOrderIds.has(orderObj.id)) return;
+                notifiedBrowserOrderIds.add(orderObj.id);
+
+                if (navigator.vibrate) {
+                    navigator.vibrate([300, 150, 300]);
+                }
+
+                if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+                    const notif = new Notification(`🔔 Pesanan Baru #${orderObj.id} — UGIEE!`, {
+                        body: `${orderObj.customerName} (${orderObj.location}) • ${formatRp(orderObj.total)} [${orderObj.paymentMethod}]`,
+                        tag: `ugiee-order-${orderObj.id}`,
+                        requireInteraction: true
+                    });
+                    notif.onclick = function() {
+                        window.focus();
+                        notif.close();
+                    };
+                }
+            } catch (e) {}
+        }
+
+        function getUnprocessedAlertOrders() {
+            const orders = getOrders();
+            return orders.filter(o => o.status === 'pending_payment' || o.status === 'pending');
+        }
+
+        function startStaffRepeatingBellMonitor() {
+            try {
+                stopStaffRepeatingBellMonitor();
+                if (!currentStaff || (currentStaff.role !== 'kasir' && currentStaff.role !== 'admin')) {
+                    const banner = document.getElementById('staff-alarm-banner');
+                    if (banner) banner.classList.add('hidden');
+                    return;
+                }
+
+                updateStaffAlarmBanner();
+                const initialPending = getUnprocessedAlertOrders();
+                if (initialPending.length > 0 && !staffAlarmMuted) {
+                    playStaffNotificationChime();
+                }
+
+                staffAlarmInterval = setInterval(() => {
+                    if (!currentStaff || (currentStaff.role !== 'kasir' && currentStaff.role !== 'admin')) {
+                        stopStaffRepeatingBellMonitor();
+                        return;
+                    }
+                    const urgentOrders = getUnprocessedAlertOrders();
+                    updateStaffAlarmBanner();
+                    if (urgentOrders.length > 0 && !staffAlarmMuted) {
+                        playStaffNotificationChime();
+                        try {
+                            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                        } catch (e) {}
+                    }
+                }, 5000);
+            } catch (e) {}
+        }
+
+        function stopStaffRepeatingBellMonitor() {
+            if (staffAlarmInterval) {
+                clearInterval(staffAlarmInterval);
+                staffAlarmInterval = null;
+            }
+        }
+
+        function toggleStaffAlarmMute() {
+            staffAlarmMuted = !staffAlarmMuted;
+            updateStaffAlarmBanner();
+            if (!staffAlarmMuted) {
+                playStaffNotificationChime();
+                showToast('🔔 Suara lonceng pengingat diaktifkan kembali.');
+            } else {
+                showToast('🔇 Suara lonceng dibisukan sementara.');
+            }
+        }
+
+        function updateStaffAlarmBanner() {
+            try {
+                const banner = document.getElementById('staff-alarm-banner');
+                if (!banner) return;
+                if (!currentStaff || (currentStaff.role !== 'kasir' && currentStaff.role !== 'admin')) {
+                    banner.classList.add('hidden');
+                    return;
+                }
+
+                const urgentOrders = getUnprocessedAlertOrders();
+                const notifGranted = (typeof Notification !== 'undefined') && Notification.permission === 'granted';
+                banner.classList.remove('hidden');
+
+                if (urgentOrders.length > 0) {
+                    const verifyCount = urgentOrders.filter(o => o.status === 'pending_payment').length;
+                    const newCodCount = urgentOrders.filter(o => o.status === 'pending').length;
+
+                    banner.className = 'p-4 rounded-3xl border-2 border-rose-400 bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-3 animate-pulse';
+                    banner.innerHTML = `
+                        <div class="flex items-start sm:items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-white text-rose-600 flex items-center justify-center text-xl shrink-0 animate-bounce shadow-sm">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded-full bg-ugiee-yellow text-ugiee-dark text-[10px] font-extrabold uppercase">ALARM PESANAN MASUK</span>
+                                    <span class="text-xs font-extrabold">${urgentOrders.length} Pesanan Menunggu Diproses!</span>
+                                </div>
+                                <p class="text-[11px] sm:text-xs text-white/95 mt-0.5">
+                                    ${verifyCount > 0 ? `<strong>${verifyCount} menunggu verifikasi transfer</strong>` : ''}
+                                    ${verifyCount > 0 && newCodCount > 0 ? ' • ' : ''}
+                                    ${newCodCount > 0 ? `<strong>${newCodCount} pesanan baru siap diracik</strong>` : ''}
+                                    . Lonceng berdering tiap 5 detik hingga diproses.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <button type="button" onclick="requestBrowserNotificationPermission(true)" class="btn-press px-3 py-2 rounded-xl bg-white text-rose-700 hover:bg-amber-50 font-extrabold text-xs shadow-2xs cursor-pointer flex items-center gap-1.5">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <span>${notifGranted ? 'Tes Lonceng' : 'Aktifkan Suara & Notifikasi HP'}</span>
+                            </button>
+                            <button type="button" onclick="toggleStaffAlarmMute()" class="btn-press px-3 py-2 rounded-xl bg-black/25 hover:bg-black/40 text-white border border-white/25 font-bold text-xs cursor-pointer flex items-center gap-1.5">
+                                <i class="fa-solid ${staffAlarmMuted ? 'fa-bell-slash' : 'fa-volume-xmark'}"></i>
+                                <span>${staffAlarmMuted ? 'Bunyikan Lagi' : 'Bisukan Sementara (Mute)'}</span>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    banner.className = 'p-3.5 rounded-2xl border border-ugiee-sageBorder bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2.5';
+                    banner.innerHTML = `
+                        <div class="flex items-center gap-2.5 text-xs">
+                            <span class="w-8 h-8 rounded-xl bg-emerald-100 text-ugiee-tealDark flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-bell"></i>
+                            </span>
+                            <div>
+                                <div class="font-extrabold text-ugiee-dark">Sistem Lonceng Kasir & Notifikasi HP Siaga</div>
+                                <div class="text-[11px] text-gray-500">Semua pesanan masuk sudah diverifikasi/diproses. Lonceng otomatis berdering jika ada order baru.</div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="requestBrowserNotificationPermission(true)" class="btn-press self-start sm:self-center px-3 py-2 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder/70 text-ugiee-tealDark border border-ugiee-sageBorder font-extrabold text-xs cursor-pointer flex items-center gap-1.5 shrink-0">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                            <span>${notifGranted ? 'Tes Lonceng' : 'Aktifkan Suara & Notifikasi HP'}</span>
+                        </button>
+                    `;
+                }
+            } catch (e) {}
+        }
+
+        // ==================== 4. FIREBASE REALTIME DATABASE ENGINE ====================
         const MANUAL_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyD_ELDYuwTPEtsHD1pQ1XDot0NvB6EqsmQ",
-  authDomain: "ugieedelivery.firebaseapp.com",
-  databaseURL: "https://ugieedelivery-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  projectId: "ugieedelivery",
-  storageBucket: "ugieedelivery.firebasestorage.app",
-  messagingSenderId: "692721755802",
-  appId: "1:692721755802:web:e8d92fa9e0b25ae9e2e123",
-  measurementId: "G-7VKMB43CT8"
-};
+            apiKey: "AIzaSyD_ELDYuwTPEtsHD1pQ1XDot0NvB6EqsmQ",
+            authDomain: "ugieedelivery.firebaseapp.com",
+            databaseURL: "https://ugieedelivery-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "ugieedelivery",
+            storageBucket: "ugieedelivery.firebasestorage.app",
+            messagingSenderId: "692721755802",
+            appId: "1:692721755802:web:e8d92fa9e0b25ae9e2e123",
+            measurementId: "G-7VKMB43CT8"
+        };
         const FIREBASE_ROOT_PATH = 'ugiee_campus';
         let fbDb = null;
         let isCloudConnected = false;
@@ -1703,58 +2086,39 @@ const firebaseConfig = {
         }
 
         function updateCloudStatusIndicators(connected, labelText = '') {
-            isCloudConnected = connected;
-            const studentBadge = document.getElementById('student-cloud-status');
-            const staffPill = document.getElementById('staff-cloud-pill');
-            const adminBadge = document.getElementById('admin-cloud-badge');
-
-            if (connected) {
-                if (studentBadge) {
-                    studentBadge.className = 'inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
-                    studentBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Cloud Sync';
-                }
-                if (staffPill) {
-                    staffPill.className = 'text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800';
-                    staffPill.textContent = '● Cloud Live';
-                }
-                if (adminBadge) {
-                    adminBadge.className = 'self-start sm:self-center px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-2 shrink-0';
-                    adminBadge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span><span>${escapeHtml(labelText || 'Cloud Terhubung (Live Sync)')}</span>`;
-                }
-            } else {
-                if (studentBadge) {
-                    studentBadge.className = 'inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-200/80 text-gray-600';
-                    studentBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Mode Lokal';
-                }
-                if (staffPill) {
-                    staffPill.className = 'text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-gray-200 text-gray-600';
-                    staffPill.textContent = 'Mode Lokal';
-                }
-                if (adminBadge) {
-                    adminBadge.className = 'self-start sm:self-center px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-2 shrink-0';
-                    adminBadge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>${escapeHtml(labelText || 'Mode Lokal (Belum Terhubung)')}</span>`;
-                }
-            }
-        }
-
-        function playStaffNotificationChime() {
             try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (!AudioCtx) return;
-                const ctx = new AudioCtx();
-                if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-                const now = ctx.currentTime;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, now);
-                osc.frequency.setValueAtTime(880, now + 0.14);
-                gain.gain.setValueAtTime(0.16, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.46);
+                isCloudConnected = connected;
+                const studentBadge = document.getElementById('student-cloud-status');
+                const staffPill = document.getElementById('staff-cloud-pill');
+                const adminBadge = document.getElementById('admin-cloud-badge');
+
+                if (connected) {
+                    if (studentBadge) {
+                        studentBadge.className = 'inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+                        studentBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Cloud Sync';
+                    }
+                    if (staffPill) {
+                        staffPill.className = 'text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800';
+                        staffPill.textContent = '● Cloud Live';
+                    }
+                    if (adminBadge) {
+                        adminBadge.className = 'self-start sm:self-center px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-2 shrink-0';
+                        adminBadge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span><span>${escapeHtml(labelText || 'Cloud Terhubung (Live Sync)')}</span>`;
+                    }
+                } else {
+                    if (studentBadge) {
+                        studentBadge.className = 'inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-200/80 text-gray-600';
+                        studentBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Mode Lokal';
+                    }
+                    if (staffPill) {
+                        staffPill.className = 'text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-gray-200 text-gray-600';
+                        staffPill.textContent = 'Mode Lokal';
+                    }
+                    if (adminBadge) {
+                        adminBadge.className = 'self-start sm:self-center px-3.5 py-2 rounded-2xl text-xs font-extrabold bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-2 shrink-0';
+                        adminBadge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>${escapeHtml(labelText || 'Mode Lokal (Belum Terhubung)')}</span>`;
+                    }
+                }
             } catch (e) {}
         }
 
@@ -1806,10 +2170,12 @@ const firebaseConfig = {
                         cloudOrders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
                         if (initialOrdersLoaded && currentStaff) {
-                            const hasNewOrder = cloudOrders.some(o => !knownOrderIds.has(o.id));
-                            if (hasNewOrder) {
+                            const newOrders = cloudOrders.filter(o => !knownOrderIds.has(o.id));
+                            if (newOrders.length > 0) {
+                                staffAlarmMuted = false;
                                 playStaffNotificationChime();
-                                showToast('🔔 Pesanan Mahasiswa Baru Masuk!');
+                                newOrders.forEach(no => triggerMobileBrowserPushNotification(no));
+                                showToast(`🔔 ${newOrders.length} Pesanan Mahasiswa Baru Masuk!`);
                             }
                         }
 
@@ -1821,6 +2187,7 @@ const firebaseConfig = {
                         updateBadges();
 
                         if (currentStaff) {
+                            updateStaffAlarmBanner();
                             renderStaffDashboard();
                             if (currentStaff.role === 'admin') {
                                 renderAdminSalesDashboard();
@@ -1845,6 +2212,7 @@ const firebaseConfig = {
                         const cloudCustomers = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
                         safeSetLocalStorage('ugiee_campus_customers_v1', cloudCustomers);
                         updateAdminCustomerBadge();
+                        updateHeaderLoyaltyBadge();
                         if (currentStaff && currentStaff.role === 'admin') renderAdminCustomersTable();
                     } else {
                         syncCustomersFromOrderHistory(false);
@@ -1982,10 +2350,10 @@ const firebaseConfig = {
 
         function fillDefaultUgieeFirebase() {
             const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
-            setVal('fb-databaseURL', 'https://ugiee-supply-chain-default-rtdb.asia-southeast1.firebasedatabase.app');
-            setVal('fb-projectId', 'ugiee-supply-chain');
-            setVal('fb-authDomain', 'ugiee-supply-chain.firebaseapp.com');
-            showToast('URL UGIEE Supply Chain diisi. Lengkapi API Key Anda.');
+            setVal('fb-databaseURL', 'https://ugieedelivery-default-rtdb.asia-southeast1.firebasedatabase.app');
+            setVal('fb-projectId', 'ugieedelivery');
+            setVal('fb-authDomain', 'ugieedelivery.firebaseapp.com');
+            showToast('URL UGIEE Delivery diisi.');
         }
 
         function parsePastedFirebaseConfig() {
@@ -2065,7 +2433,7 @@ const firebaseConfig = {
             showToast('Koneksi Cloud Firebase diputuskan.');
         }
 
-        // ==================== 4. CUSTOMER DATABASE (CRM) HELPERS ====================
+        // ==================== 5. CUSTOMER DATABASE (CRM) & DIGITAL LOYALTY HELPERS ====================
         function normalizeCustomerPhone(rawPhone) {
             const digits = String(rawPhone || '').replace(/\D/g, '');
             if (!digits) return '';
@@ -2114,10 +2482,17 @@ const firebaseConfig = {
             const orderTotal = Number(orderObj.total) || 0;
             const orderTimeText = orderObj.createdAt || 'Baru saja';
             const orderTs = Number(orderObj.timestamp) || Date.now();
+            const isVerifiedStampEligible = orderObj.paymentVerified === true || orderObj.status === 'completed';
+            const cupsEarned = Math.max(1, orderCups);
 
             if (existingIdx !== -1) {
                 const existing = customers[existingIdx];
                 const recordedIds = Array.isArray(existing.orderIds) ? existing.orderIds : [];
+                const awardedIds = Array.isArray(existing.loyaltyAwardedOrderIds)
+                    ? existing.loyaltyAwardedOrderIds
+                    : (Array.isArray(existing.stampedOrderIds) ? existing.stampedOrderIds : []);
+                let currentStamps = Number(existing.stamps) || 0;
+
                 if (!recordedIds.includes(orderObj.id)) {
                     recordedIds.push(orderObj.id);
                     existing.totalOrders = (Number(existing.totalOrders) || 0) + 1;
@@ -2125,6 +2500,15 @@ const firebaseConfig = {
                     existing.totalSpent = (Number(existing.totalSpent) || 0) + orderTotal;
                     existing.orderIds = recordedIds;
                 }
+
+                if (isVerifiedStampEligible && orderObj.id && !awardedIds.includes(orderObj.id)) {
+                    awardedIds.push(orderObj.id);
+                    currentStamps += cupsEarned;
+                }
+
+                existing.loyaltyAwardedOrderIds = awardedIds;
+                existing.stamps = Math.max(0, currentStamps);
+
                 if (orderTs >= (Number(existing.lastTimestamp) || 0)) {
                     existing.name = (orderObj.customerName || existing.name || 'Mahasiswa Unimerz').trim();
                     existing.phone = formatDisplayPhone(orderObj.customerWa);
@@ -2136,6 +2520,7 @@ const firebaseConfig = {
                 saveCustomersData(customers);
                 syncSingleCustomerToCloud(existing);
             } else {
+                const initialStamps = isVerifiedStampEligible ? cupsEarned : 0;
                 const newCust = {
                     id: canonicalId,
                     name: (orderObj.customerName || 'Mahasiswa Unimerz').trim(),
@@ -2144,6 +2529,8 @@ const firebaseConfig = {
                     totalOrders: 1,
                     totalCup: orderCups,
                     totalSpent: orderTotal,
+                    stamps: initialStamps,
+                    loyaltyAwardedOrderIds: (isVerifiedStampEligible && orderObj.id) ? [orderObj.id] : [],
                     firstOrderAt: orderTimeText,
                     lastOrderAt: orderTimeText,
                     lastTimestamp: orderTs,
@@ -2153,6 +2540,41 @@ const firebaseConfig = {
                 saveCustomersData(customers);
                 syncSingleCustomerToCloud(newCust);
             }
+            updateHeaderLoyaltyBadge();
+        }
+
+        function getCustomerByPhone(rawPhone) {
+            const canonicalId = normalizeCustomerPhone(rawPhone);
+            if (!canonicalId) return null;
+            return getCustomersData().find(c => c.id === canonicalId) || null;
+        }
+
+        function deductCustomerStamps(rawPhone, stampsUsed) {
+            const canonicalId = normalizeCustomerPhone(rawPhone);
+            if (!canonicalId || stampsUsed <= 0) return;
+            const customers = getCustomersData();
+            const idx = customers.findIndex(c => c.id === canonicalId);
+            if (idx !== -1) {
+                customers[idx].stamps = Math.max(0, (Number(customers[idx].stamps) || 0) - stampsUsed);
+                saveCustomersData(customers);
+                syncSingleCustomerToCloud(customers[idx]);
+                updateHeaderLoyaltyBadge();
+            }
+        }
+
+        function updateHeaderLoyaltyBadge() {
+            try {
+                const badge = document.getElementById('header-loyalty-badge');
+                if (!badge) return;
+                const phone = savedMemberPhone || localStorage.getItem('ugiee_member_phone') || '';
+                const cust = getCustomerByPhone(phone);
+                if (cust) {
+                    badge.textContent = `${Number(cust.stamps) || 0}★`;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch (e) {}
         }
 
         function syncCustomersFromOrderHistory(showFeedback = false) {
@@ -2162,7 +2584,7 @@ const firebaseConfig = {
             updateAdminCustomerBadge();
             if (currentStaff && currentStaff.role === 'admin') renderAdminCustomersTable();
             if (showFeedback) {
-                showToast(`✅ Database Pelanggan disinkronkan (${getCustomersData().length} pelanggan unik).`);
+                showToast(`✅ Database Pelanggan & Stempel disinkronkan (${getCustomersData().length} pelanggan unik).`);
             }
         }
 
@@ -2171,7 +2593,7 @@ const firebaseConfig = {
             if (badge) badge.textContent = getCustomersData().length;
         }
 
-        // ==================== 5. STUDENT UI: PROMO BANNER, CATEGORIES & MENU GRID ====================
+        // ==================== 6. STUDENT UI: PROMO BANNER, CATEGORIES & MENU GRID ====================
         function renderPromoBanner() {
             const banners = getBannersData();
             const container = document.getElementById('promo-banner-container');
@@ -2350,7 +2772,7 @@ const firebaseConfig = {
             }).join('');
         }
 
-        // ==================== 6. DRINK CUSTOMIZATION MODAL & CART LOGIC ====================
+        // ==================== 7. DRINK CUSTOMIZATION MODAL & CART LOGIC ====================
         function openCustomModal(itemId) {
             const item = getMenuData().find(m => m.id === itemId);
             if (!item || item.available === false) return;
@@ -2443,8 +2865,16 @@ const firebaseConfig = {
                     appliedVoucher = null;
                 }
             }
-            const total = Math.max(0, subtotal - discount);
-            return { subtotal, discount, total };
+
+            let loyaltyDiscount = 0;
+            if (selectedLoyaltyReward === 'TOPPING_5') {
+                loyaltyDiscount = Math.min(Math.max(0, subtotal - discount), 3000);
+            } else if (selectedLoyaltyReward === 'DRINK_10') {
+                loyaltyDiscount = Math.min(Math.max(0, subtotal - discount), 15000);
+            }
+
+            const total = Math.max(0, subtotal - discount - loyaltyDiscount);
+            return { subtotal, discount, loyaltyDiscount, total };
         }
 
         function updateCartUI() {
@@ -2522,7 +2952,7 @@ const firebaseConfig = {
                 </div>
             `).join('');
 
-            const { subtotal, discount, total } = getCartTotals();
+            const { subtotal, discount, loyaltyDiscount, total } = getCartTotals();
             document.getElementById('cart-subtotal-val').textContent = formatRp(subtotal);
             document.getElementById('cart-total-val').textContent = formatRp(total);
 
@@ -2545,6 +2975,22 @@ const firebaseConfig = {
                 appliedPill.classList.add('hidden');
                 appliedPill.classList.remove('flex');
             }
+
+            const loyaltyRow = document.getElementById('cart-loyalty-row');
+            const loyaltyStripText = document.getElementById('cart-loyalty-strip-text');
+            if (loyaltyRow) {
+                if (loyaltyDiscount > 0) {
+                    loyaltyRow.classList.remove('hidden');
+                    loyaltyRow.classList.add('flex');
+                    document.getElementById('cart-loyalty-val').textContent = `-${formatRp(loyaltyDiscount)}`;
+                    if (loyaltyStripText) loyaltyStripText.textContent = `Hadiah Loyalty aktif (-${formatRp(loyaltyDiscount)})!`;
+                } else {
+                    loyaltyRow.classList.add('hidden');
+                    loyaltyRow.classList.remove('flex');
+                    if (loyaltyStripText) loyaltyStripText.textContent = 'Punya Stempel Madu? Tukar gratis topping/cup saat checkout!';
+                }
+            }
+
             updateVoucherHintText();
         }
 
@@ -2600,14 +3046,34 @@ const firebaseConfig = {
             showToast('Voucher dihapus.');
         }
 
-        // ==================== 7. CHECKOUT, PAYMENT PROOF & ORDER SUBMISSION ====================
+        // ==================== 8. CHECKOUT, LOYALTY REDEMPTION & ORDER SUBMISSION ====================
         function openCheckoutModal() {
             if (cart.length === 0) {
                 showToast('Keranjang masih kosong.');
                 return;
             }
             closeCartDrawer();
-            const { subtotal, discount, total } = getCartTotals();
+
+            const waInput = document.getElementById('cust-wa');
+            if (waInput && !waInput.value && savedMemberPhone) {
+                waInput.value = savedMemberPhone;
+            }
+            handleCheckoutPhoneInput();
+            refreshCheckoutSummaryUI();
+
+            const qrisWrap = document.getElementById('checkout-qris-wrapper');
+            if (qrisWrap) qrisWrap.innerHTML = generateOfficialQrisSvg();
+
+            handlePaymentMethodChange();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function refreshCheckoutSummaryUI() {
+            const { subtotal, discount, loyaltyDiscount, total } = getCartTotals();
             document.getElementById('co-subtotal').textContent = formatRp(subtotal);
             document.getElementById('co-total').textContent = formatRp(total);
 
@@ -2621,15 +3087,99 @@ const firebaseConfig = {
                 coDiscRow.classList.remove('flex');
             }
 
-            const qrisWrap = document.getElementById('checkout-qris-wrapper');
-            if (qrisWrap) qrisWrap.innerHTML = generateOfficialQrisSvg();
-
-            handlePaymentMethodChange();
-            document.getElementById('checkout-modal').classList.remove('hidden');
+            const coLoyaltyRow = document.getElementById('co-loyalty-discount-row');
+            if (coLoyaltyRow) {
+                if (loyaltyDiscount > 0) {
+                    coLoyaltyRow.classList.remove('hidden');
+                    coLoyaltyRow.classList.add('flex');
+                    document.getElementById('co-loyalty-discount').textContent = `-${formatRp(loyaltyDiscount)}`;
+                } else {
+                    coLoyaltyRow.classList.add('hidden');
+                    coLoyaltyRow.classList.remove('flex');
+                }
+            }
         }
 
-        function closeCheckoutModal() {
-            document.getElementById('checkout-modal').classList.add('hidden');
+        function handleCheckoutPhoneInput() {
+            const rawWa = document.getElementById('cust-wa')?.value || '';
+            const statusText = document.getElementById('co-loyalty-status-text');
+            const stampPill = document.getElementById('co-loyalty-stamp-pill');
+            const actionsEl = document.getElementById('co-loyalty-redeem-actions');
+            const nameInput = document.getElementById('cust-name');
+            if (!statusText || !stampPill || !actionsEl) return;
+
+            const member = getCustomerByPhone(rawWa);
+            const stamps = member ? (Number(member.stamps) || 0) : 0;
+            const cartCups = cart.reduce((sum, it) => sum + (Number(it.qty) || 1), 0);
+
+            if (member) {
+                if (nameInput && !nameInput.value.trim() && member.name) {
+                    nameInput.value = member.name;
+                }
+                stampPill.textContent = `${stamps} / 10 Stempel`;
+                statusText.innerHTML = `Halo <strong>${escapeHtml(member.name)}</strong>! ${stamps >= 5 ? 'Stempelmu siap ditukar hadiah!' : `Order ini akan menambah +${cartCups} Stempel Madu setelah terverifikasi.`}`;
+            } else {
+                stampPill.textContent = '0 / 10 Stempel';
+                statusText.textContent = rawWa.trim().length >= 9
+                    ? `Member baru! Order ini akan langsung mendapatkan +${cartCups} Stempel Madu.`
+                    : 'Masukkan No. WhatsApp untuk cek stempel madu (1 Cup = 1 Stempel)!';
+                selectedLoyaltyReward = null;
+            }
+
+            if (stamps < 5) selectedLoyaltyReward = null;
+            if (stamps < 10 && selectedLoyaltyReward === 'DRINK_10') selectedLoyaltyReward = null;
+
+            if (stamps >= 5) {
+                actionsEl.classList.remove('hidden');
+                actionsEl.classList.add('grid');
+                const active5 = selectedLoyaltyReward === 'TOPPING_5';
+                const active10 = selectedLoyaltyReward === 'DRINK_10';
+
+                actionsEl.innerHTML = `
+                    <button type="button" onclick="toggleCheckoutLoyaltyReward('TOPPING_5')" class="btn-press p-2 rounded-xl border text-left transition cursor-pointer ${
+                        active5
+                            ? 'bg-ugiee-yellow text-ugiee-dark border-amber-500 font-extrabold shadow-2xs'
+                            : 'bg-white hover:bg-amber-50 text-ugiee-dark border-amber-300 font-bold'
+                    }">
+                        <div class="text-[11px] flex items-center justify-between">
+                            <span>🍯 Tukar 5 Stempel</span>
+                            <span>${active5 ? '✓ Dipakai' : '-Rp 3.000'}</span>
+                        </div>
+                        <div class="text-[10px] opacity-80">Gratis Topping Pilihan</div>
+                    </button>
+                    <button type="button" ${stamps < 10 ? 'disabled' : ''} onclick="toggleCheckoutLoyaltyReward('DRINK_10')" class="btn-press p-2 rounded-xl border text-left transition ${
+                        stamps < 10
+                            ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                            : active10
+                                ? 'bg-ugiee-teal text-white border-ugiee-tealDark font-extrabold shadow-2xs cursor-pointer'
+                                : 'bg-white hover:bg-emerald-50 text-ugiee-dark border-ugiee-teal/50 font-bold cursor-pointer'
+                    }">
+                        <div class="text-[11px] flex items-center justify-between">
+                            <span>👑 Tukar 10 Stempel</span>
+                            <span>${stamps < 10 ? `${stamps}/10` : (active10 ? '✓ Dipakai' : '-Rp 15.000')}</span>
+                        </div>
+                        <div class="text-[10px] opacity-85">Gratis 1 Cup Minuman</div>
+                    </button>
+                `;
+            } else {
+                actionsEl.classList.add('hidden');
+                actionsEl.classList.remove('grid');
+            }
+
+            refreshCheckoutSummaryUI();
+        }
+
+        function toggleCheckoutLoyaltyReward(tierKey) {
+            if (selectedLoyaltyReward === tierKey) {
+                selectedLoyaltyReward = null;
+                showToast('Penukaran stempel dibatalkan.');
+            } else {
+                selectedLoyaltyReward = tierKey;
+                showToast(tierKey === 'DRINK_10'
+                    ? '👑 Hadiah 10 Stempel (Gratis 1 Cup / -Rp 15.000) diterapkan!'
+                    : '🍯 Hadiah 5 Stempel (Gratis Topping / -Rp 3.000) diterapkan!');
+            }
+            handleCheckoutPhoneInput();
         }
 
         function handlePaymentMethodChange() {
@@ -2689,7 +3239,10 @@ const firebaseConfig = {
                 return;
             }
 
-            const { subtotal, discount, total } = getCartTotals();
+            const { subtotal, discount, loyaltyDiscount, total } = getCartTotals();
+            const usedLoyaltyReward = loyaltyDiscount > 0 ? selectedLoyaltyReward : null;
+            const stampsDeducted = usedLoyaltyReward === 'DRINK_10' ? 10 : (usedLoyaltyReward === 'TOPPING_5' ? 5 : 0);
+
             const now = new Date();
             const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
             const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -2717,6 +3270,8 @@ const firebaseConfig = {
                 subtotal: subtotal,
                 discount: discount,
                 voucherCode: appliedVoucher ? appliedVoucher.code : '',
+                loyaltyRewardUsed: usedLoyaltyReward || '',
+                loyaltyDiscount: loyaltyDiscount,
                 total: total,
                 paymentMethod: method,
                 codAmount: method === 'COD' ? codAmount : '',
@@ -2733,10 +3288,19 @@ const firebaseConfig = {
             orders.unshift(newOrder);
             if (!saveOrders(orders)) return;
             syncSingleOrderToCloud(newOrder);
+
+            if (stampsDeducted > 0) {
+                deductCustomerStamps(wa, stampsDeducted);
+            }
             upsertCustomerFromOrder(newOrder);
+
+            savedMemberPhone = formatDisplayPhone(wa);
+            try { localStorage.setItem('ugiee_member_phone', savedMemberPhone); } catch (err) {}
+            updateHeaderLoyaltyBadge();
 
             cart = [];
             appliedVoucher = null;
+            selectedLoyaltyReward = null;
             uploadedPaymentProofBase64 = '';
             const proofInput = document.getElementById('payment-proof-input');
             const proofWrap = document.getElementById('payment-proof-preview-wrap');
@@ -2744,7 +3308,7 @@ const firebaseConfig = {
             if (proofWrap) proofWrap.classList.add('hidden');
 
             activeOrderId = orderId;
-            localStorage.setItem('ugiee_active_order_id', orderId);
+            try { localStorage.setItem('ugiee_active_order_id', orderId); } catch (err) {}
 
             updateCartUI();
             updateBadges();
@@ -2753,7 +3317,117 @@ const firebaseConfig = {
             showToast(`🎉 Pesanan #${orderId} berhasil dikirim ke outlet!`);
         }
 
-        // ==================== 8. STUDENT ORDER TRACKING & RECEIPT ====================
+        // ==================== 9. STUDENT ORDER TRACKING & LOYALTY CARD MODAL ====================
+        function openLoyaltyModal(prefillPhone = '') {
+            const inputEl = document.getElementById('loyalty-phone-input');
+            let storedPhone = '';
+            try { storedPhone = localStorage.getItem('ugiee_member_phone') || ''; } catch (e) {}
+            const phoneToCheck = prefillPhone || savedMemberPhone || storedPhone;
+            if (inputEl && phoneToCheck) {
+                inputEl.value = phoneToCheck;
+            }
+            renderLoyaltyCardContent(phoneToCheck);
+            document.getElementById('loyalty-modal').classList.remove('hidden');
+        }
+
+        function closeLoyaltyModal() {
+            document.getElementById('loyalty-modal').classList.add('hidden');
+        }
+
+        function lookupLoyaltyMember(e) {
+            e.preventDefault();
+            const phoneVal = document.getElementById('loyalty-phone-input')?.value.trim() || '';
+            if (!phoneVal) return;
+            savedMemberPhone = formatDisplayPhone(phoneVal);
+            try { localStorage.setItem('ugiee_member_phone', savedMemberPhone); } catch (err) {}
+            updateHeaderLoyaltyBadge();
+            renderLoyaltyCardContent(phoneVal);
+        }
+
+        function renderLoyaltyCardContent(rawPhone) {
+            const member = getCustomerByPhone(rawPhone);
+            const stamps = member ? (Number(member.stamps) || 0) : 0;
+            const filledSlots = Math.min(10, stamps);
+
+            document.getElementById('loyalty-member-name').textContent = member
+                ? member.name
+                : (rawPhone ? 'Member Baru UGIEE!' : 'Mahasiswa UGIEE!');
+            document.getElementById('loyalty-member-phone').textContent = rawPhone
+                ? formatDisplayPhone(rawPhone)
+                : 'Masukkan No. WA di atas';
+            document.getElementById('loyalty-stamp-counter').textContent = `${stamps} / 10`;
+
+            const grid = document.getElementById('loyalty-honeycomb-grid');
+            if (grid) {
+                let slotsHtml = '';
+                for (let i = 1; i <= 10; i++) {
+                    const isFilled = i <= filledSlots;
+                    const isMilestone = i === 5 || i === 10;
+                    slotsHtml += `
+                        <div class="aspect-square rounded-2xl flex flex-col items-center justify-center border transition-all ${
+                            isFilled
+                                ? 'bg-ugiee-yellow text-ugiee-dark border-amber-200 shadow-md scale-[1.02]'
+                                : 'bg-white/10 text-white/45 border-white/20 border-dashed'
+                        }">
+                            ${isFilled
+                                ? `<i class="fa-solid fa-crown text-sm sm:text-base"></i><span class="text-[9px] font-extrabold mt-0.5">#${i}</span>`
+                                : `<span class="text-xs font-extrabold">${i}</span>${isMilestone ? `<span class="text-[8px] font-bold text-ugiee-yellowLight">${i === 5 ? 'TOPPING' : 'FREE CUP'}</span>` : ''}`
+                            }
+                        </div>
+                    `;
+                }
+                grid.innerHTML = slotsHtml;
+            }
+
+            const btn5 = document.getElementById('btn-redeem-tier5');
+            const btn10 = document.getElementById('btn-redeem-tier10');
+            if (btn5) {
+                if (stamps >= 5) {
+                    btn5.disabled = false;
+                    btn5.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer';
+                } else {
+                    btn5.disabled = true;
+                    btn5.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
+                }
+            }
+            if (btn10) {
+                if (stamps >= 10) {
+                    btn10.disabled = false;
+                    btn10.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer';
+                } else {
+                    btn10.disabled = true;
+                    btn10.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
+                }
+            }
+        }
+
+        function selectLoyaltyRewardFromModal(tierKey) {
+            const phoneVal = document.getElementById('loyalty-phone-input')?.value.trim() || savedMemberPhone;
+            const member = getCustomerByPhone(phoneVal);
+            const stamps = member ? (Number(member.stamps) || 0) : 0;
+
+            if (tierKey === 'TOPPING_5' && stamps < 5) {
+                showToast('Stempel madu belum mencapai 5 poin.');
+                return;
+            }
+            if (tierKey === 'DRINK_10' && stamps < 10) {
+                showToast('Stempel madu belum mencapai 10 poin.');
+                return;
+            }
+
+            selectedLoyaltyReward = tierKey;
+            savedMemberPhone = formatDisplayPhone(phoneVal);
+            try { localStorage.setItem('ugiee_member_phone', savedMemberPhone); } catch (err) {}
+            closeLoyaltyModal();
+
+            if (cart.length > 0) {
+                openCheckoutModal();
+                showToast('🎉 Hadiah Loyalty aktif di Checkout!');
+            } else {
+                showToast('🎉 Hadiah Loyalty siap! Pilih minuman favoritmu sekarang.');
+            }
+        }
+
         function openTrackModal(specificId) {
             const orders = getOrders();
             const targetId = specificId || activeOrderId || (orders[0] && orders[0].id);
@@ -2792,6 +3466,8 @@ const firebaseConfig = {
                 `*Pesanan:*\n${waItemsList}\n` +
                 `*Total:* ${formatRp(order.total)} (${order.paymentMethod})`
             );
+
+            const cupsCount = Math.max(1, (order.items || []).reduce((s, it) => s + (Number(it.qty) || 1), 0));
 
             body.innerHTML = `
                 <div class="p-3.5 rounded-2xl border ${st.color} space-y-1">
@@ -2836,10 +3512,21 @@ const firebaseConfig = {
                         </div>
                     `).join('')}
                     ${order.discount > 0 ? `<div class="flex justify-between text-emerald-700 font-bold"><span>Diskon (${escapeHtml(order.voucherCode)})</span><span>-${formatRp(order.discount)}</span></div>` : ''}
+                    ${order.loyaltyDiscount > 0 ? `<div class="flex justify-between text-amber-800 font-bold"><span>Hadiah Poin Loyalty</span><span>-${formatRp(order.loyaltyDiscount)}</span></div>` : ''}
                     <div class="flex justify-between text-sm font-display font-extrabold text-ugiee-dark pt-1">
                         <span>Total Bayar (Free Ongkir)</span>
                         <span class="text-ugiee-teal">${formatRp(order.total)}</span>
                     </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-amber-50 border border-ugiee-yellow/60 flex items-center justify-between gap-2">
+                    <div class="text-xs">
+                        <div class="font-extrabold text-ugiee-dark">🍯 Poin Member Loyalty UGIEE!</div>
+                        <div class="text-[11px] text-amber-900">${order.paymentVerified ? `+${cupsCount} Stempel Madu tercatat ke nomor WA-mu!` : 'Stempel Madu otomatis masuk setelah pembayaran diverifikasi kasir.'}</div>
+                    </div>
+                    <button type="button" onclick="closeTrackModal(); openLoyaltyModal('${escapeHtml(order.customerWa)}')" class="btn-press px-3 py-1.5 rounded-xl bg-ugiee-yellow text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer">
+                        Lihat Kartu
+                    </button>
                 </div>
 
                 ${order.deliveryProof ? `
@@ -2883,13 +3570,17 @@ const firebaseConfig = {
         }
 
         function updateBadges() {
-            const dot = document.getElementById('track-badge-dot');
-            if (dot && (activeOrderId || localStorage.getItem('ugiee_active_order_id'))) {
-                dot.classList.remove('hidden');
-            }
+            try {
+                const dot = document.getElementById('track-badge-dot');
+                let storedOrderId = '';
+                try { storedOrderId = localStorage.getItem('ugiee_active_order_id') || ''; } catch (e) {}
+                if (dot && (activeOrderId || storedOrderId)) {
+                    dot.classList.remove('hidden');
+                }
+            } catch (e) {}
         }
 
-        // ==================== 9. STAFF AUTHENTICATION & STRICT ROLE SEPARATION ====================
+        // ==================== 10. STAFF AUTHENTICATION & STRICT ROLE SEPARATION ====================
         function openStaffLoginModal() {
             document.getElementById('login-username').value = '';
             document.getElementById('login-pin').value = '';
@@ -2918,7 +3609,7 @@ const firebaseConfig = {
             }
 
             currentStaff = match;
-            sessionStorage.setItem('ugiee_staff_session', JSON.stringify(match));
+            try { sessionStorage.setItem('ugiee_staff_session', JSON.stringify(match)); } catch (err) {}
             closeStaffLoginModal();
             activateStaffView();
             showToast(`👋 Selamat bertugas, ${match.name}!`);
@@ -2938,6 +3629,13 @@ const firebaseConfig = {
             document.getElementById('staff-portal-view').classList.remove('hidden');
             document.getElementById('staff-avatar-badge').textContent = currentStaff.name.charAt(0).toUpperCase();
             document.getElementById('staff-display-name').textContent = currentStaff.name;
+
+            if (currentStaff.role === 'kasir' || currentStaff.role === 'admin') {
+                requestBrowserNotificationPermission(false);
+                startStaffRepeatingBellMonitor();
+            } else {
+                stopStaffRepeatingBellMonitor();
+            }
 
             const roleLabels = {
                 kasir: { tag: 'KASIR / BARISTA OUTLET', title: 'Antrean Verifikasi & Peracikan Minuman', sub: 'Verifikasi bukti transfer non-tunai sebelum memproses minuman mahasiswa.' },
@@ -2967,8 +3665,9 @@ const firebaseConfig = {
         }
 
         function logoutStaff() {
+            stopStaffRepeatingBellMonitor();
             currentStaff = null;
-            sessionStorage.removeItem('ugiee_staff_session');
+            try { sessionStorage.removeItem('ugiee_staff_session'); } catch (err) {}
 
             document.getElementById('staff-portal-view').classList.add('hidden');
             const staffNav = document.getElementById('staff-nav-actions');
@@ -2983,6 +3682,7 @@ const firebaseConfig = {
 
         function refreshAllStaffViews() {
             renderStaffDashboard();
+            updateStaffAlarmBanner();
             if (currentStaff && currentStaff.role === 'admin') {
                 renderAdminSalesDashboard();
                 renderAdminMenuTable();
@@ -2993,7 +3693,7 @@ const firebaseConfig = {
             showToast('Data diperbarui!');
         }
 
-        // ==================== 10. STAFF ORDERS DASHBOARD ====================
+        // ==================== 11. STAFF ORDERS DASHBOARD ====================
         function setStaffOrderFilter(filterKey) {
             staffOrderFilter = filterKey;
             document.querySelectorAll('.staff-filter-btn').forEach(btn => {
@@ -3079,81 +3779,86 @@ const firebaseConfig = {
                             </button>
                         </div>
                     `;
-                } else if (order.status === 'pending' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
+                }
+
+                if ((order.paymentVerified || order.paymentMethod === 'COD') && order.status === 'pending' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
                     actionButtons += `
-                        <button type="button" onclick="updateOrderStatus('${order.id}', 'preparing')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs cursor-pointer">
+                        <button type="button" onclick="updateOrderStatus('${order.id}', 'preparing')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs cursor-pointer">
                             <i class="fa-solid fa-blender mr-1"></i> Mulai Racik Minuman
                         </button>
                     `;
-                } else if (order.status === 'preparing' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
+                }
+
+                if (order.status === 'preparing' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
                     actionButtons += `
                         <button type="button" onclick="updateOrderStatus('${order.id}', 'delivering')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs cursor-pointer">
                             <i class="fa-solid fa-motorcycle mr-1"></i> Siap Antar Kurir Kampus
                         </button>
                     `;
-                } else if (order.status === 'delivering' && (currentStaff.role === 'kurir' || currentStaff.role === 'admin')) {
+                }
+
+                if (order.status === 'delivering' && (currentStaff.role === 'kurir' || currentStaff.role === 'admin')) {
                     actionButtons += `
-                        <button type="button" onclick="openCourierHandoverModal('${order.id}')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm cursor-pointer">
-                            📸 Foto & Selesaikan Pesanan
+                        <button type="button" onclick="openCourierHandoverModal('${order.id}')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs cursor-pointer">
+                            <i class="fa-solid fa-camera mr-1"></i> Foto & Selesaikan Pesanan
                         </button>
                     `;
                 }
 
                 return `
-                    <div class="bg-white p-4 rounded-3xl border border-ugiee-sageBorder shadow-card flex flex-col justify-between space-y-3">
+                    <div class="bg-white rounded-3xl border border-ugiee-sageBorder shadow-card p-4 flex flex-col justify-between space-y-3">
                         <div class="space-y-2.5">
-                            <div class="flex items-center justify-between gap-2 border-b border-gray-100 pb-2">
+                            <div class="flex items-start justify-between gap-2">
                                 <div>
-                                    <span class="font-display font-extrabold text-sm text-ugiee-dark">#${escapeHtml(order.id)}</span>
-                                    <span class="text-[11px] text-gray-400 ml-1.5">${escapeHtml(order.createdAt)}</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-display font-extrabold text-sm text-ugiee-dark">#${escapeHtml(order.id)}</span>
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-ugiee-sage text-ugiee-tealDark">${escapeHtml(order.outlet)}</span>
+                                    </div>
+                                    <div class="text-[11px] text-gray-400 mt-0.5">${escapeHtml(order.createdAt)}</div>
                                 </div>
                                 ${payBadge}
                             </div>
 
-                            <div class="text-xs space-y-1">
-                                <div class="font-extrabold text-ugiee-dark">${escapeHtml(order.customerName)} • <span class="text-ugiee-tealDark font-mono">${escapeHtml(order.customerWa)}</span></div>
-                                <div class="text-gray-600"><i class="fa-solid fa-location-dot text-ugiee-teal mr-1"></i><strong>${escapeHtml(order.location)}</strong> (${escapeHtml(order.room)})</div>
-                                <div class="text-[11px] text-gray-500"><i class="fa-solid fa-store mr-1"></i>${escapeHtml(order.outlet)}</div>
+                            <div class="p-3 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder text-xs space-y-1">
+                                <div class="font-extrabold text-ugiee-dark flex items-center justify-between">
+                                    <span>${escapeHtml(order.customerName)}</span>
+                                    <a href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline font-mono text-[11px]">
+                                        <i class="fa-brands fa-whatsapp"></i> ${escapeHtml(order.customerWa)}
+                                    </a>
+                                </div>
+                                <div class="text-gray-600"><i class="fa-solid fa-location-dot text-ugiee-teal mr-1"></i> <strong>${escapeHtml(order.location)}</strong> — ${escapeHtml(order.room)}</div>
                             </div>
 
-                            <div class="p-2.5 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder space-y-1 text-xs">
+                            <div class="space-y-1 text-xs">
                                 ${order.items.map(it => `
-                                    <div class="flex justify-between">
-                                        <span><strong>${it.qty}x</strong> ${escapeHtml(it.name)} <span class="text-[10px] text-gray-500">(${escapeHtml(it.ice)}, ${escapeHtml(it.sugar)}${it.extraMatcha ? ', +Matcha' : ''})</span></span>
+                                    <div class="flex justify-between text-gray-700">
+                                        <span><strong>${it.qty}x</strong> ${escapeHtml(it.name)} <span class="text-[11px] text-gray-400">(${escapeHtml(it.ice)}, ${escapeHtml(it.sugar)}${it.extraMatcha ? ', +Extra Matcha' : ''})</span></span>
                                         <span class="font-bold">${formatRp(it.unitPrice * it.qty)}</span>
                                     </div>
                                 `).join('')}
-                                ${order.discount > 0 ? `<div class="flex justify-between text-emerald-700 font-bold text-[11px]"><span>Voucher (${escapeHtml(order.voucherCode)})</span><span>-${formatRp(order.discount)}</span></div>` : ''}
-                                <div class="flex justify-between font-extrabold text-ugiee-dark pt-1 border-t border-ugiee-sageBorder">
-                                    <span>Total</span>
-                                    <span>${formatRp(order.total)}</span>
+                                ${order.loyaltyDiscount > 0 ? `<div class="flex justify-between text-[11px] text-amber-800 font-bold"><span>Hadiah Poin Loyalty</span><span>-${formatRp(order.loyaltyDiscount)}</span></div>` : ''}
+                                <div class="flex justify-between font-extrabold text-ugiee-dark pt-1.5 border-t border-gray-100">
+                                    <span>Total (${escapeHtml(order.status.toUpperCase())})</span>
+                                    <span class="text-ugiee-teal">${formatRp(order.total)}</span>
                                 </div>
                             </div>
 
                             ${order.paymentProof ? `
-                                <div class="p-2 rounded-xl bg-amber-50 border border-amber-200">
+                                <div class="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
                                     <div class="text-[10px] font-extrabold text-amber-900 mb-1">Bukti Transfer Mahasiswa:</div>
-                                    <img src="${order.paymentProof}" alt="Bukti Bayar" class="max-h-36 mx-auto rounded-lg object-contain bg-white border border-amber-200">
+                                    <img src="${order.paymentProof}" alt="Bukti Bayar" class="max-h-36 mx-auto rounded-lg object-contain bg-white border border-amber-200 p-1">
                                 </div>
                             ` : ''}
 
                             ${order.deliveryProof ? `
-                                <div class="p-2 rounded-xl bg-emerald-50 border border-emerald-200">
-                                    <div class="text-[10px] font-extrabold text-emerald-900 mb-1">Bukti Foto Serah Terima (${escapeHtml(order.deliveredAt || '')}):</div>
-                                    <img src="${order.deliveryProof}" alt="Bukti Serah Terima" class="max-h-36 mx-auto rounded-lg object-contain bg-white border border-emerald-200">
+                                <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                                    <div class="text-[10px] font-extrabold text-emerald-900 mb-1">Bukti Serah Terima (${escapeHtml(order.deliveredAt || '')}):</div>
+                                    <img src="${order.deliveryProof}" alt="Bukti Serah Terima" class="max-h-32 mx-auto rounded-lg object-contain bg-white border border-emerald-200 p-1">
                                 </div>
                             ` : ''}
                         </div>
 
-                        <div class="pt-1">
-                            <div class="flex items-center justify-between gap-2">
-                                <span class="text-[11px] font-extrabold uppercase px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700">Status: ${escapeHtml(order.status)}</span>
-                                <a href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs inline-flex items-center gap-1">
-                                    <i class="fa-brands fa-whatsapp"></i> Chat Mahasiswa
-                                </a>
-                            </div>
-                            ${actionButtons}
-                        </div>
+                        <div>${actionButtons}</div>
                     </div>
                 `;
             }).join('');
@@ -3170,8 +3875,10 @@ const firebaseConfig = {
                 }
                 saveOrders(orders);
                 syncSingleOrderToCloud(orders[idx]);
+                upsertCustomerFromOrder(orders[idx]);
+                updateStaffAlarmBanner();
                 renderStaffDashboard();
-                showToast(`✅ Pembayaran #${orderId} terverifikasi LUNAS!`);
+                showToast(`✅ Pembayaran #${orderId} terverifikasi LUNAS & Stempel Member ditambahkan!`);
             }
         }
 
@@ -3184,6 +3891,7 @@ const firebaseConfig = {
                 orders[idx].status = 'pending_payment';
                 saveOrders(orders);
                 syncSingleOrderToCloud(orders[idx]);
+                updateStaffAlarmBanner();
                 renderStaffDashboard();
                 showToast(`⚠️ Bukti bayar #${orderId} ditolak.`);
             }
@@ -3196,27 +3904,28 @@ const firebaseConfig = {
                 orders[idx].status = newStatus;
                 saveOrders(orders);
                 syncSingleOrderToCloud(orders[idx]);
+                updateStaffAlarmBanner();
                 renderStaffDashboard();
                 showToast(`Status pesanan #${orderId} diperbarui.`);
             }
         }
 
-        // ==================== 11. COURIER HANDOVER PHOTO ====================
+        // ==================== 12. KURIR MANDATORY HANDOVER PHOTO ====================
         function openCourierHandoverModal(orderId) {
             const order = getOrders().find(o => o.id === orderId);
             if (!order) return;
-
             activeHandoverOrderId = orderId;
             uploadedHandoverPhotoBase64 = '';
+
             document.getElementById('handover-order-id').textContent = `#${order.id}`;
             document.getElementById('handover-customer-info').textContent = `${order.customerName} • ${order.location} (${order.room})`;
             document.getElementById('handover-photo-input').value = '';
             document.getElementById('handover-note-input').value = '';
             document.getElementById('handover-preview-box').classList.add('hidden');
 
-            const btn = document.getElementById('confirm-handover-btn');
-            btn.disabled = true;
-            btn.className = 'w-full py-3.5 rounded-2xl bg-gray-300 text-gray-500 font-display font-extrabold text-sm transition cursor-not-allowed';
+            const confirmBtn = document.getElementById('confirm-handover-btn');
+            confirmBtn.disabled = true;
+            confirmBtn.className = 'w-full py-3.5 rounded-2xl bg-gray-300 text-gray-500 font-display font-extrabold text-sm transition cursor-not-allowed';
 
             document.getElementById('courier-handover-modal').classList.remove('hidden');
         }
@@ -3224,6 +3933,7 @@ const firebaseConfig = {
         function closeCourierHandoverModal() {
             document.getElementById('courier-handover-modal').classList.add('hidden');
             activeHandoverOrderId = '';
+            uploadedHandoverPhotoBase64 = '';
         }
 
         function handleHandoverPhotoSelected(e) {
@@ -3234,9 +3944,9 @@ const firebaseConfig = {
                 document.getElementById('handover-preview-img').src = dataUrl;
                 document.getElementById('handover-preview-box').classList.remove('hidden');
 
-                const btn = document.getElementById('confirm-handover-btn');
-                btn.disabled = false;
-                btn.className = 'btn-press w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-extrabold text-sm shadow-md transition cursor-pointer';
+                const confirmBtn = document.getElementById('confirm-handover-btn');
+                confirmBtn.disabled = false;
+                confirmBtn.className = 'btn-press w-full py-3.5 rounded-2xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-md transition cursor-pointer';
             });
         }
 
@@ -3253,12 +3963,14 @@ const firebaseConfig = {
                 const noteVal = document.getElementById('handover-note-input').value.trim();
 
                 orders[idx].status = 'completed';
+                orders[idx].paymentVerified = true;
                 orders[idx].deliveryProof = uploadedHandoverPhotoBase64;
                 orders[idx].deliveryNote = noteVal || 'Diterima langsung oleh mahasiswa di kampus';
                 orders[idx].deliveredAt = `Hari ini, ${timeStr}`;
 
                 saveOrders(orders);
                 syncSingleOrderToCloud(orders[idx]);
+                upsertCustomerFromOrder(orders[idx]);
                 const completedId = orders[idx].id;
                 closeCourierHandoverModal();
                 renderStaffDashboard();
@@ -3266,57 +3978,60 @@ const firebaseConfig = {
             }
         }
 
-        // ==================== 12. ADMIN SECTION SWITCHER & DATA PENJUALAN ====================
-        function switchAdminSection(sec) {
+        // ==================== 13. ADMIN TAB NAVIGATION ====================
+        function switchAdminSection(sectionName) {
             const sections = ['orders', 'sales', 'menu', 'promo', 'customers', 'staff', 'cloud'];
             sections.forEach(s => {
                 const secEl = document.getElementById(`staff-section-${s}`);
                 const tabEl = document.getElementById(`admin-tab-${s}`);
                 if (secEl) {
-                    if (s === sec) secEl.classList.remove('hidden');
+                    if (s === sectionName) secEl.classList.remove('hidden');
                     else secEl.classList.add('hidden');
                 }
                 if (tabEl) {
-                    if (s === sec) {
+                    if (s === sectionName) {
                         tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center gap-1.5';
                     } else {
                         tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5';
                     }
                 }
             });
-            if (sec === 'sales') {
-                initSalesFilterDropdowns();
-                renderAdminSalesDashboard();
-            }
-            if (sec === 'menu') renderAdminMenuTable();
-            if (sec === 'promo') renderAdminPromoAndVouchers();
-            if (sec === 'customers') {
-                syncCustomersFromOrderHistory(false);
-                renderAdminCustomersTable();
-            }
-            if (sec === 'staff') renderAdminStaffTable();
-            if (sec === 'cloud') populateFirebaseSettingsForm(getStoredFirebaseConfig());
+
+            if (sectionName === 'orders') renderStaffDashboard();
+            else if (sectionName === 'sales') { initSalesFilterDropdowns(); renderAdminSalesDashboard(); }
+            else if (sectionName === 'menu') renderAdminMenuTable();
+            else if (sectionName === 'promo') renderAdminPromoAndVouchers();
+            else if (sectionName === 'customers') { syncCustomersFromOrderHistory(false); renderAdminCustomersTable(); }
+            else if (sectionName === 'staff') renderAdminStaffTable();
+            else if (sectionName === 'cloud') populateFirebaseSettingsForm(getStoredFirebaseConfig());
         }
 
+        // ==================== 14. ADMIN: DATA PENJUALAN (DATE/MONTH/YEAR FILTER + DELETE WRONG TX) ====================
         function initSalesFilterDropdowns() {
-            const daySel = document.getElementById('sales-filter-day');
-            const yearSel = document.getElementById('sales-filter-year');
-            if (daySel && daySel.options.length <= 1) {
+            const daySelect = document.getElementById('sales-filter-day');
+            const yearSelect = document.getElementById('sales-filter-year');
+            if (!daySelect || !yearSelect) return;
+
+            if (daySelect.options.length <= 1) {
                 for (let d = 1; d <= 31; d++) {
                     const opt = document.createElement('option');
                     opt.value = String(d);
                     opt.textContent = `Tanggal ${d}`;
-                    daySel.appendChild(opt);
+                    daySelect.appendChild(opt);
                 }
             }
-            if (yearSel && yearSel.options.length <= 1) {
+
+            if (yearSelect.options.length <= 1) {
                 const currentYear = new Date().getFullYear();
-                const years = [currentYear - 1, currentYear, currentYear + 1];
-                years.forEach(y => {
+                const yearsSet = new Set([currentYear, currentYear - 1, 2026]);
+                getOrders().forEach(o => {
+                    if (o.timestamp) yearsSet.add(new Date(o.timestamp).getFullYear());
+                });
+                Array.from(yearsSet).sort((a, b) => b - a).forEach(y => {
                     const opt = document.createElement('option');
                     opt.value = String(y);
                     opt.textContent = `Tahun ${y}`;
-                    yearSel.appendChild(opt);
+                    yearSelect.appendChild(opt);
                 });
             }
         }
@@ -3340,35 +4055,29 @@ const firebaseConfig = {
         }
 
         function getFilteredSalesOrders() {
-            const orders = getOrders();
             const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
             const monthVal = document.getElementById('sales-filter-month')?.value || 'ALL';
             const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
             const statusVal = document.getElementById('sales-filter-status')?.value || 'ALL';
 
-            return orders.filter(ord => {
-                const d = new Date(ord.timestamp || Date.now());
-                const matchDay = dayVal === 'ALL' || d.getDate() === Number(dayVal);
-                const matchMonth = monthVal === 'ALL' || (d.getMonth() + 1) === Number(monthVal);
-                const matchYear = yearVal === 'ALL' || d.getFullYear() === Number(yearVal);
+            return getOrders().filter(o => {
+                const dt = new Date(Number(o.timestamp) || Date.now());
+                const matchDay = dayVal === 'ALL' || dt.getDate() === Number(dayVal);
+                const matchMonth = monthVal === 'ALL' || (dt.getMonth() + 1) === Number(monthVal);
+                const matchYear = yearVal === 'ALL' || dt.getFullYear() === Number(yearVal);
                 const matchStatus = statusVal === 'ALL'
-                    ? true
-                    : statusVal === 'completed'
-                        ? ord.status === 'completed'
-                        : ord.status !== 'completed';
+                    || (statusVal === 'completed' && o.status === 'completed')
+                    || (statusVal === 'active' && o.status !== 'completed');
                 return matchDay && matchMonth && matchYear && matchStatus;
             });
         }
 
         function renderAdminSalesDashboard() {
-            if (!currentStaff || currentStaff.role !== 'admin') return;
             const filtered = getFilteredSalesOrders();
-
             const totalRevenue = filtered.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
             const totalOrders = filtered.length;
             const totalCups = filtered.reduce((sum, o) => {
-                const cups = Array.isArray(o.items) ? o.items.reduce((s, it) => s + (Number(it.qty) || 1), 0) : 0;
-                return sum + cups;
+                return sum + (Array.isArray(o.items) ? o.items.reduce((s, it) => s + (Number(it.qty) || 1), 0) : 0);
             }, 0);
             const avgOrder = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
 
@@ -3379,27 +4088,24 @@ const firebaseConfig = {
 
             const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
             const monthSel = document.getElementById('sales-filter-month');
-            const monthVal = monthSel?.value || 'ALL';
-            const monthName = monthVal !== 'ALL' ? monthSel.options[monthSel.selectedIndex].text : '';
+            const monthText = monthSel && monthSel.value !== 'ALL' ? monthSel.options[monthSel.selectedIndex].text : '';
             const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
-            const parts = [];
-            if (dayVal !== 'ALL') parts.push(`Tgl ${dayVal}`);
-            if (monthVal !== 'ALL') parts.push(monthName);
-            if (yearVal !== 'ALL') parts.push(yearVal);
-            document.getElementById('sales-period-label').textContent = parts.length > 0 ? parts.join(' • ') : 'Semua Periode';
+            const periodParts = [dayVal !== 'ALL' ? `Tgl ${dayVal}` : '', monthText, yearVal !== 'ALL' ? yearVal : ''].filter(Boolean);
+            document.getElementById('sales-period-label').textContent = periodParts.length > 0 ? periodParts.join(' ') : 'Semua Periode';
 
-            // Payment method summary
             const methods = ['COD', 'QRIS', 'TRANSFER', 'EWALLET'];
-            const methodLabels = { COD: 'Tunai / COD', QRIS: 'QRIS Resmi', TRANSFER: 'Transfer Bank', EWALLET: 'E-Wallet' };
             const breakdownEl = document.getElementById('sales-method-breakdown');
             if (breakdownEl) {
                 breakdownEl.innerHTML = methods.map(m => {
                     const mOrders = filtered.filter(o => o.paymentMethod === m);
                     const mSum = mOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
                     return `
-                        <div class="p-2.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between text-xs">
-                            <span class="font-bold text-gray-600">${methodLabels[m]} (${mOrders.length})</span>
-                            <span class="font-extrabold text-ugiee-dark">${formatRp(mSum)}</span>
+                        <div class="p-3 rounded-2xl bg-white border border-gray-200 flex items-center justify-between text-xs">
+                            <div>
+                                <div class="font-extrabold text-ugiee-dark">${m}</div>
+                                <div class="text-[10px] text-gray-500">${mOrders.length} Transaksi</div>
+                            </div>
+                            <span class="font-extrabold text-ugiee-tealDark">${formatRp(mSum)}</span>
                         </div>
                     `;
                 }).join('');
@@ -3408,7 +4114,7 @@ const firebaseConfig = {
             const tbody = document.getElementById('sales-table-body');
             const mobileList = document.getElementById('sales-mobile-list');
             const emptyState = document.getElementById('sales-empty-state');
-            if (!tbody || !mobileList || !emptyState) return;
+            if (!tbody || !mobileList) return;
 
             if (filtered.length === 0) {
                 tbody.innerHTML = '';
@@ -3418,53 +4124,53 @@ const firebaseConfig = {
             }
             emptyState.classList.add('hidden');
 
-            tbody.innerHTML = filtered.map(ord => {
-                const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+            tbody.innerHTML = filtered.map(o => {
+                const itemsText = (o.items || []).map(it => `${it.qty}x ${it.name}`).join(', ');
                 return `
                     <tr class="hover:bg-ugiee-sage/30 transition">
                         <td class="py-3 px-3.5">
-                            <div class="font-extrabold text-ugiee-dark">#${escapeHtml(ord.id)}</div>
-                            <div class="text-[10px] text-gray-400">${escapeHtml(ord.createdAt)}</div>
+                            <div class="font-extrabold text-ugiee-dark">#${escapeHtml(o.id)}</div>
+                            <div class="text-[11px] text-gray-500">${escapeHtml(o.createdAt)}</div>
                         </td>
                         <td class="py-3 px-3.5">
-                            <div class="font-bold text-ugiee-dark">${escapeHtml(ord.customerName)}</div>
-                            <div class="text-[10px] text-gray-500">${escapeHtml(ord.location)} • ${escapeHtml(ord.outlet)}</div>
+                            <div class="font-bold text-ugiee-dark">${escapeHtml(o.customerName)}</div>
+                            <div class="text-[11px] text-gray-500">${escapeHtml(o.location)}</div>
                         </td>
-                        <td class="py-3 px-3.5 text-gray-600 max-w-[210px] truncate" title="${escapeHtml(itemsText)}">${escapeHtml(itemsText)}</td>
-                        <td class="py-3 px-3.5 font-bold text-ugiee-tealDark">${escapeHtml(ord.paymentMethod)}</td>
+                        <td class="py-3 px-3.5 text-gray-700 max-w-xs truncate" title="${escapeHtml(itemsText)}">${escapeHtml(itemsText)}</td>
+                        <td class="py-3 px-3.5 font-extrabold text-xs">${escapeHtml(o.paymentMethod)}</td>
                         <td class="py-3 px-3.5 text-center">
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${ord.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-                                ${ord.status === 'completed' ? 'Selesai' : 'Berjalan'}
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${o.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                ${escapeHtml(o.status.toUpperCase())}
                             </span>
                         </td>
-                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(ord.total)}</td>
+                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-tealDark">${formatRp(o.total)}</td>
                         <td class="py-3 px-3.5 text-center">
-                            <button type="button" onclick="deleteSalesTransaction('${ord.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold text-[11px] cursor-pointer" title="Hapus Transaksi Salah">
-                                <i class="fa-solid fa-trash-can"></i> Hapus
+                            <button type="button" onclick="deleteSalesTransaction('${escapeHtml(o.id)}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer" title="Hapus Transaksi Salah">
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </td>
                     </tr>
                 `;
             }).join('');
 
-            mobileList.innerHTML = filtered.map(ord => {
-                const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+            mobileList.innerHTML = filtered.map(o => {
+                const itemsText = (o.items || []).map(it => `${it.qty}x ${it.name}`).join(', ');
                 return `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2">
+                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2 text-xs">
                         <div class="flex items-center justify-between">
                             <div>
-                                <span class="font-extrabold text-xs text-ugiee-dark">#${escapeHtml(ord.id)}</span>
-                                <span class="text-[10px] text-gray-400 ml-1">${escapeHtml(ord.createdAt)}</span>
+                                <span class="font-extrabold text-ugiee-dark">#${escapeHtml(o.id)}</span>
+                                <span class="text-[11px] text-gray-500 ml-1.5">${escapeHtml(o.createdAt)}</span>
                             </div>
-                            <span class="font-extrabold text-xs text-ugiee-tealDark">${formatRp(ord.total)}</span>
-                        </div>
-                        <div class="text-xs font-bold text-ugiee-dark">${escapeHtml(ord.customerName)} <span class="font-normal text-gray-500">(${escapeHtml(ord.paymentMethod)})</span></div>
-                        <div class="text-[11px] text-gray-600">${escapeHtml(itemsText)}</div>
-                        <div class="flex items-center justify-between pt-1 border-t border-gray-100">
-                            <span class="text-[10px] font-extrabold ${ord.status === 'completed' ? 'text-emerald-700' : 'text-amber-700'}">${ord.status === 'completed' ? '● Selesai' : '● Berjalan'}</span>
-                            <button type="button" onclick="deleteSalesTransaction('${ord.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 text-[11px] font-bold cursor-pointer">
-                                <i class="fa-solid fa-trash-can mr-1"></i> Hapus Data
+                            <button type="button" onclick="deleteSalesTransaction('${escapeHtml(o.id)}')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 font-bold text-[11px] cursor-pointer">
+                                <i class="fa-solid fa-trash-can mr-1"></i> Hapus
                             </button>
+                        </div>
+                        <div class="font-bold text-ugiee-dark">${escapeHtml(o.customerName)} • <span class="text-gray-500 font-normal">${escapeHtml(o.location)}</span></div>
+                        <div class="text-[11px] text-gray-600">${escapeHtml(itemsText)}</div>
+                        <div class="flex items-center justify-between pt-1.5 border-t border-gray-100">
+                            <span class="font-bold">${escapeHtml(o.paymentMethod)} • ${escapeHtml(o.status.toUpperCase())}</span>
+                            <span class="font-extrabold text-sm text-ugiee-tealDark">${formatRp(o.total)}</span>
                         </div>
                     </div>
                 `;
@@ -3472,15 +4178,11 @@ const firebaseConfig = {
         }
 
         function deleteSalesTransaction(orderId) {
-            const orders = getOrders();
-            const target = orders.find(o => o.id === orderId);
-            if (!target) return;
-            const updated = orders.filter(o => o.id !== orderId);
-            saveOrders(updated);
-            if (fbDb) fbDb.ref(`${FIREBASE_ROOT_PATH}/orders/${orderId}`).remove().catch(() => {});
+            const orders = getOrders().filter(o => o.id !== orderId);
+            saveOrders(orders);
             renderAdminSalesDashboard();
             renderStaffDashboard();
-            showToast(`🗑️ Transaksi #${orderId} berhasil dihapus dari data penjualan.`);
+            showToast(`🗑️ Transaksi #${orderId} dihapus dari laporan penjualan.`);
         }
 
         function exportSalesToCSV() {
@@ -3489,93 +4191,104 @@ const firebaseConfig = {
                 showToast('Tidak ada data penjualan untuk diexport.');
                 return;
             }
-            const headers = ['No', 'Order ID', 'Waktu', 'Nama Mahasiswa', 'No WA', 'Outlet', 'Gedung Kampus', 'Rincian Menu', 'Metode Bayar', 'Status', 'Total Omzet (Rp)'];
-            const rows = filtered.map((o, idx) => {
-                const itemsStr = (o.items || []).map(i => `${i.qty}x ${i.name}`).join('; ');
-                return [
-                    idx + 1,
-                    `"${o.id}"`,
-                    `"${o.createdAt}"`,
-                    `"${String(o.customerName || '').replace(/"/g, '""')}"`,
-                    `"${String(o.customerWa || '').replace(/"/g, '""')}"`,
-                    `"${String(o.outlet || '').replace(/"/g, '""')}"`,
-                    `"${String(o.location || '').replace(/"/g, '""')}"`,
-                    `"${itemsStr.replace(/"/g, '""')}"`,
-                    `"${o.paymentMethod}"`,
-                    `"${o.status}"`,
-                    Number(o.total) || 0
-                ];
-            });
-            const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const headers = ['ID Order', 'Tanggal Waktu', 'Nama Pelanggan', 'No WA', 'Outlet', 'Titik Antar', 'Ruangan', 'Menu Dipesan', 'Metode Bayar', 'Status', 'Total Omzet (Rp)'];
+            const rows = filtered.map(o => [
+                o.id,
+                o.createdAt,
+                o.customerName,
+                o.customerWa,
+                o.outlet,
+                o.location,
+                o.room,
+                (o.items || []).map(it => `${it.qty}x ${it.name}`).join('; '),
+                o.paymentMethod,
+                o.status,
+                o.total
+            ]);
+            const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))].join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Laporan_Penjualan_UGIEE_Unimerz.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Laporan_Penjualan_UGIEE_${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast('📊 Laporan Penjualan CSV berhasil diunduh!');
+            showToast('📊 File CSV Laporan Penjualan berhasil diunduh!');
         }
 
-        // ==================== 13. ADMIN MENU CRUD ====================
+        // ==================== 15. ADMIN: KELOLA MENU & FOTO PRODUK ====================
         function renderAdminMenuTable() {
-            const menus = getMenuData();
-            const query = (document.getElementById('admin-menu-search')?.value || '').toLowerCase().trim();
-            const cat = document.getElementById('admin-menu-cat-filter')?.value || 'ALL';
             const grid = document.getElementById('admin-menu-grid');
             if (!grid) return;
+            const search = (document.getElementById('admin-menu-search')?.value || '').trim().toLowerCase();
+            const catFilter = document.getElementById('admin-menu-cat-filter')?.value || 'ALL';
 
-            const filtered = menus.filter(m => {
-                const matchCat = cat === 'ALL' || m.category === cat;
-                const matchQ = !query || m.name.toLowerCase().includes(query);
-                return matchCat && matchQ;
+            const filtered = getMenuData().filter(m => {
+                const matchCat = catFilter === 'ALL' || m.category === catFilter;
+                const matchSearch = !search || m.name.toLowerCase().includes(search);
+                return matchCat && matchSearch;
             });
 
-            grid.innerHTML = filtered.map(item => `
-                <div class="p-3 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/25 flex items-center gap-3">
-                    <img src="${item.img}" alt="${escapeHtml(item.name)}" class="w-16 h-16 rounded-xl object-cover border border-gray-200 bg-white shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <div class="text-[10px] font-bold text-ugiee-teal uppercase">${escapeHtml(item.category)} • Size ${escapeHtml(item.size || 'S')}</div>
-                        <h4 class="font-display font-extrabold text-sm text-ugiee-dark truncate">${escapeHtml(item.name)}</h4>
-                        <div class="font-extrabold text-xs text-ugiee-tealDark mt-0.5">${formatRp(item.price)}</div>
-                        <div class="flex items-center gap-1.5 mt-2">
-                            <button type="button" onclick="openAdminMenuModal('${item.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-teal hover:text-white border border-gray-300 text-[11px] font-bold transition cursor-pointer">
-                                <i class="fa-solid fa-pen"></i> Edit / Foto
-                            </button>
-                            <button type="button" onclick="toggleMenuAvailability('${item.id}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer ${
-                                item.available !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                            }">
-                                ${item.available !== false ? 'Tersedia' : 'Habis'}
-                            </button>
-                            <button type="button" onclick="deleteAdminMenuItem('${item.id}')" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-[11px] cursor-pointer">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
+            grid.innerHTML = filtered.map(m => {
+                const isAvail = m.available !== false;
+                return `
+                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 flex items-center gap-3">
+                        <img src="${m.img}" alt="${escapeHtml(m.name)}" class="w-16 h-16 rounded-xl object-cover border border-gray-200 bg-white shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] font-bold text-ugiee-teal uppercase">${escapeHtml(m.category)}</span>
+                                <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded ${isAvail ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">${isAvail ? 'Ready' : 'Habis'}</span>
+                            </div>
+                            <h4 class="font-display font-extrabold text-sm text-ugiee-dark truncate">${escapeHtml(m.name)} (${escapeHtml(m.size || 'S')})</h4>
+                            <div class="font-extrabold text-xs text-ugiee-tealDark mt-0.5">${formatRp(m.price)}</div>
+                            <div class="flex items-center gap-1.5 mt-2">
+                                <button type="button" onclick="openAdminMenuModal('${m.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-sage text-ugiee-dark border border-gray-300 font-bold text-[11px] cursor-pointer">
+                                    <i class="fa-solid fa-pen-to-square mr-1 text-ugiee-teal"></i> Edit / Foto
+                                </button>
+                                <button type="button" onclick="toggleMenuAvailability('${m.id}')" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-[11px] cursor-pointer">
+                                    ${isAvail ? 'Set Habis' : 'Set Ready'}
+                                </button>
+                                <button type="button" onclick="deleteAdminMenuItem('${m.id}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-[11px] cursor-pointer">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function openAdminMenuModal(editId = '') {
-            const menus = getMenuData();
-            const existing = editId ? menus.find(m => m.id === editId) : null;
-            const defaultImg = generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15987E', '#A7F3D0', 'boba');
-
-            document.getElementById('admin-menu-modal-title').textContent = existing ? `Edit Menu: ${existing.name}` : 'Tambah Menu Baru';
-            document.getElementById('edit-menu-id').value = existing ? existing.id : '';
-            document.getElementById('edit-menu-name').value = existing ? existing.name : '';
-            document.getElementById('edit-menu-category').value = existing ? existing.category : 'Matcha Latte';
-            document.getElementById('edit-menu-price').value = existing ? existing.price : 13000;
-            document.getElementById('edit-menu-size').value = existing ? (existing.size || 'S') : 'S';
-            document.getElementById('edit-menu-badge').value = existing ? (existing.badge || '') : '';
-            document.getElementById('edit-menu-desc').value = existing ? (existing.desc || '') : '';
-            document.getElementById('edit-menu-available').checked = existing ? (existing.available !== false) : true;
+        function openAdminMenuModal(menuId = '') {
+            adminUploadedMenuPhotoBase64 = '';
             document.getElementById('admin-menu-photo-input').value = '';
 
-            adminUploadedMenuPhotoBase64 = existing ? existing.img : defaultImg;
-            document.getElementById('admin-menu-photo-preview').src = adminUploadedMenuPhotoBase64;
+            if (menuId) {
+                const item = getMenuData().find(m => m.id === menuId);
+                if (!item) return;
+                document.getElementById('admin-menu-modal-title').textContent = 'Edit Menu & Foto Produk';
+                document.getElementById('edit-menu-id').value = item.id;
+                document.getElementById('edit-menu-name').value = item.name;
+                document.getElementById('edit-menu-category').value = item.category;
+                document.getElementById('edit-menu-price').value = item.price;
+                document.getElementById('edit-menu-size').value = item.size || 'S';
+                document.getElementById('edit-menu-badge').value = item.badge || '';
+                document.getElementById('edit-menu-desc').value = item.desc || '';
+                document.getElementById('edit-menu-available').checked = item.available !== false;
+                document.getElementById('admin-menu-photo-preview').src = item.img;
+            } else {
+                document.getElementById('admin-menu-modal-title').textContent = 'Tambah Menu Minuman Baru';
+                document.getElementById('edit-menu-id').value = '';
+                document.getElementById('edit-menu-name').value = '';
+                document.getElementById('edit-menu-category').value = 'Matcha Latte';
+                document.getElementById('edit-menu-price').value = 15000;
+                document.getElementById('edit-menu-size').value = 'S';
+                document.getElementById('edit-menu-badge').value = 'NEW';
+                document.getElementById('edit-menu-desc').value = '';
+                document.getElementById('edit-menu-available').checked = true;
+                document.getElementById('admin-menu-photo-preview').src = generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15987E', '#4DA395', 'boba');
+            }
 
             document.getElementById('admin-menu-modal').classList.remove('hidden');
         }
@@ -3587,17 +4300,16 @@ const firebaseConfig = {
         function handleAdminMenuPhotoUpload(e) {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            compressImageFile(file, 500, 0.75, (dataUrl) => {
+            compressImageFile(file, 450, 0.72, (dataUrl) => {
                 adminUploadedMenuPhotoBase64 = dataUrl;
                 document.getElementById('admin-menu-photo-preview').src = dataUrl;
-                showToast('📸 Foto menu siap disimpan!');
+                showToast('📸 Foto produk siap disimpan!');
             });
         }
 
         function saveAdminMenuItem(e) {
             e.preventDefault();
-            const menus = getMenuData();
-            const editId = document.getElementById('edit-menu-id').value;
+            const id = document.getElementById('edit-menu-id').value;
             const name = document.getElementById('edit-menu-name').value.trim();
             const category = document.getElementById('edit-menu-category').value;
             const price = Number(document.getElementById('edit-menu-price').value) || 10000;
@@ -3605,29 +4317,41 @@ const firebaseConfig = {
             const badge = document.getElementById('edit-menu-badge').value;
             const desc = document.getElementById('edit-menu-desc').value.trim();
             const available = document.getElementById('edit-menu-available').checked;
-            const isHot = name.toLowerCase().startsWith('hot ');
 
-            if (editId) {
-                const idx = menus.findIndex(m => m.id === editId);
+            const menus = getMenuData();
+            if (id) {
+                const idx = menus.findIndex(m => m.id === id);
                 if (idx !== -1) {
                     menus[idx] = {
                         ...menus[idx],
-                        name, category, price, size, badge, desc, available, isHot,
+                        name,
+                        category,
+                        price,
+                        size,
+                        badge,
+                        desc,
+                        available,
                         img: adminUploadedMenuPhotoBase64 || menus[idx].img
                     };
                 }
             } else {
                 menus.unshift({
-                    id: 'custom_' + Date.now(),
-                    name, category, price, size, badge, desc, available, isHot,
-                    img: adminUploadedMenuPhotoBase64
+                    id: 'm_' + Date.now(),
+                    name,
+                    category,
+                    price,
+                    size,
+                    badge,
+                    desc,
+                    available,
+                    img: adminUploadedMenuPhotoBase64 || generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15987E', '#4DA395', 'boba')
                 });
             }
 
             if (saveMenuData(menus)) {
                 renderAdminMenuTable();
                 closeAdminMenuModal();
-                showToast(`✅ Menu "${name}" berhasil disimpan!`);
+                showToast('✅ Katalog menu berhasil disimpan!');
             }
         }
 
@@ -3635,55 +4359,50 @@ const firebaseConfig = {
             const menus = getMenuData();
             const idx = menus.findIndex(m => m.id === menuId);
             if (idx !== -1) {
-                menus[idx].available = menus[idx].available === false ? true : false;
+                menus[idx].available = menus[idx].available === false;
                 saveMenuData(menus);
                 renderAdminMenuTable();
-                showToast(`Status stok "${menus[idx].name}" diperbarui.`);
+                showToast(`Status stok ${menus[idx].name} diperbarui.`);
             }
         }
 
         function deleteAdminMenuItem(menuId) {
-            const menus = getMenuData();
-            const target = menus.find(m => m.id === menuId);
-            if (!target) return;
-            saveMenuData(menus.filter(m => m.id !== menuId));
+            const menus = getMenuData().filter(m => m.id !== menuId);
+            saveMenuData(menus);
             renderAdminMenuTable();
-            showToast(`Menu "${target.name}" dihapus.`);
+            showToast('Menu dihapus dari katalog.');
         }
 
-        // ==================== 14. ADMIN PROMO & VOUCHER CRUD ====================
+        // ==================== 16. ADMIN: PROMO BANNER & VOUCHER ====================
         function renderAdminPromoAndVouchers() {
-            const vouchers = getVouchersData();
-            const banners = getBannersData();
             const vList = document.getElementById('admin-voucher-list');
             const bList = document.getElementById('admin-banner-list');
-
             if (vList) {
-                vList.innerHTML = vouchers.map((v, idx) => `
+                vList.innerHTML = getVouchersData().map((v, idx) => `
                     <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/30 flex items-center justify-between gap-2">
                         <div>
-                            <div class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(v.code)}</div>
-                            <div class="text-xs text-ugiee-tealDark font-bold">Diskon ${formatRp(v.discount)} • Min. ${formatRp(v.minSpend)}</div>
+                            <div class="font-mono font-extrabold text-sm text-ugiee-tealDark">${escapeHtml(v.code)}</div>
+                            <div class="text-[11px] text-gray-600">Potongan <strong>${formatRp(v.discount)}</strong> • Min. ${formatRp(v.minSpend)}</div>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <button type="button" onclick="toggleVoucherActive(${idx})" class="px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${v.active !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-gray-600'}">
-                                ${v.active !== false ? 'Aktif' : 'Nonaktif'}
-                            </button>
-                            <button type="button" onclick="deleteVoucher(${idx})" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
+                        <button type="button" onclick="deleteVoucher(${idx})" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </div>
                 `).join('');
             }
 
             if (bList) {
-                bList.innerHTML = banners.map((b, idx) => `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-white flex items-start justify-between gap-2">
-                        <div>
-                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-ugiee-teal/10 text-ugiee-tealDark">${escapeHtml(b.badge)}</span>
-                            <h4 class="font-extrabold text-xs sm:text-sm text-ugiee-dark mt-1">${escapeHtml(b.title)}</h4>
-                            <p class="text-[11px] text-gray-500 mt-0.5">${escapeHtml(b.desc)}</p>
+                bList.innerHTML = getBannersData().map((b, idx) => `
+                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-white flex items-start justify-between gap-3">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-ugiee-yellow/30 text-amber-900">${escapeHtml(b.badge)}</span>
+                            <h4 class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(b.title)}</h4>
+                            <p class="text-[11px] text-gray-500">${escapeHtml(b.desc)}</p>
+                            ${b.code ? `<div class="text-[11px] font-mono font-bold text-ugiee-teal">Kode: ${escapeHtml(b.code)}</div>` : ''}
                         </div>
-                        <button type="button" onclick="deleteBanner(${idx})" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs shrink-0 cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                        <button type="button" onclick="deleteBanner(${idx})" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs shrink-0 cursor-pointer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </div>
                 `).join('');
             }
@@ -3696,20 +4415,12 @@ const firebaseConfig = {
             const minSpend = Number(document.getElementById('new-voucher-min').value) || 0;
             if (!code || discount <= 0) return;
 
-            const vouchers = getVouchersData();
+            const vouchers = getVouchersData().filter(v => v.code !== code);
             vouchers.unshift({ code, discount, minSpend, active: true });
             saveVouchersData(vouchers);
             e.target.reset();
             renderAdminPromoAndVouchers();
-            showToast(`🎟️ Voucher ${code} berhasil ditambahkan!`);
-        }
-
-        function toggleVoucherActive(idx) {
-            const vouchers = getVouchersData();
-            if (!vouchers[idx]) return;
-            vouchers[idx].active = vouchers[idx].active === false ? true : false;
-            saveVouchersData(vouchers);
-            renderAdminPromoAndVouchers();
+            showToast(`🎟️ Voucher ${code} berhasil dibuat!`);
         }
 
         function deleteVoucher(idx) {
@@ -3726,18 +4437,20 @@ const firebaseConfig = {
             const title = document.getElementById('new-banner-title').value.trim();
             const desc = document.getElementById('new-banner-desc').value.trim();
             const code = document.getElementById('new-banner-code').value.trim().toUpperCase();
-            if (!title) return;
 
             const banners = getBannersData();
             banners.unshift({
                 id: 'bn_' + Date.now(),
-                badge, title, desc, code,
+                badge,
+                title,
+                desc,
+                code,
                 gradient: 'from-ugiee-tealDark via-ugiee-teal to-emerald-600'
             });
             saveBannersData(banners);
             e.target.reset();
             renderAdminPromoAndVouchers();
-            showToast('📢 Banner promo baru tampil di halaman mahasiswa!');
+            showToast('📢 Banner promo ditambahkan!');
         }
 
         function deleteBanner(idx) {
@@ -3752,44 +4465,30 @@ const firebaseConfig = {
             showToast('Banner promo dihapus.');
         }
 
-        // ==================== 15. ADMIN CUSTOMER DATABASE ====================
+        // ==================== 17. ADMIN: DATABASE PELANGGAN (CRM & LOYALTY STAMPS) ====================
         function renderAdminCustomersTable() {
-            if (!currentStaff || currentStaff.role !== 'admin') return;
             const customers = getCustomersData();
-            updateAdminCustomerBadge();
-
-            const kpiTotalEl = document.getElementById('cust-kpi-total');
-            const kpiOrdersEl = document.getElementById('cust-kpi-orders');
-            const kpiTopEl = document.getElementById('cust-kpi-top');
-
-            const totalOrdersAll = customers.reduce((sum, c) => sum + (Number(c.totalOrders) || 0), 0);
-            let topCustomer = null;
-            customers.forEach(c => {
-                if (!topCustomer || (Number(c.totalSpent) || 0) > (Number(topCustomer.totalSpent) || 0)) {
-                    topCustomer = c;
-                }
-            });
-
-            if (kpiTotalEl) kpiTotalEl.textContent = `${customers.length} Mahasiswa`;
-            if (kpiOrdersEl) kpiOrdersEl.textContent = `${totalOrdersAll} Order`;
-            if (kpiTopEl) kpiTopEl.textContent = topCustomer ? `${topCustomer.name} (${topCustomer.totalOrders}x)` : '-';
-
-            const query = (document.getElementById('admin-customer-search')?.value || '').toLowerCase().trim();
+            const search = (document.getElementById('admin-customer-search')?.value || '').trim().toLowerCase();
             const sortBy = document.getElementById('admin-customer-sort')?.value || 'recent';
 
-            const filtered = customers.filter(c => {
-                if (!query) return true;
-                return (
-                    (c.name || '').toLowerCase().includes(query) ||
-                    (c.phone || '').toLowerCase().includes(query) ||
-                    (c.id || '').toLowerCase().includes(query) ||
-                    (c.lastLocation || '').toLowerCase().includes(query)
-                );
+            const totalOrdersAll = customers.reduce((s, c) => s + (Number(c.totalOrders) || 0), 0);
+            const topCust = [...customers].sort((a, b) => (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0))[0];
+
+            document.getElementById('cust-kpi-total').textContent = `${customers.length} Mahasiswa`;
+            document.getElementById('cust-kpi-orders').textContent = `${totalOrdersAll} Order`;
+            document.getElementById('cust-kpi-top').textContent = topCust ? `${topCust.name} (${topCust.totalOrders}x)` : '-';
+
+            let filtered = customers.filter(c => {
+                if (!search) return true;
+                return (c.name || '').toLowerCase().includes(search) ||
+                    (c.phone || '').toLowerCase().includes(search) ||
+                    (c.lastLocation || '').toLowerCase().includes(search);
             });
 
             filtered.sort((a, b) => {
                 if (sortBy === 'orders') return (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0);
                 if (sortBy === 'spent') return (Number(b.totalSpent) || 0) - (Number(a.totalSpent) || 0);
+                if (sortBy === 'stamps') return (Number(b.stamps) || 0) - (Number(a.stamps) || 0);
                 if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
                 return (Number(b.lastTimestamp) || 0) - (Number(a.lastTimestamp) || 0);
             });
@@ -3797,7 +4496,7 @@ const firebaseConfig = {
             const tbody = document.getElementById('admin-customers-table-body');
             const mobileList = document.getElementById('admin-customers-mobile-list');
             const emptyState = document.getElementById('admin-customers-empty');
-            if (!tbody || !mobileList || !emptyState) return;
+            if (!tbody || !mobileList) return;
 
             if (filtered.length === 0) {
                 tbody.innerHTML = '';
@@ -3809,13 +4508,21 @@ const firebaseConfig = {
 
             tbody.innerHTML = filtered.map((c, idx) => {
                 const waNumber = normalizeCustomerPhone(c.phone || c.id);
-                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah jajan di *UGIEE! Signature*. Spesial hari ini ada promo *UNIMERZ5K* + Gratis Ongkir ke Kampus Unimerz!`);
+                const stampsCount = Number(c.stamps) || 0;
+                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah jajan di *UGIEE! Signature*. Saldo poin membermu saat ini *${stampsCount} Stempel Madu*. Spesial hari ini ada promo *UNIMERZ5K* + Gratis Ongkir ke Kampus Unimerz!`);
                 return `
                     <tr class="hover:bg-ugiee-sage/30 transition">
                         <td class="py-3 px-3.5 text-center font-bold text-gray-500">${idx + 1}</td>
                         <td class="py-3 px-3.5 font-extrabold text-ugiee-dark">${escapeHtml(c.name)}</td>
                         <td class="py-3 px-3.5 font-mono font-bold text-ugiee-tealDark">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</td>
                         <td class="py-3 px-3.5 text-gray-600">${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</td>
+                        <td class="py-3 px-3.5 text-center">
+                            <div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-300 px-2 py-1 rounded-xl">
+                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', -1)" class="w-5 h-5 rounded bg-white hover:bg-rose-50 text-rose-600 font-extrabold text-xs border border-gray-200 cursor-pointer">-</button>
+                                <span class="font-extrabold text-xs text-amber-900 min-w-[46px]">🍯 ${stampsCount}</span>
+                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', 1)" class="w-5 h-5 rounded bg-ugiee-yellow text-ugiee-dark font-extrabold text-xs cursor-pointer">+</button>
+                            </div>
+                        </td>
                         <td class="py-3 px-3.5 text-center">
                             <span class="px-2 py-0.5 rounded-full bg-ugiee-teal/10 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
                             <span class="text-[11px] text-gray-500 ml-1">(${Number(c.totalCup) || 0} Cup)</span>
@@ -3838,7 +4545,8 @@ const firebaseConfig = {
 
             mobileList.innerHTML = filtered.map(c => {
                 const waNumber = normalizeCustomerPhone(c.phone || c.id);
-                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah memesan di *UGIEE! Signature*.`);
+                const stampsCount = Number(c.stamps) || 0;
+                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Saldo poin member *UGIEE! Signature* kamu saat ini *${stampsCount} Stempel Madu*. Terima kasih sudah memesan!`);
                 return `
                     <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2">
                         <div class="flex items-start justify-between gap-2">
@@ -3847,6 +4555,13 @@ const firebaseConfig = {
                                 <div class="font-mono text-xs font-bold text-ugiee-tealDark mt-0.5">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</div>
                             </div>
                             <span class="px-2.5 py-1 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1.5 rounded-xl text-xs">
+                            <span class="font-bold text-amber-900">🍯 Stempel Loyalty: <strong>${stampsCount}</strong></span>
+                            <div class="flex items-center gap-1">
+                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', -1)" class="w-6 h-6 rounded bg-white text-rose-600 font-extrabold border border-gray-200 cursor-pointer">-</button>
+                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', 1)" class="w-6 h-6 rounded bg-ugiee-yellow text-ugiee-dark font-extrabold cursor-pointer">+</button>
+                            </div>
                         </div>
                         <div class="text-[11px] text-gray-600 flex flex-wrap items-center justify-between gap-1 pt-1 border-t border-gray-100">
                             <span>${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</span>
@@ -3868,10 +4583,21 @@ const firebaseConfig = {
             }).join('');
         }
 
+        function adjustCustomerStampsAdmin(customerId, delta) {
+            const customers = getCustomersData();
+            const idx = customers.findIndex(c => c.id === customerId);
+            if (idx !== -1) {
+                customers[idx].stamps = Math.max(0, (Number(customers[idx].stamps) || 0) + delta);
+                saveCustomersData(customers);
+                syncSingleCustomerToCloud(customers[idx]);
+                renderAdminCustomersTable();
+                showToast(`🍯 Stempel ${customers[idx].name} diperbarui menjadi ${customers[idx].stamps} poin.`);
+            }
+        }
+
         function deleteCustomerRecord(customerId) {
             const updated = getCustomersData().filter(c => c.id !== customerId);
             saveCustomersData(updated);
-            if (fbDb) fbDb.ref(`${FIREBASE_ROOT_PATH}/customers/${customerId}`).remove().catch(() => {});
             renderAdminCustomersTable();
             showToast('Data pelanggan dihapus.');
         }
@@ -3882,99 +4608,105 @@ const firebaseConfig = {
                 showToast('Belum ada data pelanggan untuk diexport.');
                 return;
             }
-            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WA', 'Titik Antar Terakhir', 'Total Order', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Memesan'];
+            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WA', 'Titik Antar Terakhir', 'Stempel Loyalty', 'Total Order', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Order'];
             const rows = customers.map((c, idx) => [
                 idx + 1,
-                `"${String(c.name || '').replace(/"/g, '""')}"`,
-                `"${String(c.phone || formatDisplayPhone(c.id)).replace(/"/g, '""')}"`,
-                `"${String(c.lastLocation || '').replace(/"/g, '""')}"`,
+                c.name || '',
+                c.phone || formatDisplayPhone(c.id),
+                c.lastLocation || '',
+                Number(c.stamps) || 0,
                 Number(c.totalOrders) || 1,
                 Number(c.totalCup) || 0,
                 Number(c.totalSpent) || 0,
-                `"${String(c.lastOrderAt || '').replace(/"/g, '""')}"`
+                c.lastOrderAt || ''
             ]);
-            const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))].join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Database_Pelanggan_UGIEE_Unimerz.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Database_Pelanggan_UGIEE_${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
             showToast('📊 File CSV Database Pelanggan berhasil diunduh!');
         }
 
-        // ==================== 16. ADMIN STAFF MANAGEMENT (KASIR & KURIR) ====================
+        // ==================== 18. ADMIN: MANAJEMEN KARYAWAN (KASIR & KURIR) ====================
         function renderAdminStaffTable() {
-            if (!currentStaff || currentStaff.role !== 'admin') return;
             const listEl = document.getElementById('admin-staff-list');
             if (!listEl) return;
-
             const accounts = getStaffAccountsData();
+
             listEl.innerHTML = accounts.map(acc => {
-                const isOwner = acc.role === 'admin';
-                const roleBadge = acc.role === 'admin'
-                    ? 'bg-purple-100 text-purple-800 border-purple-200'
-                    : acc.role === 'kasir'
-                        ? 'bg-ugiee-teal/15 text-ugiee-tealDark border-ugiee-teal/30'
-                        : 'bg-amber-100 text-amber-900 border-amber-200';
-                const roleName = acc.role === 'admin' ? 'ADMIN / OWNER' : acc.role === 'kasir' ? 'KASIR OUTLET' : 'KURIR KAMPUS';
+                const isAdmin = acc.role === 'admin';
                 const isActive = acc.active !== false;
+                const roleBadge = acc.role === 'admin'
+                    ? 'bg-purple-100 text-purple-800'
+                    : acc.role === 'kurir'
+                        ? 'bg-amber-100 text-amber-900'
+                        : 'bg-ugiee-teal/15 text-ugiee-tealDark';
 
                 return `
-                    <div class="p-4 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/25 flex flex-col justify-between space-y-3 ${!isActive ? 'opacity-65' : ''}">
+                    <div class="p-4 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 flex flex-col justify-between gap-3">
                         <div class="space-y-1.5">
                             <div class="flex items-center justify-between gap-2">
-                                <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${roleBadge}">${roleName}</span>
-                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-                                    ${isActive ? '● Aktif' : '● Nonaktif'}
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${roleBadge}">${escapeHtml(acc.role)}</span>
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">
+                                    ${isActive ? '● Aktif' : '○ Nonaktif'}
                                 </span>
                             </div>
-                            <h4 class="font-display font-extrabold text-sm sm:text-base text-ugiee-dark">${escapeHtml(acc.name)}</h4>
-                            <div class="text-[11px] text-gray-500"><i class="fa-solid fa-store mr-1"></i>${escapeHtml(acc.outlet || 'Semua Outlet Kampus')}</div>
-                            <div class="p-2 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs font-mono mt-1">
+                            <h4 class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(acc.name)}</h4>
+                            <div class="text-[11px] text-gray-500"><i class="fa-solid fa-store text-ugiee-teal mr-1"></i> ${escapeHtml(acc.outlet || 'Semua Outlet')}</div>
+                            <div class="p-2 rounded-xl bg-white border border-gray-200 font-mono text-[11px] flex items-center justify-between">
                                 <span>User: <strong>${escapeHtml(acc.username)}</strong></span>
                                 <span>PIN: <strong>${escapeHtml(acc.pin)}</strong></span>
                             </div>
                         </div>
 
-                        ${!isOwner ? `
+                        ${isAdmin ? `
+                            <div class="text-[11px] text-gray-400 italic pt-1">Akun Utama Owner / Admin</div>
+                        ` : `
                             <div class="flex items-center gap-1.5 pt-1">
-                                <button type="button" onclick="openAdminStaffModal('${acc.id}')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white hover:bg-ugiee-teal hover:text-white border border-gray-300 text-xs font-bold transition cursor-pointer">
-                                    <i class="fa-solid fa-pen mr-1"></i> Edit
+                                <button type="button" onclick="openAdminStaffModal('${acc.id}')" class="flex-1 py-2 px-2.5 rounded-xl bg-white hover:bg-ugiee-sage text-ugiee-dark border border-gray-300 font-bold text-xs cursor-pointer">
+                                    <i class="fa-solid fa-pen mr-1 text-ugiee-teal"></i> Edit
                                 </button>
-                                <button type="button" onclick="toggleStaffAccountActive('${acc.id}')" class="py-1.5 px-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                                    isActive ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                                }">
+                                <button type="button" onclick="toggleStaffAccountActive('${acc.id}')" class="py-2 px-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-xs cursor-pointer">
                                     ${isActive ? 'Nonaktifkan' : 'Aktifkan'}
                                 </button>
-                                <button type="button" onclick="deleteStaffAccount('${acc.id}')" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer" title="Hapus Akun">
+                                <button type="button" onclick="deleteAdminStaffAccount('${acc.id}')" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
-                        ` : `
-                            <div class="text-[11px] text-gray-400 italic pt-1">Akun Utama Supervisor / Owner</div>
                         `}
                     </div>
                 `;
             }).join('');
         }
 
-        function openAdminStaffModal(editId = '') {
-            const accounts = getStaffAccountsData();
-            const existing = editId ? accounts.find(a => a.id === editId) : null;
-
-            document.getElementById('admin-staff-modal-title').textContent = existing ? `Edit Akun: ${existing.name}` : 'Tambah Akun Karyawan';
-            document.getElementById('edit-staff-id').value = existing ? existing.id : '';
-            document.getElementById('edit-staff-name').value = existing ? existing.name : '';
-            document.getElementById('edit-staff-role').value = existing ? existing.role : 'kasir';
-            document.getElementById('edit-staff-outlet').value = existing ? (existing.outlet || 'UGIEE! - Antang Raya') : 'UGIEE! - Antang Raya';
-            document.getElementById('edit-staff-username').value = existing ? existing.username : '';
-            document.getElementById('edit-staff-pin').value = existing ? existing.pin : '';
-            document.getElementById('edit-staff-active').checked = existing ? (existing.active !== false) : true;
-
+        function openAdminStaffModal(staffId = '') {
+            if (staffId) {
+                const acc = getStaffAccountsData().find(a => a.id === staffId);
+                if (!acc) return;
+                document.getElementById('admin-staff-modal-title').textContent = 'Edit Akun Karyawan';
+                document.getElementById('edit-staff-id').value = acc.id;
+                document.getElementById('edit-staff-name').value = acc.name;
+                document.getElementById('edit-staff-role').value = acc.role;
+                document.getElementById('edit-staff-outlet').value = acc.outlet || 'UGIEE! - Antang Raya';
+                document.getElementById('edit-staff-username').value = acc.username;
+                document.getElementById('edit-staff-pin').value = acc.pin;
+                document.getElementById('edit-staff-active').checked = acc.active !== false;
+            } else {
+                document.getElementById('admin-staff-modal-title').textContent = 'Tambah Akun Karyawan Baru';
+                document.getElementById('edit-staff-id').value = '';
+                document.getElementById('edit-staff-name').value = '';
+                document.getElementById('edit-staff-role').value = 'kasir';
+                document.getElementById('edit-staff-outlet').value = 'UGIEE! - Antang Raya';
+                document.getElementById('edit-staff-username').value = '';
+                document.getElementById('edit-staff-pin').value = '';
+                document.getElementById('edit-staff-active').checked = true;
+            }
             document.getElementById('admin-staff-modal').classList.remove('hidden');
         }
 
@@ -3984,8 +4716,7 @@ const firebaseConfig = {
 
         function saveAdminStaffAccount(e) {
             e.preventDefault();
-            const accounts = getStaffAccountsData();
-            const editId = document.getElementById('edit-staff-id').value;
+            const id = document.getElementById('edit-staff-id').value;
             const name = document.getElementById('edit-staff-name').value.trim();
             const role = document.getElementById('edit-staff-role').value;
             const outlet = document.getElementById('edit-staff-outlet').value;
@@ -3993,89 +4724,77 @@ const firebaseConfig = {
             const pin = document.getElementById('edit-staff-pin').value.trim();
             const active = document.getElementById('edit-staff-active').checked;
 
-            const duplicateUser = accounts.find(a => a.username.toLowerCase() === username && a.id !== editId);
-            if (duplicateUser) {
-                showToast('⚠️ Username sudah digunakan karyawan lain. Gunakan username berbeda.');
+            const accounts = getStaffAccountsData();
+            const duplicate = accounts.find(a => a.username.toLowerCase() === username && a.id !== id);
+            if (duplicate) {
+                showToast('⚠️ Username sudah digunakan karyawan lain!');
                 return;
             }
 
-            if (editId) {
-                const idx = accounts.findIndex(a => a.id === editId);
+            if (id) {
+                const idx = accounts.findIndex(a => a.id === id);
                 if (idx !== -1) {
                     accounts[idx] = { ...accounts[idx], name, role, outlet, username, pin, active };
                 }
             } else {
                 accounts.push({
                     id: 'st_' + Date.now(),
-                    name, role, outlet, username, pin, active
+                    name,
+                    role,
+                    outlet,
+                    username,
+                    pin,
+                    active
                 });
             }
 
-            if (saveStaffAccountsData(accounts)) {
-                renderAdminStaffTable();
-                closeAdminStaffModal();
-                showToast(`✅ Akun karyawan "${name}" berhasil disimpan!`);
-            }
+            saveStaffAccountsData(accounts);
+            renderAdminStaffTable();
+            closeAdminStaffModal();
+            showToast(`✅ Akun karyawan ${name} berhasil disimpan!`);
         }
 
         function toggleStaffAccountActive(staffId) {
             const accounts = getStaffAccountsData();
             const idx = accounts.findIndex(a => a.id === staffId);
-            if (idx !== -1 && accounts[idx].role !== 'admin') {
-                accounts[idx].active = accounts[idx].active === false ? true : false;
+            if (idx !== -1) {
+                accounts[idx].active = accounts[idx].active === false;
                 saveStaffAccountsData(accounts);
                 renderAdminStaffTable();
-                showToast(`Status akun "${accounts[idx].name}" diperbarui.`);
+                showToast(`Status akun ${accounts[idx].name} diperbarui.`);
             }
         }
 
-        function deleteStaffAccount(staffId) {
-            const accounts = getStaffAccountsData();
-            const target = accounts.find(a => a.id === staffId);
-            if (!target || target.role === 'admin') return;
-            saveStaffAccountsData(accounts.filter(a => a.id !== staffId));
+        function deleteAdminStaffAccount(staffId) {
+            const accounts = getStaffAccountsData().filter(a => a.id !== staffId);
+            saveStaffAccountsData(accounts);
             renderAdminStaffTable();
-            showToast(`Akun karyawan "${target.name}" dihapus.`);
+            showToast('Akun karyawan dihapus.');
         }
 
-        // ==================== 17. INITIALIZATION ====================
-        window.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('ugiee_menu_data_v4')) {
-                safeSetLocalStorage('ugiee_menu_data_v4', DEFAULT_MENUS);
-            }
-            if (!localStorage.getItem('ugiee_banners_data_v4')) {
-                safeSetLocalStorage('ugiee_banners_data_v4', DEFAULT_BANNERS);
-            }
-            if (!localStorage.getItem('ugiee_vouchers_data_v4')) {
-                safeSetLocalStorage('ugiee_vouchers_data_v4', DEFAULT_VOUCHERS);
-            }
-            if (!localStorage.getItem('ugiee_staff_accounts_v4')) {
-                safeSetLocalStorage('ugiee_staff_accounts_v4', DEFAULT_STAFF_ACCOUNTS);
-            }
-            if (!localStorage.getItem('ugiee_unimerz_orders_v8')) {
-                safeSetLocalStorage('ugiee_unimerz_orders_v8', DEFAULT_ORDERS);
-            }
+        // ==================== 19. SAFE INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            try { renderPromoBanner(); } catch (e) { console.warn(e); }
+            try { startPromoAutoSlide(); } catch (e) { console.warn(e); }
+            try { renderCategoryPills(); } catch (e) { console.warn(e); }
+            try { filterMenu(); } catch (e) { console.warn(e); }
+            try { updateCartUI(); } catch (e) { console.warn(e); }
+            try { updateBadges(); } catch (e) { console.warn(e); }
+            try { updateHeaderLoyaltyBadge(); } catch (e) { console.warn(e); }
+            try { syncCustomersFromOrderHistory(false); } catch (e) { console.warn(e); }
+            try { initFirebaseCloudSync(); } catch (e) { console.warn(e); }
 
-            renderPromoBanner();
-            startPromoAutoSlide();
-            renderCategoryPills();
-            filterMenu();
-            updateCartUI();
-            updateBadges();
-            syncCustomersFromOrderHistory(false);
-            initFirebaseCloudSync();
-
-            const savedStaff = sessionStorage.getItem('ugiee_staff_session');
-            if (savedStaff) {
-                try {
-                    const parsed = JSON.parse(savedStaff);
-                    const latestAccount = getStaffAccountsData().find(a => a.id === parsed.id && a.active !== false);
-                    if (latestAccount) {
-                        currentStaff = latestAccount;
+            // Restore active staff session if previously logged in during this browser tab session
+            try {
+                const savedSession = sessionStorage.getItem('ugiee_staff_session');
+                if (savedSession) {
+                    const parsed = JSON.parse(savedSession);
+                    if (parsed && parsed.username && parsed.role) {
+                        currentStaff = parsed;
                         activateStaffView();
                     }
-                } catch (e) {}
-            }
+                }
+            } catch (e) {}
         });
     </script>
 </body>
