@@ -770,6 +770,34 @@ const firebaseConfig = {
                     </label>
                 </div>
 
+                <!-- Boba Aren Extra Add-on (+3K) -->
+                <div id="modal-boba-addon" class="hidden p-3 rounded-2xl bg-amber-50 border border-amber-200">
+                    <label class="flex items-center justify-between gap-2 cursor-pointer">
+                        <div class="flex items-center gap-2.5">
+                            <input type="checkbox" id="extra-boba-check" onchange="updateModalPrice()" class="w-4 h-4 accent-ugiee-teal rounded">
+                            <div>
+                                <div class="text-xs font-extrabold text-amber-950">Extra Boba Aren (Paling Enak)</div>
+                                <div class="text-[11px] text-amber-800">Rasa Boba gula aren enak dan creamy</div>
+                            </div>
+                        </div>
+                        <span class="text-xs font-extrabold text-amber-900">+Rp 3.000</span>
+                    </label>
+                </div>
+
+                <!-- Es & Hot Kopi Extra Shot Add-on (+3K) -->
+                <div id="modal-kopi-addon" class="hidden p-3 rounded-2xl bg-amber-50/80 border border-amber-300">
+                    <label class="flex items-center justify-between gap-2 cursor-pointer">
+                        <div class="flex items-center gap-2.5">
+                            <input type="checkbox" id="extra-kopi-check" onchange="updateModalPrice()" class="w-4 h-4 accent-ugiee-teal rounded">
+                            <div>
+                                <div class="text-xs font-extrabold text-amber-950">Extra Shot Kopi (Mantap)</div>
+                                <div class="text-[11px] text-amber-800">Rasa kopi lebih kuat dan pekat</div>
+                            </div>
+                        </div>
+                        <span class="text-xs font-extrabold text-amber-900">+Rp 3.000</span>
+                    </label>
+                </div>
+
                 <!-- Note -->
                 <div>
                     <label class="block text-xs font-extrabold text-ugiee-dark mb-1">Catatan Tambahan (Opsional)</label>
@@ -901,7 +929,7 @@ const firebaseConfig = {
                                 <div id="co-loyalty-status-text" class="text-[11px] text-gray-600">Masukkan No. WhatsApp untuk cek stempel madu (1 Cup = 1 Stempel)!</div>
                             </div>
                         </div>
-                        <span id="co-loyalty-stamp-pill" class="px-2.5 py-1 rounded-full bg-white border border-ugiee-yellow text-amber-900 font-extrabold text-[11px] shrink-0">0 / 10 Stempel</span>
+                        <span id="co-loyalty-stamp-pill" class="px-2.5 py-1 rounded-full bg-white border border-ugiee-yellow text-amber-900 font-extrabold text-[11px] shrink-0">0 / 12 Stempel</span>
                     </div>
                     <div id="co-loyalty-redeem-actions" class="hidden grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
                 </div>
@@ -980,12 +1008,17 @@ const firebaseConfig = {
                     </div>
 
                     <!-- QRIS Panel -->
-                    <div id="pay-panel-qris" class="hidden p-3.5 rounded-2xl bg-white border-2 border-ugiee-teal/40 text-center space-y-2">
-                        <div class="text-xs font-extrabold text-ugiee-dark">Scan QRIS Resmi Merchant:</div>
-                        <div id="checkout-qris-wrapper" class="max-w-[230px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2"></div>
-                        <button type="button" onclick="openQrisZoomModal()" class="px-3 py-1.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder text-ugiee-tealDark font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
-                            <i class="fa-solid fa-expand"></i> Perbesar QRIS
-                        </button>
+                    <div id="pay-panel-qris" class="hidden p-3.5 rounded-2xl bg-white border-2 border-ugiee-teal/40 text-center space-y-2.5">
+                        <div class="text-xs font-extrabold text-ugiee-dark">Scan QRIS Resmi Merchant UGIEE! Signature:</div>
+                        <div id="checkout-qris-wrapper" class="max-w-[240px] mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-xs bg-white p-2"></div>
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <button type="button" onclick="openQrisZoomModal()" class="btn-press px-3 py-1.5 rounded-xl bg-ugiee-sage hover:bg-ugiee-sageBorder text-ugiee-tealDark font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                                <i class="fa-solid fa-expand"></i> Perbesar QRIS
+                            </button>
+                            <button type="button" onclick="downloadOfficialQrisImage()" class="btn-press px-3 py-1.5 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                                <i class="fa-solid fa-download"></i> Simpan QRIS
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Bank Transfer Panel -->
@@ -1061,9 +1094,14 @@ const firebaseConfig = {
                 <span class="text-xs font-extrabold text-ugiee-tealDark">QRIS RESMI UGIEE! SIGNATURE</span>
                 <button type="button" onclick="closeQrisZoomModal()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="zoomed-qris-container" class="border border-gray-200 rounded-2xl p-2 bg-white"></div>
-            <p class="text-[11px] text-gray-500">Screenshot layar ini untuk scan dari galeri DANA, GoPay, OVO, ShopeePay, BCA, BRI, atau Bank Jago.</p>
-            <button type="button" onclick="closeQrisZoomModal()" class="w-full py-2.5 rounded-xl bg-ugiee-teal text-white font-bold text-xs cursor-pointer">Selesai</button>
+            <div id="zoomed-qris-container" class="border border-gray-200 rounded-2xl p-2 bg-white max-h-[65vh] overflow-y-auto"></div>
+            <p class="text-[11px] text-gray-500">Simpan gambar QRIS ini atau screenshot layar untuk scan dari galeri DANA, GoPay, OVO, ShopeePay, BCA, BRI, atau Bank Jago.</p>
+            <div class="flex gap-2">
+                <button type="button" onclick="downloadOfficialQrisImage()" class="btn-press flex-1 py-2.5 px-3 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-download"></i> Unduh QRIS JPG
+                </button>
+                <button type="button" onclick="closeQrisZoomModal()" class="btn-press flex-1 py-2.5 px-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-bold text-xs cursor-pointer">Selesai</button>
+            </div>
         </div>
     </div>
 
@@ -1286,7 +1324,7 @@ const firebaseConfig = {
         </div>
     </div>
 
-    <!-- ==================== MODAL 10: DIGITAL LOYALTY CARD (10 STEMPEL MADU) ==================== -->
+    <!-- ==================== MODAL 10: DIGITAL LOYALTY CARD (12 STEMPEL MADU) ==================== -->
     <div id="loyalty-modal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[93vh] flex flex-col">
             <div class="p-4 bg-gradient-to-r from-ugiee-tealDark via-ugiee-teal to-emerald-600 text-white flex items-center justify-between">
@@ -1328,12 +1366,12 @@ const firebaseConfig = {
                         </div>
                         <div class="text-right">
                             <div class="text-[10px] uppercase tracking-wider text-white/70 font-bold">Saldo Stempel</div>
-                            <div id="loyalty-stamp-counter" class="font-display font-extrabold text-2xl text-ugiee-yellowLight">0 / 10</div>
+                            <div id="loyalty-stamp-counter" class="font-display font-extrabold text-2xl text-ugiee-yellowLight">0 / 12</div>
                         </div>
                     </div>
 
-                    <!-- 10 Honeycomb Stamp Slots -->
-                    <div id="loyalty-honeycomb-grid" class="grid grid-cols-5 gap-2.5 relative z-10"></div>
+                    <!-- 12 Honeycomb Stamp Slots (6x2 Grid) -->
+                    <div id="loyalty-honeycomb-grid" class="grid grid-cols-6 gap-1.5 sm:gap-2 relative z-10"></div>
 
                     <div class="text-[11px] text-white/80 flex items-center justify-between pt-2 border-t border-white/15 relative z-10">
                         <span>1 Cup Terverifikasi = +1 Stempel Madu</span>
@@ -1348,32 +1386,32 @@ const firebaseConfig = {
                     <div class="p-3.5 rounded-2xl border border-amber-300 bg-amber-50/70 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-2xl bg-ugiee-yellow text-ugiee-dark font-display font-extrabold text-xs flex flex-col items-center justify-center shrink-0">
-                                <span>5</span>
+                                <span>6</span>
                                 <span class="text-[9px] leading-none">POIN</span>
                             </div>
                             <div>
-                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis Topping Pilihan</div>
-                                <div class="text-[11px] text-gray-600">Boba Aren / Extra Bubuk Matcha (Potongan Rp 3.000)</div>
+                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis Topping Pilihan (Kotak ke-6)</div>
+                                <div class="text-[11px] text-gray-600">Boba Aren / Extra Bubuk Matcha / Extra Shot Kopi (Potongan Rp 3.000)</div>
                             </div>
                         </div>
-                        <button type="button" id="btn-redeem-tier5" onclick="selectLoyaltyRewardFromModal('TOPPING_5')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer">
-                            Tukar 5 Poin
+                        <button type="button" id="btn-redeem-tier6" onclick="selectLoyaltyRewardFromModal('TOPPING_6')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer">
+                            Tukar 6 Poin
                         </button>
                     </div>
 
                     <div class="p-3.5 rounded-2xl border border-ugiee-teal/40 bg-emerald-50/70 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-2xl bg-ugiee-teal text-white font-display font-extrabold text-xs flex flex-col items-center justify-center shrink-0">
-                                <span>10</span>
+                                <span>12</span>
                                 <span class="text-[9px] leading-none">POIN</span>
                             </div>
                             <div>
-                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis 1 Cup Minuman Favorit</div>
+                                <div class="font-extrabold text-xs sm:text-sm text-ugiee-dark">Gratis 1 Cup Minuman Favorit (Kotak ke-12)</div>
                                 <div class="text-[11px] text-gray-600">Potongan langsung hingga Rp 15.000 untuk semua varian menu!</div>
                             </div>
                         </div>
-                        <button type="button" id="btn-redeem-tier10" onclick="selectLoyaltyRewardFromModal('DRINK_10')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer">
-                            Tukar 10 Poin
+                        <button type="button" id="btn-redeem-tier12" onclick="selectLoyaltyRewardFromModal('DRINK_12')" class="btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer">
+                            Tukar 12 Poin
                         </button>
                     </div>
                 </div>
@@ -1543,39 +1581,43 @@ const firebaseConfig = {
         }
 
         function generateOfficialQrisSvg() {
-            let modules = '';
-            for (let r = 0; r < 21; r++) {
-                for (let c = 0; c < 21; c++) {
-                    const inTopLeft = r < 7 && c < 7;
-                    const inTopRight = r < 7 && c > 13;
-                    const inBotLeft = r > 13 && c < 7;
-                    if (inTopLeft || inTopRight || inBotLeft) continue;
-                    if (((r * 7 + c * 13 + (r ^ c)) % 3) === 0 || (r === 6 || c === 6)) {
-                        modules += `<rect x="${46 + c * 6}" y="${96 + r * 6}" width="5" height="5" fill="#111827"/>`;
-                    }
-                }
-            }
-            return `<svg viewBox="0 0 220 275" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-                <rect width="220" height="275" rx="14" fill="#FFFFFF"/>
-                <path d="M0 75 L46 135 L0 195 Z" fill="#DC2626"/>
-                <path d="M220 185 L155 275 L220 275 Z" fill="#DC2626"/>
-                <text x="16" y="25" font-family="sans-serif" font-size="14" font-weight="900" fill="#111827">QRIS</text>
-                <text x="56" y="20" font-family="sans-serif" font-size="6.5" font-weight="700" fill="#374151">QR Code Standar</text>
-                <text x="56" y="28" font-family="sans-serif" font-size="6.5" font-weight="700" fill="#374151">Pembayaran Nasional</text>
-                <text x="198" y="25" font-family="sans-serif" font-size="11" font-weight="900" fill="#1D4ED8" text-anchor="end">GPN</text>
-                <text x="110" y="52" font-family="sans-serif" font-size="11.5" font-weight="900" fill="#111827" text-anchor="middle">UGIEE SIGNATURE OFFICIAL</text>
-                <text x="110" y="67" font-family="sans-serif" font-size="9" font-weight="700" fill="#4B5563" text-anchor="middle">NMID : ID1025455596565</text>
-                <text x="110" y="80" font-family="sans-serif" font-size="9" font-weight="800" fill="#111827" text-anchor="middle">A01</text>
-                <rect x="46" y="96" width="35" height="35" fill="none" stroke="#111827" stroke-width="5"/>
-                <rect x="56" y="106" width="15" height="15" fill="#111827"/>
-                <rect x="131" y="96" width="35" height="35" fill="none" stroke="#111827" stroke-width="5"/>
-                <rect x="141" y="106" width="15" height="15" fill="#111827"/>
-                <rect x="46" y="181" width="35" height="35" fill="none" stroke="#111827" stroke-width="5"/>
-                <rect x="56" y="191" width="15" height="15" fill="#111827"/>
-                ${modules}
-                <text x="110" y="238" font-family="sans-serif" font-size="8.5" font-weight="800" fill="#1F2937" text-anchor="middle">SATU QRIS UNTUK SEMUA</text>
-                <text x="110" y="251" font-family="sans-serif" font-size="7" fill="#6B7280" text-anchor="middle">www.aspi-qris.id • Dicetak oleh: 93600915</text>
-            </svg>`;
+            const githubRawQrisUrl = 'https://raw.githubusercontent.com/ilhamisugiee/ugieedelivery/main/QRIS%20UGIEE%20DELIVERY.jpg';
+            const localRepoQrisUrl = 'QRIS%20UGIEE%20DELIVERY.jpg';
+            return `
+                <img
+                    src="${githubRawQrisUrl}"
+                    onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='${localRepoQrisUrl}';}"
+                    alt="QRIS Resmi UGIEE! Signature"
+                    class="w-full h-auto rounded-xl object-contain mx-auto block select-none"
+                >
+            `;
+        }
+
+        function downloadOfficialQrisImage() {
+            const githubRawQrisUrl = 'https://raw.githubusercontent.com/ilhamisugiee/ugieedelivery/main/QRIS%20UGIEE%20DELIVERY.jpg';
+            const localRepoQrisUrl = 'QRIS%20UGIEE%20DELIVERY.jpg';
+
+            fetch(githubRawQrisUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error('Network error');
+                    return res.blob();
+                })
+                .catch(() => fetch(localRepoQrisUrl).then(res => res.blob()))
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = 'QRIS-UGIEE-SIGNATURE.jpg';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+                    showToast('📥 Gambar QRIS Resmi UGIEE! berhasil diunduh ke galeri!');
+                })
+                .catch(() => {
+                    window.open(githubRawQrisUrl, '_blank', 'noopener,noreferrer');
+                    showToast('Membuka gambar QRIS resmi...');
+                });
         }
 
         // ==================== 1. DEFAULT 40 MENU ITEMS ====================
@@ -1679,8 +1721,8 @@ const firebaseConfig = {
                 location: 'Gedung D FKIP & Farmasi',
                 room: 'Lantai 2 Depan Lab Kimia',
                 items: [
-                    { name: 'Matcha Boba', size: 'S', qty: 2, unitPrice: 15000, ice: 'Normal Ice', sugar: 'Less Sugar', extraMatcha: false, note: '' },
-                    { name: 'Pink Lava', size: 'S', qty: 1, unitPrice: 10000, ice: 'Normal Ice', sugar: 'Normal Sugar', extraMatcha: false, note: '' }
+                    { name: 'Matcha Boba', size: 'S', qty: 2, unitPrice: 15000, ice: 'Normal Ice', sugar: 'Less Sugar', extraMatcha: false, extraBoba: false, extraKopi: false, note: '' },
+                    { name: 'Pink Lava', size: 'S', qty: 1, unitPrice: 10000, ice: 'Normal Ice', sugar: 'Normal Sugar', extraMatcha: false, extraBoba: false, extraKopi: false, note: '' }
                 ],
                 subtotal: 40000,
                 discount: 5000,
@@ -1699,6 +1741,15 @@ const firebaseConfig = {
                 deliveredAt: ''
             }
         ];
+
+        // Helper for formatting extra add-ons consistently across Cart, Tracking, WhatsApp, and Staff Views
+        function formatItemAddonsText(item) {
+            const parts = [];
+            if (item.extraMatcha) parts.push('+Extra Matcha');
+            if (item.extraBoba) parts.push('+Extra Boba Aren');
+            if (item.extraKopi) parts.push('+Extra Shot Kopi');
+            return parts.join(', ');
+        }
 
         // ==================== 2. STATE & STORAGE ACCESSORS ====================
         let selectedCategory = 'ALL';
@@ -1720,7 +1771,7 @@ const firebaseConfig = {
         let promoSlideInterval = null;
 
         // Loyalty & Repeating Bell Alarm State
-        let selectedLoyaltyReward = null; // null | 'TOPPING_5' | 'DRINK_10'
+        let selectedLoyaltyReward = null; // null | 'TOPPING_6' | 'DRINK_12'
         let savedMemberPhone = '';
         try {
             savedMemberPhone = localStorage.getItem('ugiee_member_phone') || '';
@@ -1854,7 +1905,6 @@ const firebaseConfig = {
                 if (!ctx) return;
                 const now = ctx.currentTime;
 
-                // Double-ring cashier service bell (E5 -> B5 -> E6, repeated cleanly)
                 const notes = [
                     { freq: 659.25, start: 0.00, dur: 0.30, gain: 0.24 },
                     { freq: 987.77, start: 0.11, dur: 0.38, gain: 0.28 },
@@ -2795,12 +2845,29 @@ const firebaseConfig = {
                 else iceGroup.classList.remove('hidden');
             }
 
+            // Category-specific Extra Add-ons (+Rp 3.000 each)
             const matchaBox = document.getElementById('modal-matcha-addon');
             const matchaCheck = document.getElementById('extra-matcha-check');
             if (matchaCheck) matchaCheck.checked = false;
             if (matchaBox) {
                 if (item.category === 'Matcha Latte') matchaBox.classList.remove('hidden');
                 else matchaBox.classList.add('hidden');
+            }
+
+            const bobaBox = document.getElementById('modal-boba-addon');
+            const bobaCheck = document.getElementById('extra-boba-check');
+            if (bobaCheck) bobaCheck.checked = false;
+            if (bobaBox) {
+                if (item.category === 'Boba Aren') bobaBox.classList.remove('hidden');
+                else bobaBox.classList.add('hidden');
+            }
+
+            const kopiBox = document.getElementById('modal-kopi-addon');
+            const kopiCheck = document.getElementById('extra-kopi-check');
+            if (kopiCheck) kopiCheck.checked = false;
+            if (kopiBox) {
+                if (item.category === 'Es & Hot Kopi') kopiBox.classList.remove('hidden');
+                else kopiBox.classList.add('hidden');
             }
 
             updateModalPrice();
@@ -2821,7 +2888,9 @@ const firebaseConfig = {
         function updateModalPrice() {
             if (!currentModalItem) return;
             const extraMatcha = document.getElementById('extra-matcha-check')?.checked ? 3000 : 0;
-            const total = (currentModalItem.price + extraMatcha) * currentModalQty;
+            const extraBoba = document.getElementById('extra-boba-check')?.checked ? 3000 : 0;
+            const extraKopi = document.getElementById('extra-kopi-check')?.checked ? 3000 : 0;
+            const total = (currentModalItem.price + extraMatcha + extraBoba + extraKopi) * currentModalQty;
             document.getElementById('modal-total-btn-price').textContent = formatRp(total);
         }
 
@@ -2833,8 +2902,10 @@ const firebaseConfig = {
                 : (document.querySelector('input[name="ice_level"]:checked')?.value || 'Normal Ice');
             const sugar = document.querySelector('input[name="sugar_level"]:checked')?.value || 'Normal Sugar';
             const extraMatcha = Boolean(document.getElementById('extra-matcha-check')?.checked);
+            const extraBoba = Boolean(document.getElementById('extra-boba-check')?.checked);
+            const extraKopi = Boolean(document.getElementById('extra-kopi-check')?.checked);
             const note = (document.getElementById('modal-item-note')?.value || '').trim();
-            const unitPrice = currentModalItem.price + (extraMatcha ? 3000 : 0);
+            const unitPrice = currentModalItem.price + (extraMatcha ? 3000 : 0) + (extraBoba ? 3000 : 0) + (extraKopi ? 3000 : 0);
 
             cart.push({
                 cartId: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
@@ -2847,6 +2918,8 @@ const firebaseConfig = {
                 ice: ice,
                 sugar: sugar,
                 extraMatcha: extraMatcha,
+                extraBoba: extraBoba,
+                extraKopi: extraKopi,
                 note: note
             });
 
@@ -2867,9 +2940,9 @@ const firebaseConfig = {
             }
 
             let loyaltyDiscount = 0;
-            if (selectedLoyaltyReward === 'TOPPING_5') {
+            if (selectedLoyaltyReward === 'TOPPING_6' || selectedLoyaltyReward === 'TOPPING_5') {
                 loyaltyDiscount = Math.min(Math.max(0, subtotal - discount), 3000);
-            } else if (selectedLoyaltyReward === 'DRINK_10') {
+            } else if (selectedLoyaltyReward === 'DRINK_12' || selectedLoyaltyReward === 'DRINK_10') {
                 loyaltyDiscount = Math.min(Math.max(0, subtotal - discount), 15000);
             }
 
@@ -2925,32 +2998,35 @@ const firebaseConfig = {
             }
 
             footer.classList.remove('hidden');
-            container.innerHTML = cart.map((item, idx) => `
-                <div class="p-3 rounded-2xl bg-ugiee-sage/40 border border-ugiee-sageBorder flex items-start gap-3">
-                    <img src="${item.img}" alt="${escapeHtml(item.name)}" class="w-14 h-14 rounded-xl object-cover border border-gray-200 bg-white shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-2">
-                            <h4 class="font-display font-extrabold text-xs sm:text-sm text-ugiee-dark truncate">${escapeHtml(item.name)} (${escapeHtml(item.size)})</h4>
-                            <button type="button" onclick="removeCartItem(${idx})" class="text-rose-500 hover:text-rose-700 text-xs p-0.5 cursor-pointer" title="Hapus">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                        <div class="text-[11px] text-gray-500 mt-0.5">
-                            ${escapeHtml(item.ice)} • ${escapeHtml(item.sugar)}
-                            ${item.extraMatcha ? ' • <span class="text-emerald-700 font-bold">+Extra Matcha</span>' : ''}
-                        </div>
-                        ${item.note ? `<div class="text-[10px] text-gray-500 italic mt-0.5">"${escapeHtml(item.note)}"</div>` : ''}
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="font-extrabold text-xs text-ugiee-tealDark">${formatRp(item.unitPrice * item.qty)}</span>
-                            <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-200">
-                                <button type="button" onclick="changeCartItemQty(${idx}, -1)" class="w-5 h-5 rounded bg-gray-100 font-extrabold text-xs cursor-pointer">-</button>
-                                <span class="text-xs font-extrabold w-4 text-center">${item.qty}</span>
-                                <button type="button" onclick="changeCartItemQty(${idx}, 1)" class="w-5 h-5 rounded bg-ugiee-teal text-white font-extrabold text-xs cursor-pointer">+</button>
+            container.innerHTML = cart.map((item, idx) => {
+                const addonsText = formatItemAddonsText(item);
+                return `
+                    <div class="p-3 rounded-2xl bg-ugiee-sage/40 border border-ugiee-sageBorder flex items-start gap-3">
+                        <img src="${item.img}" alt="${escapeHtml(item.name)}" class="w-14 h-14 rounded-xl object-cover border border-gray-200 bg-white shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="font-display font-extrabold text-xs sm:text-sm text-ugiee-dark truncate">${escapeHtml(item.name)} (${escapeHtml(item.size)})</h4>
+                                <button type="button" onclick="removeCartItem(${idx})" class="text-rose-500 hover:text-rose-700 text-xs p-0.5 cursor-pointer" title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                            <div class="text-[11px] text-gray-500 mt-0.5">
+                                ${escapeHtml(item.ice)} • ${escapeHtml(item.sugar)}
+                                ${addonsText ? ` • <span class="text-emerald-700 font-bold">${escapeHtml(addonsText)}</span>` : ''}
+                            </div>
+                            ${item.note ? `<div class="text-[10px] text-gray-500 italic mt-0.5">"${escapeHtml(item.note)}"</div>` : ''}
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="font-extrabold text-xs text-ugiee-tealDark">${formatRp(item.unitPrice * item.qty)}</span>
+                                <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-200">
+                                    <button type="button" onclick="changeCartItemQty(${idx}, -1)" class="w-5 h-5 rounded bg-gray-100 font-extrabold text-xs cursor-pointer">-</button>
+                                    <span class="text-xs font-extrabold w-4 text-center">${item.qty}</span>
+                                    <button type="button" onclick="changeCartItemQty(${idx}, 1)" class="w-5 h-5 rounded bg-ugiee-teal text-white font-extrabold text-xs cursor-pointer">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             const { subtotal, discount, loyaltyDiscount, total } = getCartTotals();
             document.getElementById('cart-subtotal-val').textContent = formatRp(subtotal);
@@ -3116,47 +3192,47 @@ const firebaseConfig = {
                 if (nameInput && !nameInput.value.trim() && member.name) {
                     nameInput.value = member.name;
                 }
-                stampPill.textContent = `${stamps} / 10 Stempel`;
-                statusText.innerHTML = `Halo <strong>${escapeHtml(member.name)}</strong>! ${stamps >= 5 ? 'Stempelmu siap ditukar hadiah!' : `Order ini akan menambah +${cartCups} Stempel Madu setelah terverifikasi.`}`;
+                stampPill.textContent = `${stamps} / 12 Stempel`;
+                statusText.innerHTML = `Halo <strong>${escapeHtml(member.name)}</strong>! ${stamps >= 6 ? 'Stempelmu siap ditukar hadiah!' : `Order ini akan menambah +${cartCups} Stempel Madu setelah terverifikasi.`}`;
             } else {
-                stampPill.textContent = '0 / 10 Stempel';
+                stampPill.textContent = '0 / 12 Stempel';
                 statusText.textContent = rawWa.trim().length >= 9
                     ? `Member baru! Order ini akan langsung mendapatkan +${cartCups} Stempel Madu.`
                     : 'Masukkan No. WhatsApp untuk cek stempel madu (1 Cup = 1 Stempel)!';
                 selectedLoyaltyReward = null;
             }
 
-            if (stamps < 5) selectedLoyaltyReward = null;
-            if (stamps < 10 && selectedLoyaltyReward === 'DRINK_10') selectedLoyaltyReward = null;
+            if (stamps < 6) selectedLoyaltyReward = null;
+            if (stamps < 12 && (selectedLoyaltyReward === 'DRINK_12' || selectedLoyaltyReward === 'DRINK_10')) selectedLoyaltyReward = null;
 
-            if (stamps >= 5) {
+            if (stamps >= 6) {
                 actionsEl.classList.remove('hidden');
                 actionsEl.classList.add('grid');
-                const active5 = selectedLoyaltyReward === 'TOPPING_5';
-                const active10 = selectedLoyaltyReward === 'DRINK_10';
+                const active6 = selectedLoyaltyReward === 'TOPPING_6' || selectedLoyaltyReward === 'TOPPING_5';
+                const active12 = selectedLoyaltyReward === 'DRINK_12' || selectedLoyaltyReward === 'DRINK_10';
 
                 actionsEl.innerHTML = `
-                    <button type="button" onclick="toggleCheckoutLoyaltyReward('TOPPING_5')" class="btn-press p-2 rounded-xl border text-left transition cursor-pointer ${
-                        active5
+                    <button type="button" onclick="toggleCheckoutLoyaltyReward('TOPPING_6')" class="btn-press p-2 rounded-xl border text-left transition cursor-pointer ${
+                        active6
                             ? 'bg-ugiee-yellow text-ugiee-dark border-amber-500 font-extrabold shadow-2xs'
                             : 'bg-white hover:bg-amber-50 text-ugiee-dark border-amber-300 font-bold'
                     }">
                         <div class="text-[11px] flex items-center justify-between">
-                            <span>🍯 Tukar 5 Stempel</span>
-                            <span>${active5 ? '✓ Dipakai' : '-Rp 3.000'}</span>
+                            <span>🍯 Tukar 6 Stempel</span>
+                            <span>${active6 ? '✓ Dipakai' : '-Rp 3.000'}</span>
                         </div>
                         <div class="text-[10px] opacity-80">Gratis Topping Pilihan</div>
                     </button>
-                    <button type="button" ${stamps < 10 ? 'disabled' : ''} onclick="toggleCheckoutLoyaltyReward('DRINK_10')" class="btn-press p-2 rounded-xl border text-left transition ${
-                        stamps < 10
+                    <button type="button" ${stamps < 12 ? 'disabled' : ''} onclick="toggleCheckoutLoyaltyReward('DRINK_12')" class="btn-press p-2 rounded-xl border text-left transition ${
+                        stamps < 12
                             ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                            : active10
+                            : active12
                                 ? 'bg-ugiee-teal text-white border-ugiee-tealDark font-extrabold shadow-2xs cursor-pointer'
                                 : 'bg-white hover:bg-emerald-50 text-ugiee-dark border-ugiee-teal/50 font-bold cursor-pointer'
                     }">
                         <div class="text-[11px] flex items-center justify-between">
-                            <span>👑 Tukar 10 Stempel</span>
-                            <span>${stamps < 10 ? `${stamps}/10` : (active10 ? '✓ Dipakai' : '-Rp 15.000')}</span>
+                            <span>👑 Tukar 12 Stempel</span>
+                            <span>${stamps < 12 ? `${stamps}/12` : (active12 ? '✓ Dipakai' : '-Rp 15.000')}</span>
                         </div>
                         <div class="text-[10px] opacity-85">Gratis 1 Cup Minuman</div>
                     </button>
@@ -3175,9 +3251,9 @@ const firebaseConfig = {
                 showToast('Penukaran stempel dibatalkan.');
             } else {
                 selectedLoyaltyReward = tierKey;
-                showToast(tierKey === 'DRINK_10'
-                    ? '👑 Hadiah 10 Stempel (Gratis 1 Cup / -Rp 15.000) diterapkan!'
-                    : '🍯 Hadiah 5 Stempel (Gratis Topping / -Rp 3.000) diterapkan!');
+                showToast(tierKey === 'DRINK_12'
+                    ? '👑 Hadiah 12 Stempel (Gratis 1 Cup / -Rp 15.000) diterapkan!'
+                    : '🍯 Hadiah 6 Stempel (Gratis Topping / -Rp 3.000) diterapkan!');
             }
             handleCheckoutPhoneInput();
         }
@@ -3241,7 +3317,9 @@ const firebaseConfig = {
 
             const { subtotal, discount, loyaltyDiscount, total } = getCartTotals();
             const usedLoyaltyReward = loyaltyDiscount > 0 ? selectedLoyaltyReward : null;
-            const stampsDeducted = usedLoyaltyReward === 'DRINK_10' ? 10 : (usedLoyaltyReward === 'TOPPING_5' ? 5 : 0);
+            const stampsDeducted = (usedLoyaltyReward === 'DRINK_12' || usedLoyaltyReward === 'DRINK_10')
+                ? 12
+                : ((usedLoyaltyReward === 'TOPPING_6' || usedLoyaltyReward === 'TOPPING_5') ? 6 : 0);
 
             const now = new Date();
             const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -3265,6 +3343,8 @@ const firebaseConfig = {
                     ice: c.ice,
                     sugar: c.sugar,
                     extraMatcha: c.extraMatcha,
+                    extraBoba: c.extraBoba,
+                    extraKopi: c.extraKopi,
                     note: c.note
                 })),
                 subtotal: subtotal,
@@ -3347,7 +3427,7 @@ const firebaseConfig = {
         function renderLoyaltyCardContent(rawPhone) {
             const member = getCustomerByPhone(rawPhone);
             const stamps = member ? (Number(member.stamps) || 0) : 0;
-            const filledSlots = Math.min(10, stamps);
+            const filledSlots = Math.min(12, stamps);
 
             document.getElementById('loyalty-member-name').textContent = member
                 ? member.name
@@ -3355,23 +3435,25 @@ const firebaseConfig = {
             document.getElementById('loyalty-member-phone').textContent = rawPhone
                 ? formatDisplayPhone(rawPhone)
                 : 'Masukkan No. WA di atas';
-            document.getElementById('loyalty-stamp-counter').textContent = `${stamps} / 10`;
+            document.getElementById('loyalty-stamp-counter').textContent = `${stamps} / 12`;
 
             const grid = document.getElementById('loyalty-honeycomb-grid');
             if (grid) {
                 let slotsHtml = '';
-                for (let i = 1; i <= 10; i++) {
+                for (let i = 1; i <= 12; i++) {
                     const isFilled = i <= filledSlots;
-                    const isMilestone = i === 5 || i === 10;
+                    const isMilestone = i === 6 || i === 12;
                     slotsHtml += `
-                        <div class="aspect-square rounded-2xl flex flex-col items-center justify-center border transition-all ${
+                        <div class="aspect-square rounded-2xl flex flex-col items-center justify-center border transition-all p-0.5 text-center ${
                             isFilled
                                 ? 'bg-ugiee-yellow text-ugiee-dark border-amber-200 shadow-md scale-[1.02]'
-                                : 'bg-white/10 text-white/45 border-white/20 border-dashed'
+                                : isMilestone
+                                    ? 'bg-white/15 text-ugiee-yellowLight border-ugiee-yellow/60 border-dashed'
+                                    : 'bg-white/10 text-white/45 border-white/20 border-dashed'
                         }">
                             ${isFilled
-                                ? `<i class="fa-solid fa-crown text-sm sm:text-base"></i><span class="text-[9px] font-extrabold mt-0.5">#${i}</span>`
-                                : `<span class="text-xs font-extrabold">${i}</span>${isMilestone ? `<span class="text-[8px] font-bold text-ugiee-yellowLight">${i === 5 ? 'TOPPING' : 'FREE CUP'}</span>` : ''}`
+                                ? `<i class="fa-solid fa-crown text-xs sm:text-sm"></i><span class="text-[9px] font-extrabold mt-0.5">#${i}</span>`
+                                : `<span class="text-xs font-extrabold">${i}</span>${isMilestone ? `<span class="text-[7px] sm:text-[8px] font-extrabold text-ugiee-yellowLight leading-tight mt-0.5">${i === 6 ? 'TOPPING' : 'FREE CUP'}</span>` : ''}`
                             }
                         </div>
                     `;
@@ -3379,24 +3461,24 @@ const firebaseConfig = {
                 grid.innerHTML = slotsHtml;
             }
 
-            const btn5 = document.getElementById('btn-redeem-tier5');
-            const btn10 = document.getElementById('btn-redeem-tier10');
-            if (btn5) {
-                if (stamps >= 5) {
-                    btn5.disabled = false;
-                    btn5.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer';
+            const btn6 = document.getElementById('btn-redeem-tier6');
+            const btn12 = document.getElementById('btn-redeem-tier12');
+            if (btn6) {
+                if (stamps >= 6) {
+                    btn6.disabled = false;
+                    btn6.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs shrink-0 cursor-pointer';
                 } else {
-                    btn5.disabled = true;
-                    btn5.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
+                    btn6.disabled = true;
+                    btn6.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
                 }
             }
-            if (btn10) {
-                if (stamps >= 10) {
-                    btn10.disabled = false;
-                    btn10.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer';
+            if (btn12) {
+                if (stamps >= 12) {
+                    btn12.disabled = false;
+                    btn12.className = 'btn-press px-3 py-2 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs shrink-0 cursor-pointer';
                 } else {
-                    btn10.disabled = true;
-                    btn10.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
+                    btn12.disabled = true;
+                    btn12.className = 'px-3 py-2 rounded-xl bg-gray-200 text-gray-400 font-extrabold text-xs shrink-0 cursor-not-allowed';
                 }
             }
         }
@@ -3406,12 +3488,12 @@ const firebaseConfig = {
             const member = getCustomerByPhone(phoneVal);
             const stamps = member ? (Number(member.stamps) || 0) : 0;
 
-            if (tierKey === 'TOPPING_5' && stamps < 5) {
-                showToast('Stempel madu belum mencapai 5 poin.');
+            if (tierKey === 'TOPPING_6' && stamps < 6) {
+                showToast('Stempel madu belum mencapai 6 poin.');
                 return;
             }
-            if (tierKey === 'DRINK_10' && stamps < 10) {
-                showToast('Stempel madu belum mencapai 10 poin.');
+            if (tierKey === 'DRINK_12' && stamps < 12) {
+                showToast('Stempel madu belum mencapai 12 poin.');
                 return;
             }
 
@@ -3457,7 +3539,10 @@ const firebaseConfig = {
             };
             const st = statusMap[order.status] || statusMap.pending;
 
-            const waItemsList = order.items.map(i => `- ${i.qty}x ${i.name} (${i.ice}, ${i.sugar}${i.extraMatcha ? ', +Extra Matcha' : ''})`).join('\n');
+            const waItemsList = order.items.map(i => {
+                const addons = formatItemAddonsText(i);
+                return `- ${i.qty}x ${i.name} (${i.ice}, ${i.sugar}${addons ? `, ${addons}` : ''})`;
+            }).join('\n');
             const waText = encodeURIComponent(
                 `Halo *${order.outlet}*! Saya konfirmasi pesanan Kampus Unimerz:\n` +
                 `*No. Order:* #${order.id}\n` +
@@ -3502,15 +3587,18 @@ const firebaseConfig = {
 
                 <div class="space-y-1.5 text-xs">
                     <div class="font-extrabold text-ugiee-dark">Rincian Minuman:</div>
-                    ${order.items.map(it => `
-                        <div class="flex justify-between items-start py-1.5 border-b border-gray-100">
-                            <div>
-                                <div class="font-bold text-ugiee-dark">${it.qty}x ${escapeHtml(it.name)}</div>
-                                <div class="text-[11px] text-gray-500">${escapeHtml(it.ice)} • ${escapeHtml(it.sugar)}${it.extraMatcha ? ' • +Extra Matcha' : ''}</div>
+                    ${order.items.map(it => {
+                        const addons = formatItemAddonsText(it);
+                        return `
+                            <div class="flex justify-between items-start py-1.5 border-b border-gray-100">
+                                <div>
+                                    <div class="font-bold text-ugiee-dark">${it.qty}x ${escapeHtml(it.name)}</div>
+                                    <div class="text-[11px] text-gray-500">${escapeHtml(it.ice)} • ${escapeHtml(it.sugar)}${addons ? ` • <span class="text-emerald-700 font-bold">${escapeHtml(addons)}</span>` : ''}</div>
+                                </div>
+                                <span class="font-bold">${formatRp(it.unitPrice * it.qty)}</span>
                             </div>
-                            <span class="font-bold">${formatRp(it.unitPrice * it.qty)}</span>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                     ${order.discount > 0 ? `<div class="flex justify-between text-emerald-700 font-bold"><span>Diskon (${escapeHtml(order.voucherCode)})</span><span>-${formatRp(order.discount)}</span></div>` : ''}
                     ${order.loyaltyDiscount > 0 ? `<div class="flex justify-between text-amber-800 font-bold"><span>Hadiah Poin Loyalty</span><span>-${formatRp(order.loyaltyDiscount)}</span></div>` : ''}
                     <div class="flex justify-between text-sm font-display font-extrabold text-ugiee-dark pt-1">
@@ -3737,177 +3825,186 @@ const firebaseConfig = {
                 </div>
             `;
 
-            let visibleOrders = orders;
+            let visibleOrders = [...orders];
+            if (currentStaff.role === 'kurir') {
+                visibleOrders = visibleOrders.filter(o => o.status === 'delivering' || o.status === 'completed');
+            }
+
             if (staffOrderFilter === 'action_needed') {
-                visibleOrders = orders.filter(o => o.status !== 'completed');
+                visibleOrders = visibleOrders.filter(o => o.status === 'pending_payment' || o.status === 'pending' || o.status === 'preparing');
             } else if (staffOrderFilter === 'delivering') {
-                visibleOrders = orders.filter(o => o.status === 'delivering');
+                visibleOrders = visibleOrders.filter(o => o.status === 'delivering');
             } else if (staffOrderFilter === 'completed') {
-                visibleOrders = orders.filter(o => o.status === 'completed');
+                visibleOrders = visibleOrders.filter(o => o.status === 'completed');
             }
 
             if (visibleOrders.length === 0) {
                 listEl.innerHTML = `
-                    <div class="col-span-full py-12 text-center bg-white rounded-3xl border border-ugiee-sageBorder text-gray-400">
-                        <i class="fa-solid fa-clipboard-check text-3xl mb-2 text-gray-300"></i>
-                        <p class="text-sm font-bold text-gray-600">Tidak ada pesanan pada filter ini</p>
+                    <div class="col-span-full py-14 text-center bg-white rounded-3xl border border-ugiee-sageBorder">
+                        <i class="fa-solid fa-clipboard-check text-3xl text-gray-300 mb-2"></i>
+                        <p class="text-sm font-bold text-gray-600">Tidak ada pesanan pada kategori filter ini.</p>
                     </div>
                 `;
                 return;
             }
 
-            listEl.innerHTML = visibleOrders.map(order => {
-                const isNonCash = order.paymentMethod !== 'COD';
-                const payBadge = order.paymentMethod === 'COD'
-                    ? `<span class="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-900 font-extrabold text-[10px]">TAGIH COD: ${formatRp(order.total)} (${escapeHtml(order.codAmount || 'Uang Pas')})</span>`
-                    : order.paymentVerified
-                        ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-extrabold text-[10px]">LUNAS (${escapeHtml(order.paymentMethod)})</span>`
-                        : `<span class="px-2 py-0.5 rounded-lg bg-rose-100 text-rose-800 font-extrabold text-[10px]">PERLU VERIFIKASI (${escapeHtml(order.paymentMethod)})</span>`;
+            listEl.innerHTML = visibleOrders.map(ord => {
+                const statusBadge = {
+                    pending_payment: '<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300">⏳ Cek Bukti Bayar</span>',
+                    pending: '<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-blue-100 text-blue-800 border border-blue-300">🆕 Siap Diracik</span>',
+                    preparing: '<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-indigo-100 text-indigo-800 border border-indigo-300">🧋 Sedang Diracik</span>',
+                    delivering: '<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-ugiee-yellow/35 text-amber-950 border border-ugiee-yellow">🛵 Diantar Kurir</span>',
+                    completed: '<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">✅ Selesai</span>'
+                }[ord.status] || '';
 
-                const waPhone = normalizeCustomerPhone(order.customerWa);
-                const waMsg = encodeURIComponent(`Halo Kak ${order.customerName}, kami dari tim *UGIEE! Signature* menginfokan pesanan *#${order.id}* tujuan *${order.location} (${order.room})*.`);
-
-                let actionButtons = '';
-                if (isNonCash && !order.paymentVerified && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
-                    actionButtons += `
-                        <div class="flex gap-2 pt-2">
-                            <button type="button" onclick="verifyOrderPayment('${order.id}', true)" class="btn-press flex-1 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs cursor-pointer">
-                                <i class="fa-solid fa-check-double mr-1"></i> Verifikasi & Proses
+                let actionButtonsHtml = '';
+                if (currentStaff.role === 'kasir' || currentStaff.role === 'admin') {
+                    if (ord.status === 'pending_payment') {
+                        actionButtonsHtml = `
+                            <div class="grid grid-cols-2 gap-2 pt-2">
+                                <button type="button" onclick="verifyOrderPayment('${ord.id}')" class="btn-press py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs cursor-pointer">
+                                    <i class="fa-solid fa-check mr-1"></i> Terima & Racik
+                                </button>
+                                <button type="button" onclick="rejectOrderPayment('${ord.id}')" class="btn-press py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-extrabold text-xs cursor-pointer">
+                                    <i class="fa-solid fa-xmark mr-1"></i> Tolak Bukti
+                                </button>
+                            </div>
+                        `;
+                    } else if (ord.status === 'pending') {
+                        actionButtonsHtml = `
+                            <button type="button" onclick="updateOrderStatus('${ord.id}', 'preparing')" class="btn-press w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs cursor-pointer">
+                                <i class="fa-solid fa-blender mr-1"></i> Mulai Racik Minuman
                             </button>
-                            <button type="button" onclick="rejectOrderPayment('${order.id}')" class="btn-press py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs cursor-pointer">
-                                Tolak Bukti
+                        `;
+                    } else if (ord.status === 'preparing') {
+                        actionButtonsHtml = `
+                            <button type="button" onclick="updateOrderStatus('${ord.id}', 'delivering')" class="btn-press w-full py-2.5 px-3 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs cursor-pointer">
+                                <i class="fa-solid fa-motorcycle mr-1"></i> Serahkan ke Kurir Kampus
                             </button>
-                        </div>
-                    `;
+                        `;
+                    }
                 }
 
-                if ((order.paymentVerified || order.paymentMethod === 'COD') && order.status === 'pending' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
-                    actionButtons += `
-                        <button type="button" onclick="updateOrderStatus('${order.id}', 'preparing')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs cursor-pointer">
-                            <i class="fa-solid fa-blender mr-1"></i> Mulai Racik Minuman
+                if ((currentStaff.role === 'kurir' || currentStaff.role === 'admin') && ord.status === 'delivering') {
+                    actionButtonsHtml += `
+                        <button type="button" onclick="openCourierHandoverModal('${ord.id}')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs cursor-pointer">
+                            <i class="fa-solid fa-camera mr-1"></i> Upload Foto Serah Terima & Selesai
                         </button>
                     `;
                 }
 
-                if (order.status === 'preparing' && (currentStaff.role === 'kasir' || currentStaff.role === 'admin')) {
-                    actionButtons += `
-                        <button type="button" onclick="updateOrderStatus('${order.id}', 'delivering')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-yellow hover:bg-ugiee-yellowLight text-ugiee-dark font-extrabold text-xs cursor-pointer">
-                            <i class="fa-solid fa-motorcycle mr-1"></i> Siap Antar Kurir Kampus
-                        </button>
-                    `;
-                }
-
-                if (order.status === 'delivering' && (currentStaff.role === 'kurir' || currentStaff.role === 'admin')) {
-                    actionButtons += `
-                        <button type="button" onclick="openCourierHandoverModal('${order.id}')" class="btn-press w-full mt-2 py-2.5 px-3 rounded-xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-extrabold text-xs cursor-pointer">
-                            <i class="fa-solid fa-camera mr-1"></i> Foto & Selesaikan Pesanan
-                        </button>
-                    `;
-                }
+                const cleanWa = normalizeCustomerPhone(ord.customerWa);
+                const deliveryWaText = encodeURIComponent(
+                    `Halo Kak *${ord.customerName}*! Kurir *UGIEE! Signature* sedang menuju ke *${ord.location} (${ord.room})* untuk mengantar pesanan *#${ord.id}* (Free Ongkir Kampus Unimerz). Mohon ditunggu ya Kak!`
+                );
 
                 return `
                     <div class="bg-white rounded-3xl border border-ugiee-sageBorder shadow-card p-4 flex flex-col justify-between space-y-3">
                         <div class="space-y-2.5">
                             <div class="flex items-start justify-between gap-2">
                                 <div>
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="font-display font-extrabold text-sm text-ugiee-dark">#${escapeHtml(order.id)}</span>
-                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-ugiee-sage text-ugiee-tealDark">${escapeHtml(order.outlet)}</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono font-extrabold text-sm text-ugiee-dark">#${escapeHtml(ord.id)}</span>
+                                        <span class="text-[11px] text-gray-400">${escapeHtml(ord.createdAt)}</span>
                                     </div>
-                                    <div class="text-[11px] text-gray-400 mt-0.5">${escapeHtml(order.createdAt)}</div>
+                                    <h4 class="font-display font-extrabold text-base text-ugiee-dark mt-0.5">${escapeHtml(ord.customerName)}</h4>
                                 </div>
-                                ${payBadge}
+                                ${statusBadge}
                             </div>
 
-                            <div class="p-3 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder text-xs space-y-1">
-                                <div class="font-extrabold text-ugiee-dark flex items-center justify-between">
-                                    <span>${escapeHtml(order.customerName)}</span>
-                                    <a href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline font-mono text-[11px]">
-                                        <i class="fa-brands fa-whatsapp"></i> ${escapeHtml(order.customerWa)}
+                            <div class="p-2.5 rounded-2xl bg-ugiee-sage/60 border border-ugiee-sageBorder text-xs space-y-1">
+                                <div class="font-bold text-ugiee-tealDark"><i class="fa-solid fa-location-dot mr-1"></i> ${escapeHtml(ord.location)} • ${escapeHtml(ord.room)}</div>
+                                <div class="text-[11px] text-gray-600"><i class="fa-solid fa-store mr-1"></i> ${escapeHtml(ord.outlet)}</div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <span class="text-[11px] font-bold text-gray-700">Bayar: ${escapeHtml(ord.paymentMethod)} ${ord.codAmount ? `(${escapeHtml(ord.codAmount)})` : ''}</span>
+                                    <a href="https://wa.me/${cleanWa}?text=${deliveryWaText}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-extrabold text-emerald-700 hover:underline">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat Mahasiswa
                                     </a>
                                 </div>
-                                <div class="text-gray-600"><i class="fa-solid fa-location-dot text-ugiee-teal mr-1"></i> <strong>${escapeHtml(order.location)}</strong> — ${escapeHtml(order.room)}</div>
                             </div>
 
                             <div class="space-y-1 text-xs">
-                                ${order.items.map(it => `
-                                    <div class="flex justify-between text-gray-700">
-                                        <span><strong>${it.qty}x</strong> ${escapeHtml(it.name)} <span class="text-[11px] text-gray-400">(${escapeHtml(it.ice)}, ${escapeHtml(it.sugar)}${it.extraMatcha ? ', +Extra Matcha' : ''})</span></span>
-                                        <span class="font-bold">${formatRp(it.unitPrice * it.qty)}</span>
-                                    </div>
-                                `).join('')}
-                                ${order.loyaltyDiscount > 0 ? `<div class="flex justify-between text-[11px] text-amber-800 font-bold"><span>Hadiah Poin Loyalty</span><span>-${formatRp(order.loyaltyDiscount)}</span></div>` : ''}
-                                <div class="flex justify-between font-extrabold text-ugiee-dark pt-1.5 border-t border-gray-100">
-                                    <span>Total (${escapeHtml(order.status.toUpperCase())})</span>
-                                    <span class="text-ugiee-teal">${formatRp(order.total)}</span>
-                                </div>
+                                ${ord.items.map(it => {
+                                    const addons = formatItemAddonsText(it);
+                                    return `
+                                        <div class="flex justify-between items-start py-1 border-b border-gray-100">
+                                            <div>
+                                                <span class="font-extrabold text-ugiee-dark">${it.qty}x ${escapeHtml(it.name)}</span>
+                                                <span class="text-[11px] text-gray-500 block">${escapeHtml(it.ice)} • ${escapeHtml(it.sugar)}${addons ? ` • <span class="text-emerald-700 font-bold">${escapeHtml(addons)}</span>` : ''}${it.note ? ` • "${escapeHtml(it.note)}"` : ''}</span>
+                                            </div>
+                                            <span class="font-bold text-gray-700">${formatRp(it.unitPrice * it.qty)}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
                             </div>
 
-                            ${order.paymentProof ? `
-                                <div class="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
-                                    <div class="text-[10px] font-extrabold text-amber-900 mb-1">Bukti Transfer Mahasiswa:</div>
-                                    <img src="${order.paymentProof}" alt="Bukti Bayar" class="max-h-36 mx-auto rounded-lg object-contain bg-white border border-amber-200 p-1">
+                            ${ord.paymentProof ? `
+                                <div class="p-2.5 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                    <div class="text-[11px] font-extrabold text-amber-900"><i class="fa-solid fa-receipt mr-1"></i> Bukti Pembayaran Mahasiswa:</div>
+                                    <img src="${ord.paymentProof}" alt="Bukti Bayar" class="max-h-40 mx-auto rounded-xl border border-amber-300 object-contain bg-white p-1">
                                 </div>
                             ` : ''}
 
-                            ${order.deliveryProof ? `
-                                <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
-                                    <div class="text-[10px] font-extrabold text-emerald-900 mb-1">Bukti Serah Terima (${escapeHtml(order.deliveredAt || '')}):</div>
-                                    <img src="${order.deliveryProof}" alt="Bukti Serah Terima" class="max-h-32 mx-auto rounded-lg object-contain bg-white border border-emerald-200 p-1">
+                            ${ord.deliveryProof ? `
+                                <div class="p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1">
+                                    <div class="text-[11px] font-extrabold text-emerald-900"><i class="fa-solid fa-check-double mr-1"></i> Bukti Serah Terima (${escapeHtml(ord.deliveredAt || '')}):</div>
+                                    <img src="${ord.deliveryProof}" alt="Bukti Terima" class="max-h-36 mx-auto rounded-xl border border-emerald-300 object-contain bg-white p-1">
                                 </div>
                             ` : ''}
                         </div>
 
-                        <div>${actionButtons}</div>
+                        <div class="pt-2 border-t border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-gray-500">Total Tagihan:</span>
+                                <span class="font-display font-extrabold text-base text-ugiee-teal">${formatRp(ord.total)}</span>
+                            </div>
+                            ${actionButtonsHtml}
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function verifyOrderPayment(orderId, autoStartPreparing = false) {
+        function verifyOrderPayment(orderId) {
             const orders = getOrders();
             const idx = orders.findIndex(o => o.id === orderId);
-            if (idx !== -1) {
-                orders[idx].paymentVerified = true;
-                orders[idx].paymentRejected = false;
-                if (autoStartPreparing || orders[idx].status === 'pending_payment') {
-                    orders[idx].status = autoStartPreparing ? 'preparing' : 'pending';
-                }
-                saveOrders(orders);
-                syncSingleOrderToCloud(orders[idx]);
-                upsertCustomerFromOrder(orders[idx]);
-                updateStaffAlarmBanner();
-                renderStaffDashboard();
-                showToast(`✅ Pembayaran #${orderId} terverifikasi LUNAS & Stempel Member ditambahkan!`);
-            }
+            if (idx === -1) return;
+            orders[idx].paymentVerified = true;
+            orders[idx].paymentRejected = false;
+            orders[idx].status = 'preparing';
+            saveOrders(orders);
+            syncSingleOrderToCloud(orders[idx]);
+            upsertCustomerFromOrder(orders[idx]);
+            updateStaffAlarmBanner();
+            renderStaffDashboard();
+            showToast(`✅ Pembayaran #${orderId} valid! Stempel Loyalty mahasiswa bertambah & mulai diracik.`);
         }
 
         function rejectOrderPayment(orderId) {
             const orders = getOrders();
             const idx = orders.findIndex(o => o.id === orderId);
-            if (idx !== -1) {
-                orders[idx].paymentVerified = false;
-                orders[idx].paymentRejected = true;
-                orders[idx].status = 'pending_payment';
-                saveOrders(orders);
-                syncSingleOrderToCloud(orders[idx]);
-                updateStaffAlarmBanner();
-                renderStaffDashboard();
-                showToast(`⚠️ Bukti bayar #${orderId} ditolak.`);
-            }
+            if (idx === -1) return;
+            orders[idx].paymentVerified = false;
+            orders[idx].paymentRejected = true;
+            orders[idx].status = 'pending_payment';
+            saveOrders(orders);
+            syncSingleOrderToCloud(orders[idx]);
+            updateStaffAlarmBanner();
+            renderStaffDashboard();
+            showToast(`⚠️ Bukti pembayaran #${orderId} ditolak. Mahasiswa diminta upload ulang.`);
         }
 
         function updateOrderStatus(orderId, newStatus) {
             const orders = getOrders();
             const idx = orders.findIndex(o => o.id === orderId);
-            if (idx !== -1) {
-                orders[idx].status = newStatus;
-                saveOrders(orders);
-                syncSingleOrderToCloud(orders[idx]);
-                updateStaffAlarmBanner();
-                renderStaffDashboard();
-                showToast(`Status pesanan #${orderId} diperbarui.`);
-            }
+            if (idx === -1) return;
+            orders[idx].status = newStatus;
+            saveOrders(orders);
+            syncSingleOrderToCloud(orders[idx]);
+            upsertCustomerFromOrder(orders[idx]);
+            updateStaffAlarmBanner();
+            renderStaffDashboard();
+            showToast(`Status pesanan #${orderId} diperbarui.`);
         }
 
         // ==================== 12. KURIR MANDATORY HANDOVER PHOTO ====================
@@ -3923,9 +4020,9 @@ const firebaseConfig = {
             document.getElementById('handover-note-input').value = '';
             document.getElementById('handover-preview-box').classList.add('hidden');
 
-            const confirmBtn = document.getElementById('confirm-handover-btn');
-            confirmBtn.disabled = true;
-            confirmBtn.className = 'w-full py-3.5 rounded-2xl bg-gray-300 text-gray-500 font-display font-extrabold text-sm transition cursor-not-allowed';
+            const btn = document.getElementById('confirm-handover-btn');
+            btn.disabled = true;
+            btn.className = 'w-full py-3.5 rounded-2xl bg-gray-300 text-gray-500 font-display font-extrabold text-sm transition cursor-not-allowed';
 
             document.getElementById('courier-handover-modal').classList.remove('hidden');
         }
@@ -3933,7 +4030,6 @@ const firebaseConfig = {
         function closeCourierHandoverModal() {
             document.getElementById('courier-handover-modal').classList.add('hidden');
             activeHandoverOrderId = '';
-            uploadedHandoverPhotoBase64 = '';
         }
 
         function handleHandoverPhotoSelected(e) {
@@ -3944,61 +4040,54 @@ const firebaseConfig = {
                 document.getElementById('handover-preview-img').src = dataUrl;
                 document.getElementById('handover-preview-box').classList.remove('hidden');
 
-                const confirmBtn = document.getElementById('confirm-handover-btn');
-                confirmBtn.disabled = false;
-                confirmBtn.className = 'btn-press w-full py-3.5 rounded-2xl bg-ugiee-teal hover:bg-ugiee-tealDark text-white font-display font-extrabold text-sm shadow-md transition cursor-pointer';
+                const btn = document.getElementById('confirm-handover-btn');
+                btn.disabled = false;
+                btn.className = 'btn-press w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-extrabold text-sm shadow-md transition cursor-pointer';
             });
         }
 
         function confirmCourierHandoverComplete() {
-            if (!activeHandoverOrderId || !uploadedHandoverPhotoBase64) {
-                showToast('⚠️ Wajib ambil/upload foto serah terima terlebih dahulu!');
-                return;
-            }
+            if (!activeHandoverOrderId || !uploadedHandoverPhotoBase64) return;
             const orders = getOrders();
             const idx = orders.findIndex(o => o.id === activeHandoverOrderId);
-            if (idx !== -1) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                const noteVal = document.getElementById('handover-note-input').value.trim();
+            if (idx === -1) return;
 
-                orders[idx].status = 'completed';
-                orders[idx].paymentVerified = true;
-                orders[idx].deliveryProof = uploadedHandoverPhotoBase64;
-                orders[idx].deliveryNote = noteVal || 'Diterima langsung oleh mahasiswa di kampus';
-                orders[idx].deliveredAt = `Hari ini, ${timeStr}`;
+            const now = new Date();
+            orders[idx].status = 'completed';
+            orders[idx].paymentVerified = true;
+            orders[idx].deliveryProof = uploadedHandoverPhotoBase64;
+            orders[idx].deliveryNote = document.getElementById('handover-note-input').value.trim();
+            orders[idx].deliveredAt = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
 
-                saveOrders(orders);
-                syncSingleOrderToCloud(orders[idx]);
-                upsertCustomerFromOrder(orders[idx]);
-                const completedId = orders[idx].id;
-                closeCourierHandoverModal();
-                renderStaffDashboard();
-                showToast(`✅ Pesanan #${completedId} selesai dengan bukti foto!`);
-            }
+            saveOrders(orders);
+            syncSingleOrderToCloud(orders[idx]);
+            upsertCustomerFromOrder(orders[idx]);
+            closeCourierHandoverModal();
+            renderStaffDashboard();
+            showToast(`🎉 Pesanan #${orders[idx].id} selesai & bukti foto tersimpan!`);
         }
 
-        // ==================== 13. ADMIN TAB NAVIGATION ====================
+        // ==================== 13. ADMIN TABS SWITCHER ====================
         function switchAdminSection(sectionName) {
             const sections = ['orders', 'sales', 'menu', 'promo', 'customers', 'staff', 'cloud'];
-            sections.forEach(s => {
-                const secEl = document.getElementById(`staff-section-${s}`);
-                const tabEl = document.getElementById(`admin-tab-${s}`);
-                if (secEl) {
-                    if (s === sectionName) secEl.classList.remove('hidden');
-                    else secEl.classList.add('hidden');
+            sections.forEach(sec => {
+                const el = document.getElementById(`staff-section-${sec}`);
+                const tab = document.getElementById(`admin-tab-${sec}`);
+                if (el) {
+                    if (sec === sectionName) el.classList.remove('hidden');
+                    else el.classList.add('hidden');
                 }
-                if (tabEl) {
-                    if (s === sectionName) {
-                        tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center gap-1.5';
+                if (tab) {
+                    if (sec === sectionName) {
+                        tab.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs bg-ugiee-teal text-white shadow-2xs transition cursor-pointer flex items-center gap-1.5';
                     } else {
-                        tabEl.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5';
+                        tab.className = 'shrink-0 py-2.5 px-3.5 rounded-xl font-bold text-xs text-gray-600 hover:bg-ugiee-sage transition cursor-pointer flex items-center gap-1.5';
                     }
                 }
             });
 
             if (sectionName === 'orders') renderStaffDashboard();
-            else if (sectionName === 'sales') { initSalesFilterDropdowns(); renderAdminSalesDashboard(); }
+            else if (sectionName === 'sales') { initSalesDateFilterDropdowns(); renderAdminSalesDashboard(); }
             else if (sectionName === 'menu') renderAdminMenuTable();
             else if (sectionName === 'promo') renderAdminPromoAndVouchers();
             else if (sectionName === 'customers') { syncCustomersFromOrderHistory(false); renderAdminCustomersTable(); }
@@ -4006,38 +4095,38 @@ const firebaseConfig = {
             else if (sectionName === 'cloud') populateFirebaseSettingsForm(getStoredFirebaseConfig());
         }
 
-        // ==================== 14. ADMIN: DATA PENJUALAN (DATE/MONTH/YEAR FILTER + DELETE WRONG TX) ====================
-        function initSalesFilterDropdowns() {
-            const daySelect = document.getElementById('sales-filter-day');
-            const yearSelect = document.getElementById('sales-filter-year');
-            if (!daySelect || !yearSelect) return;
+        // ==================== 14. ADMIN: DATA PENJUALAN & FILTER TANGGAL/BULAN/TAHUN + HAPUS ====================
+        function initSalesDateFilterDropdowns() {
+            const daySel = document.getElementById('sales-filter-day');
+            const yearSel = document.getElementById('sales-filter-year');
+            if (!daySel || !yearSel) return;
 
-            if (daySelect.options.length <= 1) {
+            if (daySel.options.length <= 1) {
                 for (let d = 1; d <= 31; d++) {
                     const opt = document.createElement('option');
                     opt.value = String(d);
                     opt.textContent = `Tanggal ${d}`;
-                    daySelect.appendChild(opt);
+                    daySel.appendChild(opt);
                 }
             }
 
-            if (yearSelect.options.length <= 1) {
+            if (yearSel.options.length <= 1) {
                 const currentYear = new Date().getFullYear();
-                const yearsSet = new Set([currentYear, currentYear - 1, 2026]);
+                const years = new Set([currentYear - 1, currentYear, currentYear + 1]);
                 getOrders().forEach(o => {
-                    if (o.timestamp) yearsSet.add(new Date(o.timestamp).getFullYear());
+                    if (o.timestamp) years.add(new Date(o.timestamp).getFullYear());
                 });
-                Array.from(yearsSet).sort((a, b) => b - a).forEach(y => {
+                Array.from(years).sort((a, b) => b - a).forEach(y => {
                     const opt = document.createElement('option');
                     opt.value = String(y);
                     opt.textContent = `Tahun ${y}`;
-                    yearSelect.appendChild(opt);
+                    yearSel.appendChild(opt);
                 });
             }
         }
 
         function setSalesFilterToday() {
-            initSalesFilterDropdowns();
+            initSalesDateFilterDropdowns();
             const now = new Date();
             document.getElementById('sales-filter-day').value = String(now.getDate());
             document.getElementById('sales-filter-month').value = String(now.getMonth() + 1);
@@ -4047,6 +4136,7 @@ const firebaseConfig = {
         }
 
         function resetSalesFilter() {
+            initSalesDateFilterDropdowns();
             document.getElementById('sales-filter-day').value = 'ALL';
             document.getElementById('sales-filter-month').value = 'ALL';
             document.getElementById('sales-filter-year').value = 'ALL';
@@ -4055,57 +4145,59 @@ const firebaseConfig = {
         }
 
         function getFilteredSalesOrders() {
+            const orders = getOrders();
             const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
             const monthVal = document.getElementById('sales-filter-month')?.value || 'ALL';
             const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
             const statusVal = document.getElementById('sales-filter-status')?.value || 'ALL';
 
-            return getOrders().filter(o => {
-                const dt = new Date(Number(o.timestamp) || Date.now());
-                const matchDay = dayVal === 'ALL' || dt.getDate() === Number(dayVal);
-                const matchMonth = monthVal === 'ALL' || (dt.getMonth() + 1) === Number(monthVal);
-                const matchYear = yearVal === 'ALL' || dt.getFullYear() === Number(yearVal);
-                const matchStatus = statusVal === 'ALL'
-                    || (statusVal === 'completed' && o.status === 'completed')
-                    || (statusVal === 'active' && o.status !== 'completed');
+            return orders.filter(ord => {
+                const dt = ord.timestamp ? new Date(ord.timestamp) : new Date();
+                const matchDay = dayVal === 'ALL' || String(dt.getDate()) === dayVal;
+                const matchMonth = monthVal === 'ALL' || String(dt.getMonth() + 1) === monthVal;
+                const matchYear = yearVal === 'ALL' || String(dt.getFullYear()) === yearVal;
+                let matchStatus = true;
+                if (statusVal === 'completed') matchStatus = ord.status === 'completed';
+                else if (statusVal === 'active') matchStatus = ord.status !== 'completed';
                 return matchDay && matchMonth && matchYear && matchStatus;
             });
         }
 
         function renderAdminSalesDashboard() {
+            initSalesDateFilterDropdowns();
             const filtered = getFilteredSalesOrders();
-            const totalRevenue = filtered.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+
+            const totalRevenue = filtered.reduce((s, o) => s + (Number(o.total) || 0), 0);
             const totalOrders = filtered.length;
-            const totalCups = filtered.reduce((sum, o) => {
-                return sum + (Array.isArray(o.items) ? o.items.reduce((s, it) => s + (Number(it.qty) || 1), 0) : 0);
-            }, 0);
+            const totalCups = filtered.reduce((s, o) => s + (Array.isArray(o.items) ? o.items.reduce((cs, it) => cs + (Number(it.qty) || 1), 0) : 0), 0);
             const avgOrder = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
 
+            const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
+            const monthVal = document.getElementById('sales-filter-month')?.value || 'ALL';
+            const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
+            const monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const periodParts = [];
+            if (dayVal !== 'ALL') periodParts.push(`Tgl ${dayVal}`);
+            if (monthVal !== 'ALL') periodParts.push(monthNames[Number(monthVal)] || monthVal);
+            if (yearVal !== 'ALL') periodParts.push(yearVal);
+
             document.getElementById('sales-kpi-revenue').textContent = formatRp(totalRevenue);
+            document.getElementById('sales-period-label').textContent = periodParts.length > 0 ? `Filter: ${periodParts.join(' ')}` : 'Semua Periode';
             document.getElementById('sales-kpi-orders').textContent = `${totalOrders} Order`;
             document.getElementById('sales-kpi-cups').textContent = `${totalCups} Cup`;
             document.getElementById('sales-kpi-avg').textContent = formatRp(avgOrder);
 
-            const dayVal = document.getElementById('sales-filter-day')?.value || 'ALL';
-            const monthSel = document.getElementById('sales-filter-month');
-            const monthText = monthSel && monthSel.value !== 'ALL' ? monthSel.options[monthSel.selectedIndex].text : '';
-            const yearVal = document.getElementById('sales-filter-year')?.value || 'ALL';
-            const periodParts = [dayVal !== 'ALL' ? `Tgl ${dayVal}` : '', monthText, yearVal !== 'ALL' ? yearVal : ''].filter(Boolean);
-            document.getElementById('sales-period-label').textContent = periodParts.length > 0 ? periodParts.join(' ') : 'Semua Periode';
-
+            // Payment Method Breakdown
             const methods = ['COD', 'QRIS', 'TRANSFER', 'EWALLET'];
-            const breakdownEl = document.getElementById('sales-method-breakdown');
-            if (breakdownEl) {
-                breakdownEl.innerHTML = methods.map(m => {
-                    const mOrders = filtered.filter(o => o.paymentMethod === m);
-                    const mSum = mOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+            const methodBreakdownEl = document.getElementById('sales-method-breakdown');
+            if (methodBreakdownEl) {
+                methodBreakdownEl.innerHTML = methods.map(m => {
+                    const sub = filtered.filter(o => o.paymentMethod === m);
+                    const sumM = sub.reduce((s, o) => s + (Number(o.total) || 0), 0);
                     return `
-                        <div class="p-3 rounded-2xl bg-white border border-gray-200 flex items-center justify-between text-xs">
-                            <div>
-                                <div class="font-extrabold text-ugiee-dark">${m}</div>
-                                <div class="text-[10px] text-gray-500">${mOrders.length} Transaksi</div>
-                            </div>
-                            <span class="font-extrabold text-ugiee-tealDark">${formatRp(mSum)}</span>
+                        <div class="p-2.5 rounded-xl bg-white border border-gray-200 flex items-center justify-between text-xs">
+                            <span class="font-extrabold text-gray-600">${m} (${sub.length})</span>
+                            <span class="font-extrabold text-ugiee-dark">${formatRp(sumM)}</span>
                         </div>
                     `;
                 }).join('');
@@ -4114,150 +4206,163 @@ const firebaseConfig = {
             const tbody = document.getElementById('sales-table-body');
             const mobileList = document.getElementById('sales-mobile-list');
             const emptyState = document.getElementById('sales-empty-state');
-            if (!tbody || !mobileList) return;
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '';
-                mobileList.innerHTML = '';
-                emptyState.classList.remove('hidden');
+                if (tbody) tbody.innerHTML = '';
+                if (mobileList) mobileList.innerHTML = '';
+                if (emptyState) emptyState.classList.remove('hidden');
                 return;
             }
-            emptyState.classList.add('hidden');
+            if (emptyState) emptyState.classList.add('hidden');
 
-            tbody.innerHTML = filtered.map(o => {
-                const itemsText = (o.items || []).map(it => `${it.qty}x ${it.name}`).join(', ');
-                return `
-                    <tr class="hover:bg-ugiee-sage/30 transition">
-                        <td class="py-3 px-3.5">
-                            <div class="font-extrabold text-ugiee-dark">#${escapeHtml(o.id)}</div>
-                            <div class="text-[11px] text-gray-500">${escapeHtml(o.createdAt)}</div>
-                        </td>
-                        <td class="py-3 px-3.5">
-                            <div class="font-bold text-ugiee-dark">${escapeHtml(o.customerName)}</div>
-                            <div class="text-[11px] text-gray-500">${escapeHtml(o.location)}</div>
-                        </td>
-                        <td class="py-3 px-3.5 text-gray-700 max-w-xs truncate" title="${escapeHtml(itemsText)}">${escapeHtml(itemsText)}</td>
-                        <td class="py-3 px-3.5 font-extrabold text-xs">${escapeHtml(o.paymentMethod)}</td>
-                        <td class="py-3 px-3.5 text-center">
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${o.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-                                ${escapeHtml(o.status.toUpperCase())}
-                            </span>
-                        </td>
-                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-tealDark">${formatRp(o.total)}</td>
-                        <td class="py-3 px-3.5 text-center">
-                            <button type="button" onclick="deleteSalesTransaction('${escapeHtml(o.id)}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer" title="Hapus Transaksi Salah">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+            if (tbody) {
+                tbody.innerHTML = filtered.map(ord => {
+                    const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+                    const isDone = ord.status === 'completed';
+                    return `
+                        <tr class="hover:bg-ugiee-sage/30 transition">
+                            <td class="py-3 px-3.5">
+                                <div class="font-mono font-extrabold text-ugiee-dark">#${escapeHtml(ord.id)}</div>
+                                <div class="text-[11px] text-gray-500">${escapeHtml(ord.createdAt)}</div>
+                            </td>
+                            <td class="py-3 px-3.5">
+                                <div class="font-bold text-ugiee-dark">${escapeHtml(ord.customerName)}</div>
+                                <div class="text-[11px] text-gray-500">${escapeHtml(ord.location)}</div>
+                            </td>
+                            <td class="py-3 px-3.5 max-w-xs">
+                                <div class="text-xs text-gray-700 line-clamp-2">${escapeHtml(itemsText)}</div>
+                            </td>
+                            <td class="py-3 px-3.5 font-bold text-gray-700">${escapeHtml(ord.paymentMethod)}</td>
+                            <td class="py-3 px-3.5 text-center">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                    ${isDone ? 'Selesai' : 'Berjalan'}
+                                </span>
+                            </td>
+                            <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-tealDark">${formatRp(ord.total)}</td>
+                            <td class="py-3 px-3.5 text-center">
+                                <button type="button" onclick="deleteSalesOrder('${ord.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px] cursor-pointer" title="Hapus Transaksi">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
 
-            mobileList.innerHTML = filtered.map(o => {
-                const itemsText = (o.items || []).map(it => `${it.qty}x ${it.name}`).join(', ');
-                return `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2 text-xs">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="font-extrabold text-ugiee-dark">#${escapeHtml(o.id)}</span>
-                                <span class="text-[11px] text-gray-500 ml-1.5">${escapeHtml(o.createdAt)}</span>
+            if (mobileList) {
+                mobileList.innerHTML = filtered.map(ord => {
+                    const itemsText = (ord.items || []).map(i => `${i.qty}x ${i.name}`).join(', ');
+                    return `
+                        <div class="p-3.5 rounded-2xl bg-white border border-gray-200 shadow-2xs space-y-2 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono font-extrabold text-ugiee-dark">#${escapeHtml(ord.id)} • ${escapeHtml(ord.createdAt)}</span>
+                                <button type="button" onclick="deleteSalesOrder('${ord.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 font-bold text-[11px] cursor-pointer">
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus
+                                </button>
                             </div>
-                            <button type="button" onclick="deleteSalesTransaction('${escapeHtml(o.id)}')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 font-bold text-[11px] cursor-pointer">
-                                <i class="fa-solid fa-trash-can mr-1"></i> Hapus
-                            </button>
+                            <div class="font-bold text-ugiee-dark">${escapeHtml(ord.customerName)} (${escapeHtml(ord.location)})</div>
+                            <div class="text-[11px] text-gray-500">${escapeHtml(itemsText)}</div>
+                            <div class="flex items-center justify-between pt-1 border-t border-gray-100">
+                                <span class="font-bold text-gray-600">${escapeHtml(ord.paymentMethod)}</span>
+                                <span class="font-display font-extrabold text-sm text-ugiee-teal">${formatRp(ord.total)}</span>
+                            </div>
                         </div>
-                        <div class="font-bold text-ugiee-dark">${escapeHtml(o.customerName)} • <span class="text-gray-500 font-normal">${escapeHtml(o.location)}</span></div>
-                        <div class="text-[11px] text-gray-600">${escapeHtml(itemsText)}</div>
-                        <div class="flex items-center justify-between pt-1.5 border-t border-gray-100">
-                            <span class="font-bold">${escapeHtml(o.paymentMethod)} • ${escapeHtml(o.status.toUpperCase())}</span>
-                            <span class="font-extrabold text-sm text-ugiee-tealDark">${formatRp(o.total)}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+            }
         }
 
-        function deleteSalesTransaction(orderId) {
-            const orders = getOrders().filter(o => o.id !== orderId);
-            saveOrders(orders);
+        function deleteSalesOrder(orderId) {
+            const orders = getOrders();
+            const target = orders.find(o => o.id === orderId);
+            if (!target) return;
+
+            const updated = orders.filter(o => o.id !== orderId);
+            saveOrders(updated);
+            if (fbDb) {
+                fbDb.ref(`${FIREBASE_ROOT_PATH}/orders/${orderId}`).remove().catch(() => {});
+            }
             renderAdminSalesDashboard();
             renderStaffDashboard();
-            showToast(`🗑️ Transaksi #${orderId} dihapus dari laporan penjualan.`);
+            showToast(`🗑️ Data transaksi #${orderId} berhasil dihapus.`);
         }
 
         function exportSalesToCSV() {
             const filtered = getFilteredSalesOrders();
             if (filtered.length === 0) {
-                showToast('Tidak ada data penjualan untuk diexport.');
+                showToast('Tidak ada data penjualan pada filter ini untuk diexport.');
                 return;
             }
-            const headers = ['ID Order', 'Tanggal Waktu', 'Nama Pelanggan', 'No WA', 'Outlet', 'Titik Antar', 'Ruangan', 'Menu Dipesan', 'Metode Bayar', 'Status', 'Total Omzet (Rp)'];
+            const headers = ['ID Order', 'Tanggal Waktu', 'Nama Mahasiswa', 'No WA', 'Outlet', 'Titik Antar', 'Menu Dipesan', 'Metode Bayar', 'Status', 'Total Omzet (Rp)'];
             const rows = filtered.map(o => [
                 o.id,
-                o.createdAt,
-                o.customerName,
-                o.customerWa,
-                o.outlet,
-                o.location,
-                o.room,
-                (o.items || []).map(it => `${it.qty}x ${it.name}`).join('; '),
-                o.paymentMethod,
-                o.status,
-                o.total
+                o.createdAt || '',
+                o.customerName || '',
+                formatDisplayPhone(o.customerWa || ''),
+                o.outlet || '',
+                `${o.location || ''} ${o.room || ''}`.trim(),
+                (o.items || []).map(i => `${i.qty}x ${i.name}`).join('; '),
+                o.paymentMethod || '',
+                o.status || '',
+                o.total || 0
             ]);
-            const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))].join('\n');
-            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+
+            const csvContent = '\uFEFF' + [headers, ...rows]
+                .map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+                .join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Laporan_Penjualan_UGIEE_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `Laporan-Penjualan-UGIEE-${new Date().toISOString().slice(0, 10)}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast('📊 File CSV Laporan Penjualan berhasil diunduh!');
+            showToast('📥 File CSV Laporan Penjualan berhasil diunduh!');
         }
 
-        // ==================== 15. ADMIN: KELOLA MENU & FOTO PRODUK ====================
+        // ==================== 15. ADMIN: KELOLA MENU & FOTO ASLI ====================
         function renderAdminMenuTable() {
             const grid = document.getElementById('admin-menu-grid');
             if (!grid) return;
-            const search = (document.getElementById('admin-menu-search')?.value || '').trim().toLowerCase();
-            const catFilter = document.getElementById('admin-menu-cat-filter')?.value || 'ALL';
+            const menus = getMenuData();
+            const q = (document.getElementById('admin-menu-search')?.value || '').trim().toLowerCase();
+            const cat = document.getElementById('admin-menu-cat-filter')?.value || 'ALL';
 
-            const filtered = getMenuData().filter(m => {
-                const matchCat = catFilter === 'ALL' || m.category === catFilter;
-                const matchSearch = !search || m.name.toLowerCase().includes(search);
-                return matchCat && matchSearch;
+            const filtered = menus.filter(m => {
+                const matchCat = cat === 'ALL' || m.category === cat;
+                const matchQ = !q || m.name.toLowerCase().includes(q) || m.category.toLowerCase().includes(q);
+                return matchCat && matchQ;
             });
 
-            grid.innerHTML = filtered.map(m => {
-                const isAvail = m.available !== false;
-                return `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 flex items-center gap-3">
-                        <img src="${m.img}" alt="${escapeHtml(m.name)}" class="w-16 h-16 rounded-xl object-cover border border-gray-200 bg-white shrink-0">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-[10px] font-bold text-ugiee-teal uppercase">${escapeHtml(m.category)}</span>
-                                <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded ${isAvail ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">${isAvail ? 'Ready' : 'Habis'}</span>
-                            </div>
-                            <h4 class="font-display font-extrabold text-sm text-ugiee-dark truncate">${escapeHtml(m.name)} (${escapeHtml(m.size || 'S')})</h4>
-                            <div class="font-extrabold text-xs text-ugiee-tealDark mt-0.5">${formatRp(m.price)}</div>
-                            <div class="flex items-center gap-1.5 mt-2">
-                                <button type="button" onclick="openAdminMenuModal('${m.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-sage text-ugiee-dark border border-gray-300 font-bold text-[11px] cursor-pointer">
-                                    <i class="fa-solid fa-pen-to-square mr-1 text-ugiee-teal"></i> Edit / Foto
-                                </button>
-                                <button type="button" onclick="toggleMenuAvailability('${m.id}')" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-[11px] cursor-pointer">
-                                    ${isAvail ? 'Set Habis' : 'Set Ready'}
-                                </button>
-                                <button type="button" onclick="deleteAdminMenuItem('${m.id}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-[11px] cursor-pointer">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
+            grid.innerHTML = filtered.map(item => `
+                <div class="p-3.5 rounded-2xl bg-ugiee-sage/40 border border-ugiee-sageBorder flex items-start gap-3">
+                    <img src="${item.img}" alt="${escapeHtml(item.name)}" class="w-16 h-16 rounded-2xl object-cover border border-gray-200 bg-white shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-1">
+                            <span class="text-[10px] font-extrabold text-ugiee-teal uppercase">${escapeHtml(item.category)}</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${item.available !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">
+                                ${item.available !== false ? 'Tersedia' : 'Habis'}
+                            </span>
+                        </div>
+                        <h4 class="font-display font-extrabold text-sm text-ugiee-dark truncate mt-0.5">${escapeHtml(item.name)} (${escapeHtml(item.size || 'S')})</h4>
+                        <div class="font-extrabold text-xs text-ugiee-tealDark mt-0.5">${formatRp(item.price)}</div>
+                        <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                            <button type="button" onclick="openAdminMenuModal('${item.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-ugiee-teal hover:text-white text-ugiee-dark border border-gray-300 font-bold text-[11px] transition cursor-pointer">
+                                <i class="fa-solid fa-pen-to-square mr-1"></i> Edit / Foto
+                            </button>
+                            <button type="button" onclick="toggleMenuAvailability('${item.id}')" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-[11px] cursor-pointer">
+                                ${item.available !== false ? 'Set Habis' : 'Set Ready'}
+                            </button>
+                            <button type="button" onclick="deleteAdminMenuItem('${item.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px] cursor-pointer" title="Hapus Menu">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
         }
 
         function openAdminMenuModal(menuId = '') {
@@ -4282,14 +4387,13 @@ const firebaseConfig = {
                 document.getElementById('edit-menu-id').value = '';
                 document.getElementById('edit-menu-name').value = '';
                 document.getElementById('edit-menu-category').value = 'Matcha Latte';
-                document.getElementById('edit-menu-price').value = 15000;
+                document.getElementById('edit-menu-price').value = 13000;
                 document.getElementById('edit-menu-size').value = 'S';
                 document.getElementById('edit-menu-badge').value = 'NEW';
                 document.getElementById('edit-menu-desc').value = '';
                 document.getElementById('edit-menu-available').checked = true;
                 document.getElementById('admin-menu-photo-preview').src = generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15987E', '#4DA395', 'boba');
             }
-
             document.getElementById('admin-menu-modal').classList.remove('hidden');
         }
 
@@ -4300,7 +4404,7 @@ const firebaseConfig = {
         function handleAdminMenuPhotoUpload(e) {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            compressImageFile(file, 450, 0.72, (dataUrl) => {
+            compressImageFile(file, 480, 0.75, (dataUrl) => {
                 adminUploadedMenuPhotoBase64 = dataUrl;
                 document.getElementById('admin-menu-photo-preview').src = dataUrl;
                 showToast('📸 Foto produk siap disimpan!');
@@ -4324,67 +4428,57 @@ const firebaseConfig = {
                 if (idx !== -1) {
                     menus[idx] = {
                         ...menus[idx],
-                        name,
-                        category,
-                        price,
-                        size,
-                        badge,
-                        desc,
-                        available,
+                        name, category, price, size, badge, desc, available,
                         img: adminUploadedMenuPhotoBase64 || menus[idx].img
                     };
                 }
             } else {
                 menus.unshift({
                     id: 'm_' + Date.now(),
-                    name,
-                    category,
-                    price,
-                    size,
-                    badge,
-                    desc,
-                    available,
+                    name, category, price, size, badge, desc, available,
                     img: adminUploadedMenuPhotoBase64 || generateDrinkDataUri('#ECFDF5', '#D1FAE5', '#15987E', '#4DA395', 'boba')
                 });
             }
 
             if (saveMenuData(menus)) {
-                renderAdminMenuTable();
                 closeAdminMenuModal();
-                showToast('✅ Katalog menu berhasil disimpan!');
+                renderAdminMenuTable();
+                showToast('✅ Katalog menu berhasil disimpan & disinkronkan!');
             }
         }
 
         function toggleMenuAvailability(menuId) {
             const menus = getMenuData();
             const idx = menus.findIndex(m => m.id === menuId);
-            if (idx !== -1) {
-                menus[idx].available = menus[idx].available === false;
-                saveMenuData(menus);
-                renderAdminMenuTable();
-                showToast(`Status stok ${menus[idx].name} diperbarui.`);
-            }
+            if (idx === -1) return;
+            menus[idx].available = menus[idx].available === false;
+            saveMenuData(menus);
+            renderAdminMenuTable();
+            showToast(`Status stok ${menus[idx].name} diperbarui.`);
         }
 
         function deleteAdminMenuItem(menuId) {
             const menus = getMenuData().filter(m => m.id !== menuId);
             saveMenuData(menus);
             renderAdminMenuTable();
-            showToast('Menu dihapus dari katalog.');
+            showToast('🗑️ Menu dihapus dari katalog.');
         }
 
-        // ==================== 16. ADMIN: PROMO BANNER & VOUCHER ====================
+        // ==================== 16. ADMIN: PROMO BANNER & VOUCHERS ====================
         function renderAdminPromoAndVouchers() {
             const vList = document.getElementById('admin-voucher-list');
             const bList = document.getElementById('admin-banner-list');
+
             if (vList) {
-                vList.innerHTML = getVouchersData().map((v, idx) => `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/30 flex items-center justify-between gap-2">
+                const vouchers = getVouchersData();
+                vList.innerHTML = vouchers.map((v, idx) => `
+                    <div class="p-3.5 rounded-2xl bg-ugiee-sage/50 border border-ugiee-sageBorder flex items-center justify-between gap-2">
                         <div>
                             <div class="font-mono font-extrabold text-sm text-ugiee-tealDark">${escapeHtml(v.code)}</div>
-                            <div class="text-[11px] text-gray-600">Potongan <strong>${formatRp(v.discount)}</strong> • Min. ${formatRp(v.minSpend)}</div>
+                            <div class="text-xs font-bold text-ugiee-dark">Potongan ${formatRp(v.discount)}</div>
+                            <div class="text-[11px] text-gray-500">Min. Belanja ${formatRp(v.minSpend)}</div>
                         </div>
-                        <button type="button" onclick="deleteVoucher(${idx})" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs cursor-pointer">
+                        <button type="button" onclick="deleteVoucher(${idx})" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold cursor-pointer">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -4392,15 +4486,16 @@ const firebaseConfig = {
             }
 
             if (bList) {
-                bList.innerHTML = getBannersData().map((b, idx) => `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-white flex items-start justify-between gap-3">
+                const banners = getBannersData();
+                bList.innerHTML = banners.map((b, idx) => `
+                    <div class="p-3.5 rounded-2xl bg-white border border-gray-200 flex items-start justify-between gap-3">
                         <div class="space-y-1">
-                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-ugiee-yellow/30 text-amber-900">${escapeHtml(b.badge)}</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-ugiee-teal/10 text-ugiee-tealDark">${escapeHtml(b.badge)}</span>
                             <h4 class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(b.title)}</h4>
-                            <p class="text-[11px] text-gray-500">${escapeHtml(b.desc)}</p>
-                            ${b.code ? `<div class="text-[11px] font-mono font-bold text-ugiee-teal">Kode: ${escapeHtml(b.code)}</div>` : ''}
+                            <p class="text-xs text-gray-500">${escapeHtml(b.desc)}</p>
+                            ${b.code ? `<span class="inline-block font-mono text-[11px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">Kode: ${escapeHtml(b.code)}</span>` : ''}
                         </div>
-                        <button type="button" onclick="deleteBanner(${idx})" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs shrink-0 cursor-pointer">
+                        <button type="button" onclick="deleteBanner(${idx})" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold shrink-0 cursor-pointer">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -4415,12 +4510,12 @@ const firebaseConfig = {
             const minSpend = Number(document.getElementById('new-voucher-min').value) || 0;
             if (!code || discount <= 0) return;
 
-            const vouchers = getVouchersData().filter(v => v.code !== code);
+            const vouchers = getVouchersData().filter(v => v.code.toUpperCase() !== code);
             vouchers.unshift({ code, discount, minSpend, active: true });
             saveVouchersData(vouchers);
             e.target.reset();
             renderAdminPromoAndVouchers();
-            showToast(`🎟️ Voucher ${code} berhasil dibuat!`);
+            showToast(`🎉 Voucher ${code} berhasil dibuat!`);
         }
 
         function deleteVoucher(idx) {
@@ -4441,16 +4536,13 @@ const firebaseConfig = {
             const banners = getBannersData();
             banners.unshift({
                 id: 'bn_' + Date.now(),
-                badge,
-                title,
-                desc,
-                code,
+                badge, title, desc, code,
                 gradient: 'from-ugiee-tealDark via-ugiee-teal to-emerald-600'
             });
             saveBannersData(banners);
             e.target.reset();
             renderAdminPromoAndVouchers();
-            showToast('📢 Banner promo ditambahkan!');
+            showToast('Banner promo berhasil ditambahkan!');
         }
 
         function deleteBanner(idx) {
@@ -4465,141 +4557,138 @@ const firebaseConfig = {
             showToast('Banner promo dihapus.');
         }
 
-        // ==================== 17. ADMIN: DATABASE PELANGGAN (CRM & LOYALTY STAMPS) ====================
+        // ==================== 17. ADMIN: DATABASE PELANGGAN (CRM) ====================
         function renderAdminCustomersTable() {
             const customers = getCustomersData();
-            const search = (document.getElementById('admin-customer-search')?.value || '').trim().toLowerCase();
-            const sortBy = document.getElementById('admin-customer-sort')?.value || 'recent';
+            updateAdminCustomerBadge();
 
-            const totalOrdersAll = customers.reduce((s, c) => s + (Number(c.totalOrders) || 0), 0);
-            const topCust = [...customers].sort((a, b) => (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0))[0];
+            const kpiTotalEl = document.getElementById('cust-kpi-total');
+            const kpiOrdersEl = document.getElementById('cust-kpi-orders');
+            const kpiTopEl = document.getElementById('cust-kpi-top');
 
-            document.getElementById('cust-kpi-total').textContent = `${customers.length} Mahasiswa`;
-            document.getElementById('cust-kpi-orders').textContent = `${totalOrdersAll} Order`;
-            document.getElementById('cust-kpi-top').textContent = topCust ? `${topCust.name} (${topCust.totalOrders}x)` : '-';
+            const totalOrdersAll = customers.reduce((sum, c) => sum + (Number(c.totalOrders) || 0), 0);
+            const sortedByOrders = [...customers].sort((a, b) => (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0));
+            const topCust = sortedByOrders[0];
+
+            if (kpiTotalEl) kpiTotalEl.textContent = `${customers.length} Mahasiswa`;
+            if (kpiOrdersEl) kpiOrdersEl.textContent = `${totalOrdersAll} Order`;
+            if (kpiTopEl) {
+                kpiTopEl.textContent = topCust
+                    ? `${topCust.name} (${topCust.totalOrders}x Order • ${Number(topCust.stamps) || 0}★)`
+                    : 'Belum ada data';
+            }
+
+            const searchInput = document.getElementById('admin-customer-search');
+            const sortSelect = document.getElementById('admin-customer-sort');
+            const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+            const sortMode = sortSelect ? sortSelect.value : 'recent';
 
             let filtered = customers.filter(c => {
-                if (!search) return true;
-                return (c.name || '').toLowerCase().includes(search) ||
-                    (c.phone || '').toLowerCase().includes(search) ||
-                    (c.lastLocation || '').toLowerCase().includes(search);
+                if (!query) return true;
+                return (c.name || '').toLowerCase().includes(query) ||
+                    (c.phone || '').toLowerCase().includes(query) ||
+                    (c.id || '').toLowerCase().includes(query) ||
+                    (c.lastLocation || '').toLowerCase().includes(query);
             });
 
             filtered.sort((a, b) => {
-                if (sortBy === 'orders') return (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0);
-                if (sortBy === 'spent') return (Number(b.totalSpent) || 0) - (Number(a.totalSpent) || 0);
-                if (sortBy === 'stamps') return (Number(b.stamps) || 0) - (Number(a.stamps) || 0);
-                if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
+                if (sortMode === 'orders') return (Number(b.totalOrders) || 0) - (Number(a.totalOrders) || 0);
+                if (sortMode === 'spent') return (Number(b.totalSpent) || 0) - (Number(a.totalSpent) || 0);
+                if (sortMode === 'stamps') return (Number(b.stamps) || 0) - (Number(a.stamps) || 0);
+                if (sortMode === 'name') return (a.name || '').localeCompare(b.name || '');
                 return (Number(b.lastTimestamp) || 0) - (Number(a.lastTimestamp) || 0);
             });
 
             const tbody = document.getElementById('admin-customers-table-body');
             const mobileList = document.getElementById('admin-customers-mobile-list');
             const emptyState = document.getElementById('admin-customers-empty');
-            if (!tbody || !mobileList) return;
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '';
-                mobileList.innerHTML = '';
-                emptyState.classList.remove('hidden');
+                if (tbody) tbody.innerHTML = '';
+                if (mobileList) mobileList.innerHTML = '';
+                if (emptyState) emptyState.classList.remove('hidden');
                 return;
             }
-            emptyState.classList.add('hidden');
+            if (emptyState) emptyState.classList.add('hidden');
 
-            tbody.innerHTML = filtered.map((c, idx) => {
-                const waNumber = normalizeCustomerPhone(c.phone || c.id);
-                const stampsCount = Number(c.stamps) || 0;
-                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Terima kasih sudah jajan di *UGIEE! Signature*. Saldo poin membermu saat ini *${stampsCount} Stempel Madu*. Spesial hari ini ada promo *UNIMERZ5K* + Gratis Ongkir ke Kampus Unimerz!`);
-                return `
-                    <tr class="hover:bg-ugiee-sage/30 transition">
-                        <td class="py-3 px-3.5 text-center font-bold text-gray-500">${idx + 1}</td>
-                        <td class="py-3 px-3.5 font-extrabold text-ugiee-dark">${escapeHtml(c.name)}</td>
-                        <td class="py-3 px-3.5 font-mono font-bold text-ugiee-tealDark">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</td>
-                        <td class="py-3 px-3.5 text-gray-600">${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</td>
-                        <td class="py-3 px-3.5 text-center">
-                            <div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-300 px-2 py-1 rounded-xl">
-                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', -1)" class="w-5 h-5 rounded bg-white hover:bg-rose-50 text-rose-600 font-extrabold text-xs border border-gray-200 cursor-pointer">-</button>
-                                <span class="font-extrabold text-xs text-amber-900 min-w-[46px]">🍯 ${stampsCount}</span>
-                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', 1)" class="w-5 h-5 rounded bg-ugiee-yellow text-ugiee-dark font-extrabold text-xs cursor-pointer">+</button>
-                            </div>
-                        </td>
-                        <td class="py-3 px-3.5 text-center">
-                            <span class="px-2 py-0.5 rounded-full bg-ugiee-teal/10 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
-                            <span class="text-[11px] text-gray-500 ml-1">(${Number(c.totalCup) || 0} Cup)</span>
-                        </td>
-                        <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(c.totalSpent)}</td>
-                        <td class="py-3 px-3.5 text-[11px] text-gray-500">${escapeHtml(c.lastOrderAt || '-')}</td>
-                        <td class="py-3 px-3.5 text-center">
-                            <div class="inline-flex items-center gap-1.5">
-                                <a href="https://wa.me/${waNumber}?text=${promoGreeting}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1">
-                                    <i class="fa-brands fa-whatsapp"></i> Chat
-                                </a>
-                                <button type="button" onclick="deleteCustomerRecord('${escapeHtml(c.id)}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-[11px] cursor-pointer" title="Hapus">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            mobileList.innerHTML = filtered.map(c => {
-                const waNumber = normalizeCustomerPhone(c.phone || c.id);
-                const stampsCount = Number(c.stamps) || 0;
-                const promoGreeting = encodeURIComponent(`Halo Kak *${c.name}*! Saldo poin member *UGIEE! Signature* kamu saat ini *${stampsCount} Stempel Madu*. Terima kasih sudah memesan!`);
-                return `
-                    <div class="p-3.5 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 space-y-2">
-                        <div class="flex items-start justify-between gap-2">
-                            <div>
-                                <div class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(c.name)}</div>
-                                <div class="font-mono text-xs font-bold text-ugiee-tealDark mt-0.5">${escapeHtml(c.phone || formatDisplayPhone(c.id))}</div>
-                            </div>
-                            <span class="px-2.5 py-1 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold text-[11px]">${Number(c.totalOrders) || 1}x Order</span>
-                        </div>
-                        <div class="flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1.5 rounded-xl text-xs">
-                            <span class="font-bold text-amber-900">🍯 Stempel Loyalty: <strong>${stampsCount}</strong></span>
-                            <div class="flex items-center gap-1">
-                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', -1)" class="w-6 h-6 rounded bg-white text-rose-600 font-extrabold border border-gray-200 cursor-pointer">-</button>
-                                <button type="button" onclick="adjustCustomerStampsAdmin('${escapeHtml(c.id)}', 1)" class="w-6 h-6 rounded bg-ugiee-yellow text-ugiee-dark font-extrabold cursor-pointer">+</button>
-                            </div>
-                        </div>
-                        <div class="text-[11px] text-gray-600 flex flex-wrap items-center justify-between gap-1 pt-1 border-t border-gray-100">
-                            <span>${escapeHtml(c.lastLocation || 'Kampus Unimerz')}</span>
-                            <span class="font-extrabold text-ugiee-dark">${formatRp(c.totalSpent)}</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2 pt-1">
-                            <span class="text-[10px] text-gray-400">Terakhir: ${escapeHtml(c.lastOrderAt || '-')}</span>
-                            <div class="flex items-center gap-1.5">
-                                <a href="https://wa.me/${waNumber}?text=${promoGreeting}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs inline-flex items-center gap-1">
-                                    <i class="fa-brands fa-whatsapp"></i> Chat WA
-                                </a>
-                                <button type="button" onclick="deleteCustomerRecord('${escapeHtml(c.id)}')" class="p-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs cursor-pointer">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function adjustCustomerStampsAdmin(customerId, delta) {
-            const customers = getCustomersData();
-            const idx = customers.findIndex(c => c.id === customerId);
-            if (idx !== -1) {
-                customers[idx].stamps = Math.max(0, (Number(customers[idx].stamps) || 0) + delta);
-                saveCustomersData(customers);
-                syncSingleCustomerToCloud(customers[idx]);
-                renderAdminCustomersTable();
-                showToast(`🍯 Stempel ${customers[idx].name} diperbarui menjadi ${customers[idx].stamps} poin.`);
+            if (tbody) {
+                tbody.innerHTML = filtered.map((cust, index) => {
+                    const waLink = `https://wa.me/${encodeURIComponent(cust.id)}?text=${encodeURIComponent(`Halo Kak *${cust.name}*! Terima kasih sudah berlangganan *UGIEE! Signature* di Kampus Unimerz.`)}`;
+                    const stampsCount = Number(cust.stamps) || 0;
+                    return `
+                        <tr class="hover:bg-ugiee-sage/30 transition">
+                            <td class="py-3 px-3.5 text-center font-bold text-gray-500">${index + 1}</td>
+                            <td class="py-3 px-3.5">
+                                <div class="font-extrabold text-ugiee-dark">${escapeHtml(cust.name)}</div>
+                                <div class="text-[11px] text-gray-400">Pertama order: ${escapeHtml(cust.firstOrderAt || '-')}</div>
+                            </td>
+                            <td class="py-3 px-3.5">
+                                <span class="font-mono font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded-lg">${escapeHtml(cust.phone)}</span>
+                            </td>
+                            <td class="py-3 px-3.5 text-gray-700 font-medium">${escapeHtml(cust.lastLocation || '-')}</td>
+                            <td class="py-3 px-3.5 text-center">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-extrabold text-[11px]">
+                                    <i class="fa-solid fa-crown text-ugiee-yellow"></i> ${stampsCount} / 12
+                                </span>
+                            </td>
+                            <td class="py-3 px-3.5 text-center">
+                                <span class="px-2.5 py-0.5 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold">${cust.totalOrders || 1}x</span>
+                                <span class="text-[11px] text-gray-500 block mt-0.5">${cust.totalCup || 0} Cup</span>
+                            </td>
+                            <td class="py-3 px-3.5 text-right font-extrabold text-ugiee-dark">${formatRp(cust.totalSpent || 0)}</td>
+                            <td class="py-3 px-3.5 text-gray-500 text-[11px]">${escapeHtml(cust.lastOrderAt || '-')}</td>
+                            <td class="py-3 px-3.5 text-center">
+                                <div class="inline-flex items-center gap-1.5">
+                                    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat
+                                    </a>
+                                    <button type="button" onclick="copyTextToClipboard('${escapeHtml(cust.phone)}', 'Nomor ${escapeHtml(cust.name)} disalin!')" class="px-2 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[11px] cursor-pointer" title="Salin Nomor">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
             }
-        }
 
-        function deleteCustomerRecord(customerId) {
-            const updated = getCustomersData().filter(c => c.id !== customerId);
-            saveCustomersData(updated);
-            renderAdminCustomersTable();
-            showToast('Data pelanggan dihapus.');
+            if (mobileList) {
+                mobileList.innerHTML = filtered.map((cust) => {
+                    const waLink = `https://wa.me/${encodeURIComponent(cust.id)}?text=${encodeURIComponent(`Halo Kak *${cust.name}*! Terima kasih sudah berlangganan *UGIEE! Signature* di Kampus Unimerz.`)}`;
+                    const stampsCount = Number(cust.stamps) || 0;
+                    return `
+                        <div class="p-3.5 rounded-2xl bg-white border border-gray-200 shadow-2xs space-y-2.5">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <h4 class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(cust.name)}</h4>
+                                    <div class="font-mono text-xs font-bold text-ugiee-tealDark mt-0.5">${escapeHtml(cust.phone)}</div>
+                                </div>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-extrabold text-[10px]">
+                                        👑 ${stampsCount}/12 Poin
+                                    </span>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-ugiee-teal/15 text-ugiee-tealDark font-extrabold text-[11px]">
+                                        ${cust.totalOrders || 1}x Order
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-[11px] text-gray-600 flex flex-wrap items-center justify-between gap-1 bg-ugiee-sage/50 px-2.5 py-1.5 rounded-xl">
+                                <span><i class="fa-solid fa-location-dot text-ugiee-teal mr-1"></i> ${escapeHtml(cust.lastLocation || '-')}</span>
+                                <span class="font-extrabold text-ugiee-dark">${formatRp(cust.totalSpent || 0)}</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-1">
+                                <span class="text-[10px] text-gray-400">Terakhir: ${escapeHtml(cust.lastOrderAt || '-')}</span>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="copyTextToClipboard('${escapeHtml(cust.phone)}', 'Nomor disalin!')" class="px-2.5 py-1.5 rounded-lg bg-gray-100 text-gray-700 font-bold text-xs cursor-pointer">Salin No</button>
+                                    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs inline-flex items-center gap-1">
+                                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
         }
 
         function exportCustomersToCSV() {
@@ -4608,78 +4697,71 @@ const firebaseConfig = {
                 showToast('Belum ada data pelanggan untuk diexport.');
                 return;
             }
-            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WA', 'Titik Antar Terakhir', 'Stempel Loyalty', 'Total Order', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Order'];
+            const headers = ['No', 'Nama Pelanggan', 'Nomor Telepon / WhatsApp', 'Titik Antar Terakhir', 'Stempel Loyalty', 'Total Order', 'Total Cup', 'Total Belanja (Rp)', 'Terakhir Memesan'];
             const rows = customers.map((c, idx) => [
                 idx + 1,
                 c.name || '',
-                c.phone || formatDisplayPhone(c.id),
+                c.phone || '',
                 c.lastLocation || '',
                 Number(c.stamps) || 0,
-                Number(c.totalOrders) || 1,
-                Number(c.totalCup) || 0,
-                Number(c.totalSpent) || 0,
+                c.totalOrders || 1,
+                c.totalCup || 0,
+                c.totalSpent || 0,
                 c.lastOrderAt || ''
             ]);
-            const csv = [headers.join(','), ...rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))].join('\n');
-            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const csvContent = '\uFEFF' + [headers, ...rows]
+                .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+                .join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Database_Pelanggan_UGIEE_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `Database-Pelanggan-UGIEE-${new Date().toISOString().slice(0, 10)}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast('📊 File CSV Database Pelanggan berhasil diunduh!');
+            showToast('📥 File CSV Database Pelanggan berhasil diunduh!');
         }
 
         // ==================== 18. ADMIN: MANAJEMEN KARYAWAN (KASIR & KURIR) ====================
         function renderAdminStaffTable() {
-            const listEl = document.getElementById('admin-staff-list');
-            if (!listEl) return;
-            const accounts = getStaffAccountsData();
+            const list = document.getElementById('admin-staff-list');
+            if (!list) return;
+            const staffList = getStaffAccountsData();
 
-            listEl.innerHTML = accounts.map(acc => {
-                const isAdmin = acc.role === 'admin';
-                const isActive = acc.active !== false;
-                const roleBadge = acc.role === 'admin'
-                    ? 'bg-purple-100 text-purple-800'
-                    : acc.role === 'kurir'
-                        ? 'bg-amber-100 text-amber-900'
-                        : 'bg-ugiee-teal/15 text-ugiee-tealDark';
+            list.innerHTML = staffList.map(st => {
+                const isAdmin = st.role === 'admin';
+                const roleLabel = st.role === 'kasir' ? 'KASIR / BARISTA' : st.role === 'kurir' ? 'KURIR KAMPUS' : 'ADMIN / OWNER';
+                const roleColor = st.role === 'kasir' ? 'bg-blue-100 text-blue-800' : st.role === 'kurir' ? 'bg-amber-100 text-amber-900' : 'bg-purple-100 text-purple-800';
 
                 return `
-                    <div class="p-4 rounded-2xl border border-ugiee-sageBorder bg-ugiee-sage/20 flex flex-col justify-between gap-3">
+                    <div class="p-4 rounded-2xl bg-ugiee-sage/40 border border-ugiee-sageBorder flex flex-col justify-between space-y-3">
                         <div class="space-y-1.5">
                             <div class="flex items-center justify-between gap-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${roleBadge}">${escapeHtml(acc.role)}</span>
-                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">
-                                    ${isActive ? '● Aktif' : '○ Nonaktif'}
+                                <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${roleColor}">${roleLabel}</span>
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${st.active !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">
+                                    ${st.active !== false ? '● Aktif' : '● Nonaktif'}
                                 </span>
                             </div>
-                            <h4 class="font-display font-extrabold text-sm text-ugiee-dark">${escapeHtml(acc.name)}</h4>
-                            <div class="text-[11px] text-gray-500"><i class="fa-solid fa-store text-ugiee-teal mr-1"></i> ${escapeHtml(acc.outlet || 'Semua Outlet')}</div>
-                            <div class="p-2 rounded-xl bg-white border border-gray-200 font-mono text-[11px] flex items-center justify-between">
-                                <span>User: <strong>${escapeHtml(acc.username)}</strong></span>
-                                <span>PIN: <strong>${escapeHtml(acc.pin)}</strong></span>
+                            <h4 class="font-display font-extrabold text-base text-ugiee-dark">${escapeHtml(st.name)}</h4>
+                            <div class="text-xs text-gray-600"><i class="fa-solid fa-store text-ugiee-teal mr-1"></i> ${escapeHtml(st.outlet || 'Semua Outlet')}</div>
+                            <div class="p-2 rounded-xl bg-white border border-gray-200 font-mono text-xs flex items-center justify-between">
+                                <span>User: <strong>${escapeHtml(st.username)}</strong></span>
+                                <span>PIN: <strong>${escapeHtml(st.pin)}</strong></span>
                             </div>
                         </div>
-
-                        ${isAdmin ? `
-                            <div class="text-[11px] text-gray-400 italic pt-1">Akun Utama Owner / Admin</div>
-                        ` : `
-                            <div class="flex items-center gap-1.5 pt-1">
-                                <button type="button" onclick="openAdminStaffModal('${acc.id}')" class="flex-1 py-2 px-2.5 rounded-xl bg-white hover:bg-ugiee-sage text-ugiee-dark border border-gray-300 font-bold text-xs cursor-pointer">
-                                    <i class="fa-solid fa-pen mr-1 text-ugiee-teal"></i> Edit
-                                </button>
-                                <button type="button" onclick="toggleStaffAccountActive('${acc.id}')" class="py-2 px-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-xs cursor-pointer">
-                                    ${isActive ? 'Nonaktifkan' : 'Aktifkan'}
-                                </button>
-                                <button type="button" onclick="deleteAdminStaffAccount('${acc.id}')" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs cursor-pointer">
+                        <div class="flex items-center gap-2 pt-1">
+                            <button type="button" onclick="openAdminStaffModal('${st.id}')" class="flex-1 py-2 px-3 rounded-xl bg-white hover:bg-ugiee-teal hover:text-white text-ugiee-dark border border-gray-300 font-bold text-xs transition cursor-pointer">
+                                <i class="fa-solid fa-pen mr-1"></i> Edit Akun
+                            </button>
+                            ${!isAdmin ? `
+                                <button type="button" onclick="deleteStaffAccount('${st.id}')" class="py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs cursor-pointer" title="Hapus Akun">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>
-                        `}
+                            ` : ''}
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -4687,20 +4769,27 @@ const firebaseConfig = {
 
         function openAdminStaffModal(staffId = '') {
             if (staffId) {
-                const acc = getStaffAccountsData().find(a => a.id === staffId);
-                if (!acc) return;
+                const st = getStaffAccountsData().find(s => s.id === staffId);
+                if (!st) return;
                 document.getElementById('admin-staff-modal-title').textContent = 'Edit Akun Karyawan';
-                document.getElementById('edit-staff-id').value = acc.id;
-                document.getElementById('edit-staff-name').value = acc.name;
-                document.getElementById('edit-staff-role').value = acc.role;
-                document.getElementById('edit-staff-outlet').value = acc.outlet || 'UGIEE! - Antang Raya';
-                document.getElementById('edit-staff-username').value = acc.username;
-                document.getElementById('edit-staff-pin').value = acc.pin;
-                document.getElementById('edit-staff-active').checked = acc.active !== false;
+                document.getElementById('edit-staff-id').value = st.id;
+                document.getElementById('edit-staff-name').value = st.name;
+                document.getElementById('edit-staff-role').value = st.role === 'admin' ? 'kasir' : st.role;
+                document.getElementById('edit-staff-outlet').value = st.outlet || 'UGIEE! - Antang Raya';
+                document.getElementById('edit-staff-username').value = st.username;
+                document.getElementById('edit-staff-pin').value = st.pin;
+                document.getElementById('edit-staff-active').checked = st.active !== false;
+                if (st.role === 'admin') {
+                    document.getElementById('edit-staff-role').innerHTML = '<option value="admin">Admin / Supervisor / Owner</option>';
+                } else {
+                    document.getElementById('edit-staff-role').innerHTML = '<option value="kasir">Kasir / Barista Outlet</option><option value="kurir">Kurir Pengantar Kampus</option>';
+                    document.getElementById('edit-staff-role').value = st.role;
+                }
             } else {
                 document.getElementById('admin-staff-modal-title').textContent = 'Tambah Akun Karyawan Baru';
                 document.getElementById('edit-staff-id').value = '';
                 document.getElementById('edit-staff-name').value = '';
+                document.getElementById('edit-staff-role').innerHTML = '<option value="kasir">Kasir / Barista Outlet</option><option value="kurir">Kurir Pengantar Kampus</option>';
                 document.getElementById('edit-staff-role').value = 'kasir';
                 document.getElementById('edit-staff-outlet').value = 'UGIEE! - Antang Raya';
                 document.getElementById('edit-staff-username').value = '';
@@ -4724,77 +4813,62 @@ const firebaseConfig = {
             const pin = document.getElementById('edit-staff-pin').value.trim();
             const active = document.getElementById('edit-staff-active').checked;
 
-            const accounts = getStaffAccountsData();
-            const duplicate = accounts.find(a => a.username.toLowerCase() === username && a.id !== id);
-            if (duplicate) {
-                showToast('⚠️ Username sudah digunakan karyawan lain!');
+            const list = getStaffAccountsData();
+            const dup = list.find(s => s.username.toLowerCase() === username && s.id !== id);
+            if (dup) {
+                showToast('⚠️ Username karyawan sudah digunakan akun lain.');
                 return;
             }
 
             if (id) {
-                const idx = accounts.findIndex(a => a.id === id);
+                const idx = list.findIndex(s => s.id === id);
                 if (idx !== -1) {
-                    accounts[idx] = { ...accounts[idx], name, role, outlet, username, pin, active };
+                    list[idx] = { ...list[idx], name, role, outlet, username, pin, active };
                 }
             } else {
-                accounts.push({
+                list.push({
                     id: 'st_' + Date.now(),
-                    name,
-                    role,
-                    outlet,
-                    username,
-                    pin,
-                    active
+                    name, role, outlet, username, pin, active
                 });
             }
 
-            saveStaffAccountsData(accounts);
-            renderAdminStaffTable();
+            saveStaffAccountsData(list);
             closeAdminStaffModal();
+            renderAdminStaffTable();
             showToast(`✅ Akun karyawan ${name} berhasil disimpan!`);
         }
 
-        function toggleStaffAccountActive(staffId) {
-            const accounts = getStaffAccountsData();
-            const idx = accounts.findIndex(a => a.id === staffId);
-            if (idx !== -1) {
-                accounts[idx].active = accounts[idx].active === false;
-                saveStaffAccountsData(accounts);
-                renderAdminStaffTable();
-                showToast(`Status akun ${accounts[idx].name} diperbarui.`);
-            }
-        }
-
-        function deleteAdminStaffAccount(staffId) {
-            const accounts = getStaffAccountsData().filter(a => a.id !== staffId);
-            saveStaffAccountsData(accounts);
+        function deleteStaffAccount(staffId) {
+            const list = getStaffAccountsData().filter(s => s.id !== staffId);
+            saveStaffAccountsData(list);
             renderAdminStaffTable();
-            showToast('Akun karyawan dihapus.');
+            showToast('🗑️ Akun karyawan dihapus.');
         }
 
-        // ==================== 19. SAFE INITIALIZATION ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            try { renderPromoBanner(); } catch (e) { console.warn(e); }
-            try { startPromoAutoSlide(); } catch (e) { console.warn(e); }
-            try { renderCategoryPills(); } catch (e) { console.warn(e); }
-            try { filterMenu(); } catch (e) { console.warn(e); }
-            try { updateCartUI(); } catch (e) { console.warn(e); }
-            try { updateBadges(); } catch (e) { console.warn(e); }
-            try { updateHeaderLoyaltyBadge(); } catch (e) { console.warn(e); }
-            try { syncCustomersFromOrderHistory(false); } catch (e) { console.warn(e); }
-            try { initFirebaseCloudSync(); } catch (e) { console.warn(e); }
-
-            // Restore active staff session if previously logged in during this browser tab session
+        // ==================== 19. APP INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', () => {
             try {
+                renderPromoBanner();
+                startPromoAutoSlide();
+                renderCategoryPills();
+                filterMenu();
+                updateCartUI();
+                updateBadges();
+                syncCustomersFromOrderHistory(false);
+                updateHeaderLoyaltyBadge();
+                initFirebaseCloudSync();
+
                 const savedSession = sessionStorage.getItem('ugiee_staff_session');
                 if (savedSession) {
                     const parsed = JSON.parse(savedSession);
-                    if (parsed && parsed.username && parsed.role) {
+                    if (parsed && parsed.role) {
                         currentStaff = parsed;
                         activateStaffView();
                     }
                 }
-            } catch (e) {}
+            } catch (err) {
+                console.error('Initialization error:', err);
+            }
         });
     </script>
 </body>
